@@ -11,6 +11,13 @@
         <link href="/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
+        <!-- jQuery -->
+        <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+        <!-- Data Table JS -->
+        <script src='https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js'></script>
+        <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
+        <script src='https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js'></script>
+
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -43,50 +50,100 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">เมนู</div>
+                            {{--  เริ่มเมนูแอดมิน  --}}
+                            <div class="sb-sidenav-menu-heading">เมนู แอดมิน</div>
                             <a class="nav-link" href="{{ url('/admin/repair') }}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-bullhorn"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
                                 แจ้งซ่อม
                             </a>
                             <a class="nav-link" href="{{ url('/admin/dashboard')}}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
                                 ดูรายการเเจ้งซ่อม
                             </a>
+                            <a class="nav-link" href="{{ url('/admin/comfirmRepair') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
+                                หน้ายืนยันการเเจ้งซ่อม
+                            </a>
                             <a class="nav-link" href="{{ url('/employee') }}">
-                                <div class="sb-nav-link-icon"><i class="fa fa-wrench"></i></div>
-                                จัดการข้อมูลช่าง
+                                <div class="sb-nav-link-icon"><i class="fa fa-user text-info"></i></div>
+                                จัดการข้อมูลแอดมิน
                             </a>
                             <a class="nav-link" href="">
-                                <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-user text-success"></i></div>
                                 จัดการข้อมูลพนักงาน
                             </a>
                             <a class="nav-link" href="">
-                                <div class="sb-nav-link-icon"><i class="fa fa-calendar-check"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-user text-warning"></i></div>
+                                จัดการข้อมูลช่าง
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa fa-calendar-check text-info"></i></div>
                                 จัดการข้อมูลสถาณะ
                             </a>
-                            {{--  <div class="sb-sidenav-menu-heading">จัดการ เเจ้งซ่อม</div>
                             <a class="nav-link" href="">
-                                <div class="sb-nav-link-icon"><i class="fas fa-bullhorn"></i></div>
-                                แจ้งซ่อม
+                                <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
+                                ข้อมูลส่วนตัว
                             </a>
                             <a class="nav-link" href="">
-                                <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered"></i></div>
-                                รายการเเจ้งซ่อม
+                                <div class="sb-nav-link-icon"><i class="fa fa-database text-info"></i></div>
+                                รายงาน
+                            </a>
+                            <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
+                                ออกจากระบบ
+                            </a>
+                            {{--  สิ้นสุดเมนูแอดมิน  --}}
+
+                            {{--  เริ่มเมนูช่าง  --}}
+                            <div class="sb-sidenav-menu-heading">เมนู ช่าง</div>
+                            <a class="nav-link" href="{{ url('/technician/dashboard') }}">
+                                <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
+                                ดูงานเเจ้งซ่อม
                             </a>
                             <a class="nav-link" href="">
-                                <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                สถิติเเละรายงานการซ่อม
+                                <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
+                                จัดการงานซ่อม
                             </a>
-                            <div class="sb-sidenav-menu-heading">จัดการ ผู้ใช้งาน</div>
                             <a class="nav-link" href="">
-                                <div class="sb-nav-link-icon"><i class="far fa-address-card"></i></div>
-                                เจ้าหน้าที่ให้บริการ
+                                <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
+                                เเจ้งซ่อมเสร็จเเล้ว
                             </a>
-                            <div class="sb-sidenav-menu-heading">จัดการ QR code</div>
                             <a class="nav-link" href="">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-qrcode"></i></div>
-                                จัดการ QR Code
-                            </a>  --}}
+                                <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
+                                ข้อมูลส่วนตัว
+                            </a>
+                            <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
+                                ออกจากระบบ
+                            </a>
+                             {{--  สิ้นสุดเมนูช่าง  --}}
+
+                             {{--  เริ่มเมนู พนักงาน  --}}
+                            <div class="sb-sidenav-menu-heading">เมนู พนักงาน</div>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
+                                ดูงานเเจ้งซ่อม
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
+                                เเจ้งปัญหางาน
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
+                                รายงานเเจ้งซ่อม
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
+                                ข้อมูลส่วนตัว
+                            </a>
+                            <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
+                                ออกจากระบบ
+                            </a>
+                           {{--  สิ้นสุดเมนูพนักงาน  --}}
                         </div>
                     </div>
                     {{--  <div class="sb-sidenav-footer">

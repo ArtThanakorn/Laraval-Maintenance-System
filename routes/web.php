@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ConfirmRepairController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardTechnicianController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\LoginController;
@@ -25,6 +27,7 @@ Route::get('/', function () {
 // rounte Admin
 Route::get('/admin/dashboard', [DashboardController::class,'index']);
 Route::get('/admin/repair', [RepairController::class,'index']);
+Route::get('/admin/comfirmRepair', [ConfirmRepairController::class,'index']);
 
 // rounte Login && register
 Route::get('/login/index', [LoginController::class,'index']);
@@ -40,3 +43,7 @@ Route::prefix('user')->group(function () {
     Route::get('repair', [RepairController::class,'index'])->name('index.repair');
     Route::post('addrepair', [RepairController::class,'store'])->name('add.repair');
 });
+
+// rount Technician
+Route::get('/technician/dashboard', [DashboardTechnicianController::class,'index']);
+
