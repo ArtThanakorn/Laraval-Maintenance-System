@@ -24,26 +24,30 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/page/success', function () {
+    return view('admin.confirmRepair');
+});
 // rounte Admin
-Route::get('/admin/dashboard', [DashboardController::class,'index']);
-Route::get('/admin/repair', [RepairController::class,'index']);
-Route::get('/admin/comfirmRepair', [ConfirmRepairController::class,'index']);
+Route::prefix('admin')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index']);
+   Route::get('show/repair',[DashboardController::class, 'repair_show'])->name('show.repair');
+});
 
 // rounte Login && register
-Route::get('/login/index', [LoginController::class,'index']);
-Route::get('/login/register', [RegisterController::class,'index']);
+Route::get('/login/index', [LoginController::class, 'index']);
+Route::get('/login/register', [RegisterController::class, 'index']);
 
 // rounte Employee
-Route::resource('/employee',EmployeeCRUDController::class);
+Route::resource('/employee', EmployeeCRUDController::class);
 
 
-// rounte admin
+// rounte users
 Route::prefix('user')->group(function () {
 
-    Route::get('repair', [RepairController::class,'index'])->name('index.repair');
-    Route::post('addrepair', [RepairController::class,'store'])->name('add.repair');
+    Route::get('repair', [RepairController::class, 'index'])->name('index.repair');
+    Route::post('addrepair', [RepairController::class, 'store'])->name('add.repair');
+    Route::get('confirm/repair/{id}', [RepairController::class, 'confirm_repair'])->name('user.confirmRepair');
 });
 
 // rount Technician
-Route::get('/technician/dashboard', [DashboardTechnicianController::class,'index']);
-
+Route::get('/technician/dashboard', [DashboardTechnicianController::class, 'index']);
