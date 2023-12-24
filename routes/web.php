@@ -8,6 +8,7 @@ use App\Http\Controllers\RepairController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,8 @@ Route::get('/page/success', function () {
     return view('admin.confirmRepair');
 });
 // rounte Admin
-Route::prefix('admin')->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index']);
+Route::prefix('admin')->middleware('isadmin')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashdoard');
    Route::get('show/repair',[DashboardController::class, 'repair_show'])->name('show.repair');
 });
 
@@ -50,4 +51,8 @@ Route::prefix('user')->group(function () {
 });
 
 // rount Technician
-Route::get('/technician/dashboard', [DashboardTechnicianController::class, 'index']);
+Route::get('/technician/dashboard', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

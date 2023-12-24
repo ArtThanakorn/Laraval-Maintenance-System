@@ -15,18 +15,17 @@
                             <th scope="col">สถานะงานเเจ้งซ่อม</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody> 
+                        @foreach ($liRepair as $list)
                         <tr>
-                            @foreach ($liRepair as $list)
                                 <td scope="row">{{ $list->type }}</td>
                                 <td>{{ $list->name }}</td>
                                 <td>{{ $list->details }}</td>
                                 <td>{{ $list->site }}</td>
                                 <td>{{ $list->created_at }}</td>
                                 <td>{{ $list->status_repair }}</td>
-                            @endforeach
-
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
