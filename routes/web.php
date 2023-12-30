@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\ConfirmRepairController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\TechnicianUserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardTechnicianController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\EmployeeCRUDController;
@@ -23,7 +25,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('login.page');
 
 Route::get('/page/success', function () {
     return view('admin.confirmRepair');
@@ -31,7 +33,13 @@ Route::get('/page/success', function () {
 // rounte Admin
 Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashdoard');
-   Route::get('show/repair',[DashboardController::class, 'repair_show'])->name('show.repair');
+    Route::get('user/add', [AdminUserController::class, 'add_adminuser'])->name('pages.addadmin');
+    Route::post('account/pages', [AdminUserController::class, 'admin_user_store'])->name('store.account.admin');
+    Route::get('edit/{au_id}', [AdminUserController::class, 'admin_user_edit'])->name('edit.AuId');
+    Route::put('user/update/{au_id}', [AdminUserController::class, 'admin_edituser_store'])->name('update.Au');
+    Route::delete('user/destroy/{au_id}',[AdminUserController::class, 'admin_destroyuser'])->name('destroy.admin');
+    Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
+    Route::get('user/technician/add', [TechnicianUserController::class, 'index'])->name('technician.index');
 });
 
 // rounte Login && register

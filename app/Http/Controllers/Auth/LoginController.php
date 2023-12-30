@@ -57,7 +57,7 @@ class LoginController extends Controller
                 return redirect()->route('home');
             }
         }else{
-            return redirect()->route('login');
+            return redirect()->route('login.page');
         }
     }
 }

@@ -24,7 +24,13 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Maintenance System</a>
+        <a class="navbar-brand ps-3"
+            @if (Auth::user()->role === 1) href="{{ route('admin.dashdoard') }}"
+           @elseif (Auth::user()->role === 2)
+           href="{{ route('technician.dashboard') }}"  
+           @else
+           href="{{ route('index.repair') }}" @endif>Maintenance
+            System</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
@@ -50,11 +56,9 @@
                     </li>
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                          document.getElementById('logout-form').submit();">
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
-
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
@@ -63,113 +67,9 @@
             </li>
         </ul>
     </nav>
+
     <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        {{--  เริ่มเมนูแอดมิน  --}}
-                        <div class="sb-sidenav-menu-heading">เมนู แอดมิน</div>
-                        <a class="nav-link" href="{{ url('/admin/repair') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
-                            แจ้งซ่อม
-                        </a>
-                        <a class="nav-link" href="{{ url('/admin/dashboard') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
-                            ดูรายการเเจ้งซ่อม
-                        </a>
-                        <a class="nav-link" href="{{ url('/admin/comfirmRepair') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
-                            หน้ายืนยันการเเจ้งซ่อม
-                        </a>
-                        <a class="nav-link" href="{{ url('/employee') }}">
-                            <div class="sb-nav-link-icon"><i class="fa fa-user text-info"></i></div>
-                            จัดการข้อมูลแอดมิน
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-user text-success"></i></div>
-                            จัดการข้อมูลพนักงาน
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-user text-warning"></i></div>
-                            จัดการข้อมูลช่าง
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-calendar-check text-info"></i></div>
-                            จัดการข้อมูลสถาณะ
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
-                            ข้อมูลส่วนตัว
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-database text-info"></i></div>
-                            รายงาน
-                        </a>
-                        <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
-                            ออกจากระบบ
-                        </a>
-                        {{--  สิ้นสุดเมนูแอดมิน  --}}
-
-                        {{--  เริ่มเมนูช่าง  --}}
-                        <div class="sb-sidenav-menu-heading">เมนู ช่าง</div>
-                        <a class="nav-link" href="{{ url('/technician/dashboard') }}">
-                            <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
-                            ดูงานเเจ้งซ่อม
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                            จัดการงานซ่อม
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                            เเจ้งซ่อมเสร็จเเล้ว
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
-                            ข้อมูลส่วนตัว
-                        </a>
-                        <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
-                            ออกจากระบบ
-                        </a>
-                        {{--  สิ้นสุดเมนูช่าง  --}}
-
-                        {{--  เริ่มเมนู พนักงาน  --}}
-                        <div class="sb-sidenav-menu-heading">เมนู พนักงาน</div>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
-                            ดูงานเเจ้งซ่อม
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
-                            เเจ้งปัญหางาน
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                            รายงานเเจ้งซ่อม
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
-                            ข้อมูลส่วนตัว
-                        </a>
-                        <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
-                            ออกจากระบบ
-                        </a>
-                        {{--  สิ้นสุดเมนูพนักงาน  --}}
-                    </div>
-                </div>
-                {{--  <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
-                    </div>  --}}
-            </nav>
-        </div>
+        @include('layout.sidebar')
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
@@ -192,14 +92,14 @@
 
     </div>
     @yield('script')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="assets/demo/chart-area-demo.js"></script>
     <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
 </body>
 
