@@ -4,7 +4,7 @@
     <div class="row justify-content-center my-3">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">เพิ่มผู้ใช้งานช่าง</div>
+                <div class="card-header">เพิ่มผู้ใช้งานช่าง1</div>
                 <form action="#" method="post">
                     @csrf
                     <div class="row mb-3 mt-3">
