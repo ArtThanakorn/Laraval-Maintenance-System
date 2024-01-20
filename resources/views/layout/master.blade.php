@@ -14,6 +14,8 @@
 
     <!-- jQuery -->
     <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+    <!-- Include Parsley.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
     <!-- Data Table JS -->
     <script src='https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js'></script>
     <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
@@ -27,7 +29,7 @@
         <a class="navbar-brand ps-3"
             @if (Auth::user()->role === 1) href="{{ route('admin.dashdoard') }}"
            @elseif (Auth::user()->role === 2)
-           href="{{ route('technician.dashboard') }}"  
+           href="{{ route('technician.dashboard') }}"
            @else
            href="{{ route('index.repair') }}" @endif>Maintenance
             System</a>
