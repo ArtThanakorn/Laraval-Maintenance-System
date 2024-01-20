@@ -31,7 +31,11 @@ class AdminUserController extends Controller
             'role' => 1,
         ]);
 
-        return redirect()->back()->with('success', 'Registration completed');
+        // return response()->json([
+        //     'success' => 1,
+        //     'message' => 'การลงทะเบียนเสร็จสมบูรณ์'
+        // ]);
+        redirect()->back()->with('success', 'การลงทะเบียนเสร็จสมบูรณ์');
     }
 
     public function admin_user_edit($au_id)
