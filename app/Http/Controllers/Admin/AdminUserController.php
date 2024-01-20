@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AdminUserController extends Controller
 {
@@ -18,11 +19,19 @@ class AdminUserController extends Controller
 
     public function admin_user_store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        // $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        //     'password' => ['required', 'string', 'min:8', 'confirmed'],
+        // ]);
+
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:8|confirmed',
+        // ], [
+        //     'name.required' => "กรุณาป้อน ชื่อ"
+        // ]);
 
         User::create([
             'name' => $request->name,
@@ -31,7 +40,22 @@ class AdminUserController extends Controller
             'role' => 1,
         ]);
 
-        return redirect()->back()->with('success', 'Registration completed');
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => 422,
+        //         'errors' => $validator->messages()
+        //     ], 422);
+        // } else {
+        //     return response()->json([
+        //         'success' => 1,
+        //         'message' => 'การลงทะเบียนเสร็จสมบูรณ์'
+        //       ]);
+        // }
+
+        return response()->json([
+            'success' => 1,
+            'message' => 'การลงทะเบียนเสร็จสมบูรณ์'
+          ]);
     }
 
     public function admin_user_edit($au_id)
@@ -45,9 +69,9 @@ class AdminUserController extends Controller
     public function admin_edituser_store(Request $request, $au_id)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => [ 'string', 'max:255'],
+            'email' => [ 'string', 'email', 'max:255', 'unique:users'],
+            'password' => [ 'string', 'min:8', 'confirmed'],
         ]);
 
         User::where('id', $au_id)->update([
@@ -56,7 +80,11 @@ class AdminUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('pages.addadmin');
+        return response()->json([
+            'success' => 1,
+            'message' => 'การแก้ไขเสร็จสมบูรณ์'
+          ]);
+        // return redirect()->route('pages.addadmin');
     }
 
     public function admin_destroyuser($au_id){

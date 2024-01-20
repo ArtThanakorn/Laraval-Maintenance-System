@@ -8,92 +8,31 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Register</title>
-    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/styles_login.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
     <script src="js/scripts.js"></script>
+
 </head>
 
-<body class="bg-image"
-    style="background-image: url('https://assets.proof.pub/2056/firstround/JTBD%20framework.jpg'); height: 100vh;">
-    <div class="container">
-        <div class="row justify-content-center my-3">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Login') }}</div>
-
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-
-                            <div class="row mb-3">
-                                <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password">
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                            {{ old('remember') ? 'checked' : '' }}>
-
-                                        <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
-
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
+<body class="bg-image" style="background-image: url('https://assets.proof.pub/2056/firstround/JTBD%20framework.jpg'); height: 100vh;">
+    <div class="row" id="conteiner">
+        <div class="col-sm-6 boxLogin" id="login">
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="text-center">
+                        <i class="fa-solid fa-gears custom-icon"></i>
                     </div>
-                </div>
-            </div>
+                    <h1 class="my-2">ระบบเเจ้งซ่อมออนไลน์</h1>
+                    <h2>Sign in</h2>
+                    <input type="email" placeholder="Email" name="email"/>
+                    <input type="password" placeholder="Password" name="password"/>
+                    <a href="{{ route('password.request') }}">Forgot your password?</a>
+                   <button type="submit" >Sign Up</button>
+                </form>
         </div>
     </div>
 </body>
-
 
 </html>
