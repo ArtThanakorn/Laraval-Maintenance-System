@@ -14,10 +14,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
                             ดูรายการเเจ้งซ่อม
                         </a>
-                        <a class="nav-link" href="{{ url('/admin/comfirmRepair') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
-                            หน้ายืนยันการเเจ้งซ่อม
-                        </a>
                         <a class="nav-link" href="{{ url('/employee') }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-info"></i></div>
                             จัดการข้อมูลแอดมิน
