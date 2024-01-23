@@ -6,23 +6,23 @@
                     {{--  เริ่มเมนูแอดมิน  --}}
                     @if (Auth::user()->role === 1)
                         <div class="sb-sidenav-menu-heading">เมนู แอดมิน</div>
-                        <a class="nav-link" href="{{ url('/admin/repair') }}">
+                        <a class="nav-link" href="{{ route('index.repair') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
                             แจ้งซ่อม
                         </a>
-                        <a class="nav-link" href="{{ url('/admin/dashboard') }}">
+                        <a class="nav-link" href="{{ route('show.repair') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
                             ดูรายการเเจ้งซ่อม
                         </a>
-                        <a class="nav-link" href="{{ url('/employee') }}">
+                        <a class="nav-link" href="{{ route('pages.addadmin') }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-info"></i></div>
                             จัดการข้อมูลแอดมิน
                         </a>
-                        <a class="nav-link" href="">
+                        {{-- <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-success"></i></div>
                             จัดการข้อมูลพนักงาน
-                        </a>
-                        <a class="nav-link" href="">
+                        </a> --}}
+                        <a class="nav-link" href="{{route('technician.index')}}">
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-warning"></i></div>
                             จัดการข้อมูลช่าง
                         </a>

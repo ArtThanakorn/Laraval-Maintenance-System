@@ -34,17 +34,20 @@ Route::get('/page/success', function () {
 Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashdoard');
     Route::get('user/add', [AdminUserController::class, 'add_adminuser'])->name('pages.addadmin');
-    Route::post('account/pages', [AdminUserController::class, 'admin_user_store'])->name('store.account.admin');
+    Route::post('account/pages', [AdminUserController::class, 'admin_user_store'])->name('store.userAdmin');
     Route::get('edit/{au_id}', [AdminUserController::class, 'admin_user_edit'])->name('edit.AuId');
     Route::post('user/update/{au_id}', [AdminUserController::class, 'admin_edituser_store'])->name('update.Au');
     Route::delete('user/destroy/{au_id}',[AdminUserController::class, 'admin_destroyuser'])->name('destroy.admin');
-    Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
 
     // route technician
-    Route::get('edit/technician/{tu_id}', [TechnicianUserController::class, 'technician_user_edit'])->name('edit.TuId');
-    Route::post('account/pages', [TechnicianUserController::class, 'technician_user_store'])->name('store.account.technician');
-    Route::post('user/update/{tu_id}', [TechnicianUserController::class, 'technician_edituser_store'])->name('update.Tu');
     Route::get('user/technician/add', [TechnicianUserController::class, 'index'])->name('technician.index');
+    Route::get('edit/technician/{tu_id}', [TechnicianUserController::class, 'technician_user_edit'])->name('edit.TuId');
+    Route::post('account/technician/pages', [TechnicianUserController::class, 'technician_user_store'])->name('store.account.technician');
+    Route::post('user/updateUt/{tu_id}', [TechnicianUserController::class, 'technician_edituser_store'])->name('update.Tu');
+    Route::delete('tradesman/destroy/{tu_id}',[TechnicianUserController::class, 'technician_destroyuser'])->name('destroy.tradesman');
+
+    //แจ้งซ่อม
+    Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
 });
 
 // rounte Login && register

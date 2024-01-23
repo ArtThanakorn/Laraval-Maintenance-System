@@ -49,9 +49,9 @@ class TechnicianUserController extends Controller
     public function technician_user_edit($tu_id)
     {
         $DataTu = User::find($tu_id);
-        $litechnicianUser = User::where('role', 2)->get();
+        $liTechnicianUser = User::where('role', 2)->get();
         // dd($litechnicianUser);
-        return view('admin.manage-technicianuser', compact('DataTu', 'litechnicianUser'));
+        return view('admin.manage-technicianuser', compact('DataTu', 'liTechnicianUser'));
     }
 
     public function technician_edituser_store(Request $request, $tu_id)
@@ -77,6 +77,7 @@ class TechnicianUserController extends Controller
     }
 
     public function technician_destroyuser($tu_id){
+        // dd($tu_id);
         User::destroy($tu_id);
     }
 }
