@@ -82,8 +82,13 @@ class RepairController extends Controller
     }
     public function confirm_repair($id)
     {
-        $dataconfirm = Repair::where('id_repair', $id)->get();
-        
+        $dataconfirm = Repair::with('imageRepair')->where('id_repair', $id)->get();
+        // dd($dataconfirm->all());
         return view('admin.confirmRepair', compact('dataconfirm'));
+    }
+
+    public function handle_repaair()
+    {
+        return view('admin.handle-repair');
     }
 }

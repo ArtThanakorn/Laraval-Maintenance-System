@@ -48,6 +48,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
 
     //แจ้งซ่อม
     Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
+    Route::get('handle/repair',[RepairController::class, 'handle_repaair'])->name('handle.repair');
 });
 
 // rounte Login && register

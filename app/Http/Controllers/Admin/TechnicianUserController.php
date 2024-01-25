@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -17,33 +17,37 @@ class TechnicianUserController extends Controller
 
     public function technician_user_store(Request $request)
     {
-        // $request->validate([
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        //     'password' => ['required', 'string', 'min:8', 'confirmed'],
-        // ]);
-
-        // User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        //     'role' => 2,
-        // ]);
-
-        // return redirect()->back()->with('success', 'Registration completed');
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 2,
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
-        return response()->json([
-            'success' => 1,
-            'message' => 'การลงทะเบียนเสร็จสมบูรณ์'
-          ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages()
+            ], 422);
+        } else {
+            $uT =  User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 2,
+            ]);
 
+            if ($uT) {
+                return response()->json([
+                    'status' => '200',
+                    'message' => 'การลงทะเบียนเสร็จสมบูรณ์'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => '500',
+                    'message' => "Something Went Wrong"
+                ], 500);
+            }
+        }
     }
 
     public function technician_user_edit($tu_id)
@@ -58,8 +62,8 @@ class TechnicianUserController extends Controller
     {
         $request->validate([
             'name' => [ 'string', 'max:255'],
-            'email' => [ 'string', 'email', 'max:255', 'unique:users'],
-            'password' => [ 'string', 'min:8', 'confirmed'],
+            'email' => [ 'string', 'email', 'max:255'],
+            'password' => [ 'string', 'min:8'],
         ]);
 
         User::where('id', $tu_id)->update([

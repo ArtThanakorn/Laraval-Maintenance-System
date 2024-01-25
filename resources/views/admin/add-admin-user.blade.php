@@ -25,7 +25,7 @@
                             <input id="password" class="form-control" type="password" name="password" placeholder="รหัสผ่าน" required  data-parsley-required-message="กรุณากรอกรหัสผ่าน">
                         </div>
                         <div class="form-group my-2">
-                            <input id="password-confirm" class="form-control" type="password" name="password" placeholder="ยืนยันรหัสผ่าน" required data-parsley-equalto="#password"  data-parsley-required-message="กรุณากรอกรหัสผ่าน" data-parsley-equalto-message="รหัสผ่านไม่ตรง">
+                            <input id="password-confirm" class="form-control" type="password" name="password_confirmation" placeholder="ยืนยันรหัสผ่าน" required data-parsley-equalto="#password"  data-parsley-required-message="กรุณากรอกรหัสผ่าน" data-parsley-equalto-message="รหัสผ่านไม่ตรง">
                         </div>
                         <button class="btn btn-primary form-control" type="button" onclick="submitForm()">บันทึก</button>
                     </form>

@@ -15,8 +15,8 @@ class ImageRepair extends Model
         'status',
     ];
 
-    // public function repair()
-    // {
-    //     return $this->belongsTo(Repair::class);
-    // }
+    public function repair()
+    {
+        return $this->belongsTo(Repair::class,'id_repair');
+    }
 }

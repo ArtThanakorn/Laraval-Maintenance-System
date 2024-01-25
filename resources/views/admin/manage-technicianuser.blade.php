@@ -33,7 +33,7 @@
                                     placeholder="รหัสผ่าน" required data-parsley-required-message="กรุณากรอกรหัสผ่าน">
                             </div>
                             <div class="form-group my-2">
-                                <input id="password-confirm" class="form-control" type="password" name="password"
+                                <input id="password-confirm" class="form-control" type="password" name="password_confirmation"
                                     placeholder="ยืนยันรหัสผ่าน" required data-parsley-equalto="#password"
                                     data-parsley-required-message="กรุณากรอกรหัสผ่าน"
                                     data-parsley-equalto-message="รหัสผ่านไม่ตรง">

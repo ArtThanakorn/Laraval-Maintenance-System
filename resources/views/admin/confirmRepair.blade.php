@@ -57,6 +57,20 @@
                                     </div>
                                 </div>
                             </li>
+                            <li class="list-group-item">
+                                <div class="row row-cols-3 g-3">
+                                    @foreach ($dataconfirm[0]->imageRepair as $image)
+                                        <div class="col">
+                                            <figure class="row row-cols-4">
+
+                                                <img src="{{ asset('uploads/repair/' . $image->nameImage) }}" alt="show"
+                                                    style="width: 25rem">
+
+                                            </figure>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -65,7 +79,7 @@
 
             <div class="row justify-content-center align-items-center g-2 mb-2">
                 <div class="col-auto">
-                    <a class="btn btn-success" href="{{ url('/admin/repair') }}" role="button"><i
+                    <a class="btn btn-success" href="{{ route('index.repair') }}" role="button"><i
                             class="fa fa-home"></i>กลับหน้าหลัก</a>
                 </div>
             </div>
