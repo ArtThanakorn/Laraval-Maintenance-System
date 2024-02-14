@@ -43,24 +43,6 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="col-xl-3 col-sm-6 p2">
-                                <div class="card card-common">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <i class="fa fa-users fa-3x text-success"></i>
-                                            <div class="text-right text-secondary">
-                                                <h5>จำนวนพนักงาน</h5>
-                                                <h3>25</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-secondary">
-                                        <i class="fa fa-arrow-circle-right mr-3"></i>
-                                        <span>ข้อมูลเพิ่มเติม</span>
-                                    </div>
-                                </div>
-                            </div> --}}
-
                             <div class="col-xl-3 col-sm-6 p2">
                                 <div class="card card-common">
                                     <div class="card-body">
@@ -74,6 +56,24 @@
                                     </div>
                                     <div class="card-footer text-secondary">
                                         <a class="small text-white stretched-link" href="{{ route('technician.index') }}"></a>
+                                        <i class="fa fa-arrow-circle-right mr-3"></i>
+                                        <span>ข้อมูลเพิ่มเติม</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-6 p2">
+                                <div class="card card-common">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <i class="fa fa-users fa-3x text-success"></i>
+                                            <div class="text-right text-secondary">
+                                                <h5>จำนวนแผนก</h5>
+                                                <h3>XXX</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-secondary">
                                         <i class="fa fa-arrow-circle-right mr-3"></i>
                                         <span>ข้อมูลเพิ่มเติม</span>
                                     </div>

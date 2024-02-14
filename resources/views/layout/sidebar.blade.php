@@ -6,6 +6,10 @@
                     {{--  เริ่มเมนูแอดมิน  --}}
                     @if (Auth::user()->role === 1)
                         <div class="sb-sidenav-menu-heading">เมนู แอดมิน</div>
+                        <a class="nav-link" href="{{ route('admin.dashdoard') }}">
+                            <div class="sb-nav-link-icon"><i class="fa fa-home text-info"></i></div>
+                            หน้าหลัก
+                        </a>
                         <a class="nav-link" href="{{ route('index.repair') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
                             แจ้งซ่อม

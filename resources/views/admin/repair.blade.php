@@ -1,6 +1,9 @@
 @extends('layout.master')
 
 @section('content')
+        <head>
+            <link href="/css/repair_blade_admin.css" rel="stylesheet" />
+        <head>
     <div class="container">
         <h1 class="mt-4">เเจ้งซ่อม</h1>
 
@@ -9,7 +12,6 @@
                 {{ $message }}
             </div>
         @endif
-
 
         <div class="row justify-content-center align-items-center g-2">
             <div class="card mb-4">
@@ -21,28 +23,31 @@
                 <form method="POST" action="{{ route('add.repair') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
-                        <p>ผู้เเจ้ง</p>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkstatus" id="blankCheckbox"
-                                value="อาจารย์">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                อาจารย์
-                            </label>
+                        <div class="container">
+                            <p>ตำเเหน่งผู้เเจ้ง</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="checkstatus" id="blankCheckbox"
+                                    value="อาจารย์">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    อาจารย์
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="checkstatus" id="blankCheckbox"
+                                    value="เจ้าหน้าที่">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    เจ้าหน้าที่
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="checkstatus" id="blankCheckbox"
+                                    value="นักศึกษา">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    นักศึกษา
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkstatus" id="blankCheckbox"
-                                value="เจ้าหน้าที่">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                เจ้าหน้าที่
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="checkstatus" id="blankCheckbox"
-                                value="นักศึกษา">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                นักศึกษา
-                            </label>
-                        </div>
+
 
                         @error('checkstatus')
                             <span role="alert" class="text-danger">
@@ -50,78 +55,143 @@
                             </span>
                         @enderror
                         <br>
-                        <p>ชื่อผู้เเจ้ง</p>
-                        <input class="form-control" type="text" name="chackname" placeholder="*ชื่อ-นายสกุล">
-                        @error('chackname')
-                            <span role="alert" class="text-danger">
-                                <strong> {{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <br>
-                        <p>ประเภทงานซ่อม</p>
-                        <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
-                            <option value="อุปกรณ์ไอที">อุปกรณ์ไอที</option>
-                            <option value="ประปา">ประปา</option>
-                            <option value="โถสุขภัณฑ์">โถสุขภัณฑ์</option>
-                            <option value="เครื่องใช้ไฟฟ้า">เครื่องใช้ไฟฟ้า</option>
-                            <option value="อื่นๆ">อื่นๆ</option>
-                        </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>ชื่อผู้เเจ้ง</p>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" name="chackname" placeholder="*ชื่อ-นายสกุล">
+                                </div>
+                                @error('chackname')
+                                    <span role="alert" class="text-danger">
+                                        <strong> {{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <p>แผนกส่งซ่อม <b class="text-danger">*กรุณาอ่านหมายเหตุ</b></p>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-wrench"></i>
+                                        </span>
+                                    </div>
+                                    <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
+                                        <option value="งานบริการทั่วไป">งานบริการทั่วไป</option>
+                                        <option value="งานประปาเเละงานท่อ">งานประปาเเละงานท่อ</option>
+                                        <option value="งานระบบไฟฟ้า">งานระบบไฟฟ้า</option>
+                                        <option value="งานภูมิทัศน์">งานภูมิทัศน์</option>
+                                    </select>
+                                </div>
+                                </div>
 
-                        <!-- ฟิลด์ input เมื่อเลือก "อื่นๆ" -->
+                            </div>
+                        </div>
+
+                        {{--  <!-- ฟิลด์ input เมื่อเลือก "อื่นๆ" -->
                         <div id="otherField" style="display: none;">
                             <br>
                             <label for="otherType">กรุณาระบุประเภทงาน :</label>
                             <input class="form-control" type="text" name="otherType" id="otherType">
+                        </div> --}}
+                        <br>
+
+
+
+                        <div class="card border-danger mb-3" style="max-width: 45rem;">
+                            <div class="card-header bg-danger text-white">หมายเหตุ</div>
+                            <div class="card-body">
+                                <h5 class="card-title text-danger">หน้าที่รับผิดของเเต่ละเเผนก</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ, หรือการแก้ไขปัญหาทั่วไป.</li>
+                                    <li class="list-group-item"><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</li>
+                                    <li class="list-group-item"><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า</li>
+                                    <li class="list-group-item"><b>งานภูมิทัศน์</b> เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</li>
+                                  </ul>
+                            </div>
                         </div>
 
-                        <br>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">รายละเอียดปัญหา</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="*ต้องการข้อมูล"
-                                name="detail"></textarea>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">รายละเอียดปัญหา</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="*ต้องการข้อมูล" name="detail"></textarea>
+                                </div>
+                                @error('detail')
+                                    <span role="alert" class="text-danger">
+                                        <strong> {{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <br>
+                            </div>
                         </div>
-                        @error('detail')
-                            <span role="alert" class="text-danger">
-                                <strong> {{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <br>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">สถานที่</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                placeholder="*ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location"></textarea>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">สถานที่</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
+                                        placeholder="*ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location"></textarea>
+                                </div>
+                                @error('location')
+                                    <span role="alert" class="text-danger">
+                                        <strong> {{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <br>
+                            </div>
                         </div>
-                        @error('location')
-                            <span role="alert" class="text-danger">
-                                <strong> {{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <br>
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Email ผู้เเจ้ง</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1"
-                                placeholder="name@example.com" name="email">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-envelope"></i>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1">Email ผู้แจ้ง</label>
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">
+                                    </div>
+                                    @error('email')
+                                        <span role="alert" class="text-danger">
+                                            <strong> {{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1">เบอร์โทร</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="082-8376xxx" name="number">
+                                    </div>
+                                    @error('number')
+                                        <span role="alert" class="text-danger">
+                                            <strong> {{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <br>
+                            </div>
                         </div>
-                        @error('email')
-                            <span role="alert" class="text-danger">
-                                <strong> {{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <br>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">เบอร์โทร</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1"
-                                placeholder="082-8376xxx" name="number">
-                        </div>
-                        @error('number')
-                            <span role="alert" class="text-danger">
-                                <strong> {{ $message }}</strong>
-                            </span>
-                        @enderror
-                        <br>
-                        <div class="form-group">
-                            <label for="formFileMultiple" class="form-label">ภาพประกอบ (บังคับเลือกได้ไม่เกิน 5
-                                รูปภาพ)</label>
+                            <label for="formFileMultiple" class="form-label">ภาพประกอบ (บังคับเลือกได้ไม่เกิน 5 รูปภาพ)</label>
                             <input class="form-control" type="file" id="formFileMultiple" name="image[]" multiple>
                         </div>
                         @error('image')
@@ -139,7 +209,6 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="text-end">
-                                {{--  <a href="#" class="btn btn-primary">เเจ้งซ่อม</a>  --}}
                                 <button type="submit" class="btn btn-primary">เเจ้งซ่อม</button>
                             </div>
                         </div>

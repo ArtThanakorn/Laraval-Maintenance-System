@@ -18,7 +18,7 @@
                             <dic class="col">
                                 <div class="d-grid gap-2">
                                     <button type="button" name="" id="" class="btn btn-primary">
-                                        รอดำเมินการ
+                                        รอดำเนินการ
                                     </button>
                                 </div>
                             </dic>
@@ -61,10 +61,10 @@
                                             <td>{{ $list->site }}</td>
                                             <td>{{ $list->created_at }}</td>
                                             <td style="display:flex; height: 65px; align-items: center; justify-content: center;">
-                                            
-                                                <div 
+
+                                                <div
                                                 @switch($list->status_repair)
-                                                    @case('รอดำเดินการ')
+                                                    @case('รอดำเนินการ')
                                                     class="p-2"
                                                     @style(['color:#ffffff', 'background-color:#279fff', 'border-radius:15px','font-size:16px','width:auto',' text-align:center'])
                                                     @break
