@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Department;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +15,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $dataUsers =[
+            [
+                'name' => 'Admin 1',
+                'email' =>'admin1@rmuti.ac.th',
+                'password'=> Hash::make('a123456789'),
+                'role'=> 1,
+            ],
+            ['name' => 'tradesman 1',
+            'email' =>'tradesman1@rmuti.ac.th',
+            'password'=> Hash::make('t123456789'),
+            'role'=> 2,
+            ]
+        ];
+        User::insert($dataUsers);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $dataDepartments=[
+            ['department_name' => 'งานบริการทั่วไป'],
+
+        ];
+
+        Department::insert($dataDepartments);
+       
+
+       
     }
 }

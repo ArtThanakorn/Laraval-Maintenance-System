@@ -16,32 +16,54 @@
                                 {{ __('แก้ไขผู้ใช้งานช่าง') }}
                             @endif
                         </h3>
+                        {{-- form จัดการผู้ใช้งานช่าง --}}
                         <form id="addTechnician" data-parsley-validate>
                             <div class="form-group my-2">
                                 <input value="{{ old('name', $DataTu->name) }}" id="name"
                                     @error('name') is-invalid @enderror class="form-control" type="text" name="name"
-                                    placeholder="ชื่อ - นามสกุล" required data-parsley-trigger="change"
+                                    placeholder="ชื่อ - นามสกุล" required="" data-parsley-trigger="change"
                                     data-parsley-required-message="กรุณากรอกชื่อ-นามสกุล">
                             </div>
                             <div class="form-group my-2">
                                 <input value="{{ old('email', $DataTu->email) }}" id="email" class="form-control"
-                                    type="text" name="email" placeholder="อีเมล" required data-parsley-trigger="change"
+                                    type="text" name="email" placeholder="อีเมล" required=""
+                                    data-parsley-trigger="change"
                                     data-parsley-required-message="กรุณากรอกอีเมล"data-parsley-type-message="รูปแบบอีเมลไม่ถูกต้อง">
+                            </div>
+                            <div class="form-group my-2">
+                                <select class="form-select" name="department" aria-label="Default select example"
+                                    required="" data-parsley-required-message="กรุณาเลือกแผนก">
+                                    <option value="" selected>{{ isset($DataTu->department)?'':'--เลือกแผนก--'}}</option>
+                                    <option value="1">งานบริการทั่วไป</option>
+                                    <option value="2">งานประปาและงานท่อ</option>
+                                    <option value="3">งานระบบไฟฟ้า</option>
+                                    <option value="4">งานภูมิทัศน์</option>
+                                </select>
+                            </div>
+                            <div class="form-group my-2">
+                                <select class="form-select" name="level" aria-label="Default select example"
+                                    required="" data-parsley-required-message="กรุณาเลือกระดับ">
+                                    <option value="" selected>-- ระดับ --</option>
+                                    <option value="1">หัวหน้า</option>
+                                    <option value="2">ผนักงาน</option>
+                                </select>
                             </div>
                             <div class="form-group my-2">
                                 <input id="password" class="form-control" type="password" name="password"
                                     placeholder="รหัสผ่าน" required data-parsley-required-message="กรุณากรอกรหัสผ่าน">
                             </div>
                             <div class="form-group my-2">
-                                <input id="password-confirm" class="form-control" type="password" name="password_confirmation"
-                                    placeholder="ยืนยันรหัสผ่าน" required data-parsley-equalto="#password"
-                                    data-parsley-required-message="กรุณากรอกรหัสผ่าน"
+                                <input id="password-confirm" class="form-control" type="password"
+                                    name="password_confirmation" placeholder="ยืนยันรหัสผ่าน" required
+                                    data-parsley-equalto="#password" data-parsley-required-message="กรุณากรอกรหัสผ่าน"
                                     data-parsley-equalto-message="รหัสผ่านไม่ตรง">
                             </div>
                             <button class="btn btn-primary form-control" type="button"
                                 onclick="submitForm()">บันทึก</button>
                         </form>
                     </div>
+
+                    {{-- จัดการตาราง --}}
                     <div class="col-md-8 p-2">
                         <h3>รายชื่อสมาชิก</h3>
                         <table id="UtTable" class="table table-striped">
@@ -59,7 +81,8 @@
                                     <td>{{ $dataUt->email }}</td>
                                     <td>
                                         <a name="" id="" class="btn btn-success"
-                                            href="{{ route('edit.TuId', ['tu_id' => $dataUt->id]) }}" role="button">แก้ไข</a>
+                                            href="{{ route('edit.TuId', ['tu_id' => $dataUt->id]) }}"
+                                            role="button">แก้ไข</a>
 
                                         <button type="button" class="btn btn-danger delete-item"
                                             data-technician_id="{{ $dataUt->id }}">ลบ</button>
@@ -100,8 +123,10 @@
                                         left top
                                         no-repeat
                                       `
+                                }).then((result) => {
+                                    window.location.href = "{{ route('technician.index') }}"
                                 });
-                                window.location.href = "{{ route('technician.index') }}";
+
                             })
                             .catch(function(error) {
                                 // Handle the error response if needed
@@ -125,16 +150,18 @@
                         }).then((result) => {
                             console.log($url);
                             if (result.isConfirmed) {
-                                axios.delete($url+`/admin/tradesman/destroy/`+tuId)
+                                axios.delete($url + `/admin/tradesman/destroy/` + tuId)
                                     .then((response) => {
-                                        Swal.fire(
-                                            'ลบแล้ว!',
-                                            'ข้อมูลของคุณถูกลบไปแล้ว',
-                                            'success'
-                                        );
-                                        setTimeout(() => {
-                                            window.location.href = "{{ route('technician.index') }}";
-                                        }, 2000);
+                                        Swal.fire({
+                                            position: "top-end",
+                                            icon: "success",
+                                            title: "ข้อมูลของคุณถูกลบไปแล้ว",
+                                            showConfirmButton: false,
+                                            timer: 1600,
+                                        });
+                                         setTimeout(() => {
+                                            window.location.href = "{{ route('technician.index') }}"
+                                        }, 1600)
                                     })
                                     .catch(error => {
                                         Swal.fire({

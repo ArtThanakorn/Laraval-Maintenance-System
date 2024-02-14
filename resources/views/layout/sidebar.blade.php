@@ -10,6 +10,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
                             แจ้งซ่อม
                         </a>
+                        <a class="nav-link" href="{{route('repair.followUp')}}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
+                            ติดตามการแจ้งซ่อม
+                        </a>
                         <a class="nav-link" href="{{ route('show.repair') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
                             ดูรายการเเจ้งซ่อม

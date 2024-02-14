@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\ConfirmRepairController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TechnicianUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardTechnicianController;
@@ -45,6 +46,11 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::post('account/technician/pages', [TechnicianUserController::class, 'technician_user_store'])->name('store.account.technician');
     Route::post('user/updateUt/{tu_id}', [TechnicianUserController::class, 'technician_edituser_store'])->name('update.Tu');
     Route::delete('tradesman/destroy/{tu_id}',[TechnicianUserController::class, 'technician_destroyuser'])->name('destroy.tradesman');
+    //department
+    Route::get('department/index', [DepartmentController::class, 'index'])->name('D.index');
+    Route::post('department/edit/{id}', [DepartmentController::class, 'departmentEdit'])->name('D.edit');
+    Route::post('department/create',[DepartmentController::class, 'createDepartment'])->name('D.create');
+    Route::post('department/update/{id}', [DepartmentController::class, 'updateDepartment'])->name('D.update');
 
     //แจ้งซ่อม
     Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
@@ -61,10 +67,10 @@ Route::resource('/employee', EmployeeCRUDController::class);
 
 // rounte users
 Route::prefix('user')->group(function () {
-
     Route::get('repair', [RepairController::class, 'index'])->name('index.repair');
     Route::post('addrepair', [RepairController::class, 'store'])->name('add.repair');
     Route::get('confirm/repair/{id}', [RepairController::class, 'confirm_repair'])->name('user.confirmRepair');
+    Route::get('followup/repair', [RepairController::class,'followUp'])->name('repair.followUp');
 });
 
 // rount Technician

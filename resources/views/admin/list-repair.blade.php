@@ -64,7 +64,7 @@
                                             
                                                 <div 
                                                 @switch($list->status_repair)
-                                                    @case('รอดำเดินการ')
+                                                    @case('รอดำเนินการ')
                                                     class="p-2"
                                                     @style(['color:#ffffff', 'background-color:#279fff', 'border-radius:15px','font-size:16px','width:auto',' text-align:center'])
                                                     @break

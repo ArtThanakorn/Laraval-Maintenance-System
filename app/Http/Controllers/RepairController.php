@@ -91,4 +91,9 @@ class RepairController extends Controller
     {
         return view('admin.handle-repair');
     }
+
+    public function followUp()
+    {
+        return view('user.follow-up-repair');
+    }
 }

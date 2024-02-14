@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $countRepair = Repair::where('status_repair', 'รอซ่อม')->count();
+        $countRepair = Repair::where('status_repair', 'รอดำเนินการ')->count();
         $countAdmin = User::where('role', 1)->count();
         $countTechnician = User::where('role', 2)->count();
         return view('admin.dashboard', compact('countRepair', 'countAdmin','countTechnician'));

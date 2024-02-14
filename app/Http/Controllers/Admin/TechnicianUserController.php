@@ -17,9 +17,12 @@ class TechnicianUserController extends Controller
 
     public function technician_user_store(Request $request)
     {
+        // dd($request);
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'department' =>['required'],
+            'level' => ['required'],
             'password' => ['required', 'string', 'min:8'],
         ]);
 
@@ -32,8 +35,10 @@ class TechnicianUserController extends Controller
             $uT =  User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'department' => $request->department,
+                'level' => $request->level,
                 'password' => Hash::make($request->password),
-                'role' => 2,
+                'role' => 2, 
             ]);
 
             if ($uT) {
@@ -52,9 +57,10 @@ class TechnicianUserController extends Controller
 
     public function technician_user_edit($tu_id)
     {
+        // dd($tu_id);
         $DataTu = User::find($tu_id);
         $liTechnicianUser = User::where('role', 2)->get();
-        // dd($litechnicianUser);
+        // dd($DataTu);
         return view('admin.manage-technicianuser', compact('DataTu', 'liTechnicianUser'));
     }
 
