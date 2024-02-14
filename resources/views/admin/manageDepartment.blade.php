@@ -214,8 +214,6 @@
                 let departmentNameupDate = document.getElementById("departmentNameEdit").value;
                 let departmentStatusDisplay = document.getElementById("SwitchCheck").checked ? 0 : 1; // เปลี่ยนจาก value เป็น checked และกำหนดค่าตามเงื่อนไข
 
-console.log("StatusDisplay: ", departmentStatusDisplay);
-
                axios.post($url + `/admin/department/update/${departmentId}`, {
                         name: departmentNameupDate,
                         display: departmentStatusDisplay

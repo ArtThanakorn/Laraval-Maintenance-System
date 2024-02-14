@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,8 @@ class TechnicianUserController extends Controller
     public function index(){
         $DataTu = new User();
         $liTechnicianUser = User::where('role', 2)->get();
-        return view('admin.manage-technicianuser',compact('DataTu','liTechnicianUser'));
+        $Department = Department::all();
+        return view('admin.manage-technicianuser',compact('DataTu','liTechnicianUser','Department'));
     }
 
     public function technician_user_store(Request $request)
@@ -59,31 +61,51 @@ class TechnicianUserController extends Controller
     {
         // dd($tu_id);
         $DataTu = User::find($tu_id);
-        $liTechnicianUser = User::where('role', 2)->get();
+        $Department = Department::select('department_id','department_name')->get();
         // dd($DataTu);
-        return view('admin.manage-technicianuser', compact('DataTu', 'liTechnicianUser'));
+        return response()->json([
+            'message' => 'ok',
+            'status' => true,
+            'Technician' => $DataTu,
+            'Department' => $Department,
+        ], 200);
     }
 
     public function technician_edituser_store(Request $request, $tu_id)
     {
-        $request->validate([
-            'name' => [ 'string', 'max:255'],
-            'email' => [ 'string', 'email', 'max:255'],
-            'password' => [ 'string', 'min:8'],
+      
+        $validator = Validator::make($request->all(), [
+            'ut_name' => ['required', 'string'],
+            'ut_email' => ['required', 'string'],
+            'ut_department' => ['required', 'integer'],
+            'ut_level' => ['required', 'integer'],
         ]);
 
-        User::where('id', $tu_id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages()
+            ], 422);
+        } else {
+            $Technician = User::where('id', $tu_id)->update([
+                'name' => $request->ut_name,
+                'email' => $request->ut_email,
+                'department' => $request->ut_department,
+                'level' => $request->ut_level
+            ]);
 
-        return response()->json([
-            'success' => 1,
-            'message' => 'การแก้ไขเสร็จสมบูรณ์'
-          ]);
-
-        // return redirect()->route('technician.index');
+            if ($Technician) {
+                return response()->json([
+                    'status' => '200',
+                    'message' => 'แก้ไขผู้ใช้งานช่างสำเร็จ'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => '500',
+                    'message' => "บางอย่างผิดพลาด"
+                ], 500);
+            }
+        }
     }
 
     public function technician_destroyuser($tu_id){
