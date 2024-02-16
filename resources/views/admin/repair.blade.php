@@ -13,9 +13,9 @@
             </div>
         @endif
 
-        <div class="row justify-content-center align-items-center g-2">
+        <div class="row justify-content-center align-items-center g-0">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header bg-info ">
                     <i class="fa-solid fa-list"></i>
                     ฟอร์มเเจ้งซ่อม
                 </div>
@@ -59,11 +59,9 @@
                             <div class="col-md-6">
                                 <p>ชื่อผู้เเจ้ง</p>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
+                                        <span class="input-group-text bg-info">
                                             <i class="fas fa-user"></i>
                                         </span>
-                                    </div>
                                     <input class="form-control" type="text" name="chackname" placeholder="*ชื่อ-นายสกุล">
                                 </div>
                                 @error('chackname')
@@ -76,11 +74,9 @@
                                 <div class="row">
                                     <p>แผนกส่งซ่อม <b class="text-danger">*กรุณาอ่านหมายเหตุ</b></p>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
+                                        <span class="input-group-text bg-info">
                                             <i class="fas fa-wrench"></i>
                                         </span>
-                                    </div>
                                     <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
                                         <option value="งานบริการทั่วไป">งานบริการทั่วไป</option>
                                         <option value="งานประปาเเละงานท่อ">งานประปาเเละงานท่อ</option>
@@ -122,7 +118,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">รายละเอียดปัญหา</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="*ต้องการข้อมูล" name="detail"></textarea>
+                                    {{--  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail"></textarea>  --}}
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-info">
+                                        <i class="fa fa-file-text"></i>
+                                    </span>
+                                    <input class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail">
+                                    {{--  <textarea class="form-control" id="exampleFormControlTextarea1" cols="30" rows="10" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail"></textarea>  --}}
                                 </div>
                                 @error('detail')
                                     <span role="alert" class="text-danger">
@@ -137,8 +140,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">สถานที่</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
-                                        placeholder="*ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location"></textarea>
+                                    {{--  <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"
+                                        placeholder="*ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location"></textarea>  --}}
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-info">
+                                        <i class="fa fa-location-arrow"></i>
+                                    </span>
+                                    <input class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="*ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location">
                                 </div>
                                 @error('location')
                                     <span role="alert" class="text-danger">
@@ -151,16 +160,25 @@
 
                         <div class="row">
                             <div class="col-md-6">
+                                <div class="form-group">
+                                        <label for="exampleFormControlInput1">Email ผู้แจ้ง</label>
+                                        {{--  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">  --}}
+                                </div>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info">
+                                        <i class="far fa-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">
+                                    {{--  <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             <i class="far fa-envelope"></i>
                                         </span>
-                                    </div>
-                                    <div class="form-group">
+                                    </div>  --}}
+
+                                    {{--  <div class="form-group">
                                         <label for="exampleFormControlInput1">Email ผู้แจ้ง</label>
                                         <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">
-                                    </div>
+                                    </div>  --}}
                                     @error('email')
                                         <span role="alert" class="text-danger">
                                             <strong> {{ $message }}</strong>
@@ -171,16 +189,19 @@
                             </div>
 
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">เบอร์โทร</label>
+                                    {{--  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="082-8376xxx" name="number">  --}}
+                                </div>
                                 <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="fas fa-phone-alt"></i>
-                                        </span>
-                                    </div>
-                                    <div class="form-group">
+                                    <span class="input-group-text bg-info">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="082-8376xxx" name="number">
+                                    {{--  <div class="form-group">
                                         <label for="exampleFormControlInput1">เบอร์โทร</label>
                                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="082-8376xxx" name="number">
-                                    </div>
+                                    </div>  --}}
                                     @error('number')
                                         <span role="alert" class="text-danger">
                                             <strong> {{ $message }}</strong>
@@ -192,8 +213,13 @@
                         </div>
                         <div class="form-group">
                             <label for="formFileMultiple" class="form-label">ภาพประกอบ (บังคับเลือกได้ไม่เกิน 5 รูปภาพ)</label>
-                            <input class="form-control" type="file" id="formFileMultiple" name="image[]" multiple>
+                            {{--  <input class="form-control" type="file" id="formFileMultiple" name="image[]" multiple>  --}}
                         </div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-info">
+                                <i class="fa fa-file-image"></i>
+                            </span>
+                            <input class="form-control" type="file" id="formFileMultiple" name="image[]" multiple>
                         @error('image')
                             <span role="alert" class="text-danger">
                                 <strong> {{ $message }}</strong>

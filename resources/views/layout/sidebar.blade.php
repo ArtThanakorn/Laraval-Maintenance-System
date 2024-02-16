@@ -5,32 +5,36 @@
                 @auth
                     {{--  เริ่มเมนูแอดมิน  --}}
                     @if (Auth::user()->role === 1)
-                        <div class="sb-sidenav-menu-heading">เมนู แอดมิน</div>
+                        <div class="sb-sidenav-menu-heading">เมนู หลัก</div>
                         <a class="nav-link" href="{{ route('admin.dashdoard') }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-home text-info"></i></div>
                             หน้าหลัก
                         </a>
                         <a class="nav-link" href="{{ route('index.repair') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fa fa-wrench text-info"></i></div>
                             แจ้งซ่อม
                         </a>
+                        <a class="nav-link" href="{{route('repair.followUp')}}">
+                            <div class="sb-nav-link-icon"><i class="fa fa-tasks text-info"></i></div>
+                            ติดตามการแจ้งซ่อม
+                        </a>
                         <a class="nav-link" href="{{ route('show.repair') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-danger"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
                             ดูรายการเเจ้งซ่อม
                         </a>
                         <a class="nav-link" href="{{ route('pages.addadmin') }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-info"></i></div>
                             จัดการข้อมูลแอดมิน
                         </a>
-                        {{-- <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-user text-success"></i></div>
-                            จัดการข้อมูลพนักงาน
-                        </a> --}}
                         <a class="nav-link" href="{{route('technician.index')}}">
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-warning"></i></div>
                             จัดการข้อมูลช่าง
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('D.index')}}">
+                            <div class="sb-nav-link-icon"><i class="fa fa-user text-success"></i></div>
+                            จัดการข้อมูลแผนก
+                        </a>
+                        {{--  <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fa fa-calendar-check text-info"></i></div>
                             จัดการข้อมูลสถาณะ
                         </a>
@@ -41,7 +45,7 @@
                         <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fa fa-database text-info"></i></div>
                             รายงาน
-                        </a>
+                        </a>  --}}
                         <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
                         <a class="nav-link" href="{{ route('logout') }}"
                         onclick="event.preventDefault();

@@ -68,12 +68,12 @@
                                         <div class="d-flex justify-content-between">
                                             <i class="fa fa-users fa-3x text-success"></i>
                                             <div class="text-right text-secondary">
-                                                <h5>จำนวนแผนก</h5>
-                                                <h3>XXX</h3>
+                                                <h5>แผนก</h5>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-footer text-secondary">
+                                        <a class="small text-white stretched-link" href="{{ route('D.index')}}"></a>
                                         <i class="fa fa-arrow-circle-right mr-3"></i>
                                         <span>ข้อมูลเพิ่มเติม</span>
                                     </div>
