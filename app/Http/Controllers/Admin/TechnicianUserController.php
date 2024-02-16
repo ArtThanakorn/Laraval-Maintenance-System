@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
@@ -10,11 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class TechnicianUserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $DataTu = new User();
         $liTechnicianUser = User::where('role', 2)->get();
-        $Department = Department::all();
-        return view('admin.manage-technicianuser',compact('DataTu','liTechnicianUser','Department'));
+        $Department = Department::where('status_display', 0)->get();
+        return view('admin.manage-technicianuser', compact('DataTu', 'liTechnicianUser', 'Department'));
     }
 
     public function technician_user_store(Request $request)
@@ -23,7 +25,7 @@ class TechnicianUserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'department' =>['required'],
+            'department' => ['required'],
             'level' => ['required'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -40,7 +42,7 @@ class TechnicianUserController extends Controller
                 'department' => $request->department,
                 'level' => $request->level,
                 'password' => Hash::make($request->password),
-                'role' => 2, 
+                'role' => 2,
             ]);
 
             if ($uT) {
@@ -61,7 +63,7 @@ class TechnicianUserController extends Controller
     {
         // dd($tu_id);
         $DataTu = User::find($tu_id);
-        $Department = Department::select('department_id','department_name')->get();
+        $Department = Department::select('department_id', 'department_name')->get();
         // dd($DataTu);
         return response()->json([
             'message' => 'ok',
@@ -73,7 +75,7 @@ class TechnicianUserController extends Controller
 
     public function technician_edituser_store(Request $request, $tu_id)
     {
-      
+
         $validator = Validator::make($request->all(), [
             'ut_name' => ['required', 'string'],
             'ut_email' => ['required', 'string'],
@@ -108,7 +110,27 @@ class TechnicianUserController extends Controller
         }
     }
 
-    public function technician_destroyuser($tu_id){
+    public function technician_reset_password(Request $request, $tu_id)
+    {
+       
+        $TechnicianReset = User::where('id', $tu_id)->update([
+            'password' => Hash::make($request->password),
+        ]);
+        if ($TechnicianReset) {
+            return response()->json([
+                'status' => '200',
+                'message' => 'รีเซ็ตรหัสผ่านสำเร็จ'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => '500',
+                'message' => "บางอย่างผิดพลาด"
+            ], 500);
+        }
+    }
+
+    public function technician_destroyuser($tu_id)
+    {
         // dd($tu_id);
         User::destroy($tu_id);
     }

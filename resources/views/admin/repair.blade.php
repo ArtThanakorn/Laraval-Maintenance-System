@@ -60,19 +60,18 @@
                         <br>
                         <p>ประเภทงานซ่อม</p>
                         <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
-                            <option value="อุปกรณ์ไอที">อุปกรณ์ไอที</option>
-                            <option value="ประปา">ประปา</option>
-                            <option value="โถสุขภัณฑ์">โถสุขภัณฑ์</option>
-                            <option value="เครื่องใช้ไฟฟ้า">เครื่องใช้ไฟฟ้า</option>
-                            <option value="อื่นๆ">อื่นๆ</option>
+                            <option disabled selected>--เลือกประเภทงานซ่อม--</option>
+                            @foreach ($Department as $name)
+                                <option value="{{$name->department_id}}">{{$name->department_name}}</option>
+                            @endforeach
                         </select>
 
                         <!-- ฟิลด์ input เมื่อเลือก "อื่นๆ" -->
-                        <div id="otherField" style="display: none;">
+                        {{-- <div id="otherField" style="display: none;"> 
                             <br>
                             <label for="otherType">กรุณาระบุประเภทงาน :</label>
                             <input class="form-control" type="text" name="otherType" id="otherType">
-                        </div>
+                        </div>--}}
 
                         <br>
                         <div class="form-group">
@@ -153,6 +152,7 @@
 
 @section('script')
     <script>
+        /*
         // รับค่าของ <select>
         const selectElement = document.getElementById("chacktype");
         const otherField = document.getElementById("otherField");
@@ -174,5 +174,6 @@
             icon: 'error',
             confirmButtonText: 'Cool'
         })
+        */
     </script>
 @endsection

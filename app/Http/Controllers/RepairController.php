@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ class RepairController extends Controller
 {
     public function index()
     {
-        return view('admin.repair');
+        $Department = Department::where('status_display', 0)->get();
+        return view('admin.repair',compact('Department'));
     }
 
     public function store(Request $request)
