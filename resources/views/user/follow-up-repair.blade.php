@@ -3,23 +3,26 @@
 @vite('resources\css\followUprepir.css')
 
 @section('content')
-    {{-- <dic class="h-100">
-        <div class="card justify-content-center align-items-center  text-start">
-            <div class="card-body">
-                <h4 class="card-title">Title</h4>
-                <p class="card-text">Body</p>
-            </div>
-        </div>
-    </dic>
-    <div --}}
     <div class="content1">
-        <div class="row justify-content-center align-items-center g-2 w-75">
-            <div class="card justify-content-center align-items-center  text-start">
-                <div class="card-body">
-                    <h4 class="card-title">Titles</h4>
-                    <p class="card-text">Body</p>
-                </div>
-            </div>
+        <div class="row justify-content-center align-items-center g-2 w-75 ">
+            <input class="form-control text-center" type="search" id="search" onchange="filterRepairs()">
+            <p id="demo"></p>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        let repairData = {!! $repairsData !!}
+
+        function filterRepairs() {
+            const resultRepairs = document.getElementById("search");
+
+            const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
+               
+            console.log(filterData);
+            document.getElementById("demo").innerHTML = filterData.status_repair;
+            // let repairsfilterData;
+        }
+    </script>
 @endsection

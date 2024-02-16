@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ class RepairController extends Controller
 {
     public function index()
     {
-        return view('admin.repair');
+        $Department = Department::where('status_display', 0)->get();
+        return view('admin.repair', compact('Department'));
     }
 
     public function store(Request $request)
@@ -61,7 +63,9 @@ class RepairController extends Controller
             'details' => $request->detail,
             'site' => $request->location,
             'email' => $request->email,
-            'number' => $request->number
+            'number' => $request->number,
+            // Gets a prefix unique
+            'tag_repair' => uniqid()
         ]);
 
         $saveRepair = DB::table('repairs')
@@ -82,8 +86,8 @@ class RepairController extends Controller
     }
     public function confirm_repair($id)
     {
-        $dataconfirm = Repair::with('imageRepair')->where('id_repair', $id)->get();
-        // dd($dataconfirm->all());
+        $dataconfirm = Repair::with('imageRepair')->where('id_repair', $id)->first();
+        // dd($dataconfirm);
         return view('admin.confirmRepair', compact('dataconfirm'));
     }
 
@@ -94,6 +98,7 @@ class RepairController extends Controller
 
     public function followUp()
     {
-        return view('user.follow-up-repair');
+        $repairsData = Repair::all();
+        return view('user.follow-up-repair',compact('repairsData'));
     }
 }
