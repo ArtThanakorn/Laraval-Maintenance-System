@@ -14,7 +14,7 @@ class TechnicianUserController extends Controller
     public function index()
     {
         $DataTu = new User();
-        $liTechnicianUser = User::where('role', 2)->get();
+        $liTechnicianUser = User::with('departments')->where('role', 2)->get();
         $Department = Department::where('status_display', 0)->get();
         return view('admin.manage-technicianuser', compact('DataTu', 'liTechnicianUser', 'Department'));
     }
@@ -112,7 +112,6 @@ class TechnicianUserController extends Controller
 
     public function technician_reset_password(Request $request, $tu_id)
     {
-       
         $TechnicianReset = User::where('id', $tu_id)->update([
             'password' => Hash::make($request->password),
         ]);

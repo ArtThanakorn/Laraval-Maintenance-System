@@ -28,11 +28,12 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="UtTable" class="table table-primary">
+                <table id="UtTable" class="table table-striped">
                     <thead>
                         <tr>
                             <th colspan="col"> ลำดับ </th>
                             <th colspan="col">ชื่อ</th>
+                            <th colspan="col">แผนก</th>
                             <th colspan="col">อีเมล</th>
                             <th colspan="col">จัดการ</th>
                         </tr>
@@ -42,19 +43,14 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $dataUt->name }}</td>
+                                <td>{{ $dataUt->departments->department_name}}</td>
                                 <td>{{ $dataUt->email }}</td>
                                 <td>
                                     <div class="row justify-content-start align-items-center g-2">
                                         <div class="col-auto">
-                                            {{-- <button type="button" class="btn btn-primary" id="reset-password-modal"
-                                                data-bs-toggle="modal" data-bs-target="#ModalReset"
-                                                >
-                                                รีเซ็ตรหัสผ่าน
-                                            </button> --}}
                                             <button type="button" class="btn btn-primary"
                                                 onclick="resetUt({{ $dataUt->id }})" data-bs-toggle="modal"
                                                 data-bs-target="#ModalReset">
-
                                                 รีเซ็ตรหัสผ่าน
                                             </button>
 

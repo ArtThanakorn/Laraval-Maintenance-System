@@ -116,6 +116,7 @@ class AdminUserController extends Controller
 
     public function admin_destroyuser($au_id)
     {
+        
         User::destroy($au_id);
     }
 }

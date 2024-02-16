@@ -11,4 +11,10 @@ class Department extends Model
     protected $table = 'departments';
     protected $primaryKey = 'department_id';
     protected $guarded = [];
+
+    public function employees(){
+        return $this->hasOne(User::class, 'department', 'department_id');
+    }
 }
+
+

@@ -10,16 +10,7 @@ class Repair extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_repair';
-    protected $fillable = [
-        'status',
-        'name',
-        'type',
-        'details',
-        'site',
-        'email',
-        'number',
-        'status_repair',
-    ];
+    protected $guarded = [];
 
     public function imageRepair(): HasMany
     {
