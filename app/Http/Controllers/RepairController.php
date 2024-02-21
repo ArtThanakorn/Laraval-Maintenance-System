@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
@@ -99,6 +100,6 @@ class RepairController extends Controller
     public function followUp()
     {
         $repairsData = Repair::all();
-        return view('user.follow-up-repair',compact('repairsData'));
+        return view('user.follow-up-repair', compact('repairsData'));
     }
 }
