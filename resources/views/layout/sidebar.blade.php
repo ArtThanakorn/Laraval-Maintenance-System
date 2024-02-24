@@ -19,19 +19,19 @@
                             ติดตามการแจ้งซ่อม
                         </a>
                         <a class="nav-link" href="{{ route('show.repair') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                            ดูรายการเเจ้งซ่อม
+                            <div class="sb-nav-link-icon"><i class="fa fa-pie-chart text-danger"></i></div>
+                            รายการเเจ้งซ่อม
                         </a>
                         <a class="nav-link" href="{{ route('pages.addadmin') }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-info"></i></div>
                             จัดการข้อมูลแอดมิน
                         </a>
                         <a class="nav-link" href="{{route('technician.index')}}">
-                            <div class="sb-nav-link-icon"><i class="fa fa-user text-warning"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fa fa-user text-success"></i></div>
                             จัดการข้อมูลช่าง
                         </a>
                         <a class="nav-link" href="{{route('D.index')}}">
-                            <div class="sb-nav-link-icon"><i class="fa fa-user text-success"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fa fa-user text-warning"></i></div>
                             จัดการข้อมูลแผนก
                         </a>
                         {{--  <a class="nav-link" href="">

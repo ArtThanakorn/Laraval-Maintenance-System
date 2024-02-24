@@ -77,12 +77,12 @@
                                         <span class="input-group-text bg-info">
                                             <i class="fas fa-wrench"></i>
                                         </span>
-                                    <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
-                                        <option value="งานบริการทั่วไป">งานบริการทั่วไป</option>
-                                        <option value="งานประปาเเละงานท่อ">งานประปาเเละงานท่อ</option>
-                                        <option value="งานระบบไฟฟ้า">งานระบบไฟฟ้า</option>
-                                        <option value="งานภูมิทัศน์">งานภูมิทัศน์</option>
-                                    </select>
+                                        <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
+                                            <option disabled selected>--เลือกประเภทงานซ่อม--</option>
+                                            @foreach ($Department as $name)
+                                                <option value="{{$name->department_id}}">{{$name->department_name}}</option>
+                                            @endforeach
+                                        </select>
                                 </div>
                                 </div>
 
@@ -248,6 +248,7 @@
 
 @section('script')
     <script>
+        /*
         // รับค่าของ <select>
         const selectElement = document.getElementById("chacktype");
         const otherField = document.getElementById("otherField");
@@ -269,5 +270,6 @@
             icon: 'error',
             confirmButtonText: 'Cool'
         })
+        */
     </script>
 @endsection

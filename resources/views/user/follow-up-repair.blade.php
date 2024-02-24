@@ -3,16 +3,7 @@
 @vite('resources\css\followUprepir.css')
 
 @section('content')
-    {{--  <div class="content1">
-        <div class="row justify-content-center align-items-center g-2 w-75">
-            <div class="card justify-content-center align-items-center  text-start">
-                <div class="card-body">
-                    <h4 class="card-title">Titles</h4>
-                    <p class="card-text">Body</p>
-                </div>
-            </div>
-        </div>
-    </div>  --}}
+
     {{--  <div class="card mb-3" style="max-width: 800px;">
         <div class="row g-0">
           <div class="col-md-4">
@@ -35,36 +26,110 @@
         </div>
     </div>  --}}
 
-    <div class="container d-flex justify-content-center">
-        <div class="card mt-5 p-4">
-            <h5 class="card-title">ติดตามสถานะการแจ้งซ่อม</h5>
-                <span class="text mb-4">กรอกหมายเลขเเท็ก 13 หลัก [ตัวอย่าง : EF582568151TH]</span>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-search" style="font-size: 30px;"></i>
-                        </button>
+    {{--  <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                <div class="card">
+                    <h5 class="card-title">ติดตามสถานะการแจ้งซ่อม</h5>
+                        <span class="text text-primary">กรอกหมายเลขเเท็ก 13 หลัก [ตัวอย่าง : EF582568151TH]</span>
+
+                            <div class="input-group mb-6">
+                                <input type="text" class="form-control me-2" id="search" placeholder="กรุณากรองหมายเลขเเท็กเเจ้งซ่อมเพื่อค้นหา">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" onclick="filterRepairs()">ค้นหา</button>
+                                    </div>
+                                </input>
+                            </div>
+
+                    <p id="demo"></p>
+                </div>
+            </div>
+        </div>
+    </div>  --}}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">ติดตามสถานะการแจ้งซ่อม</h5>
+                        <p class="card-text text-primary">กรอกหมายเลขเเท็ก 13 หลัก [ตัวอย่าง : EF582568151TH]</p>
+
+
+                            <div class="row justify-content-center align-items-center">
+                                 <input type="text" class="form-control w-75" id="search" placeholder="กรองหมายเลขเเท็กเพื่อค้นหา">
+                                 <div class="col-auto">
+                                        <button class="btn btn-primary" onclick="filterRepairs()">ค้นหา</button>
+                                    </div>
+                            </div>
+
+
+
+
                     </div>
-                </input>
+
+                </div>
+
+                {{--  <p id="demo"></p>  --}}
             </div>
-            {{--  <span class="text mb-4">88 branding projects</span>
-            <div class="d-flex flex-row justify-content-between mb-3">
-                <div class="d-flex flex-column p-3"><p class="mb-1">Logo and marketing material design for Bakery</p> <small class="text-muted">8 days remaining</small>
-                </div>
-                <div class="price pt-3 pl-3">
-                    <span class="mb-2">Fixed</span>
-                    <h5><span>&dollar;</span>1,500</h5>
+        </div>
+        <br>
+
+        <div class="row justify-content-center">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">รายการค้นหา</h5>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h6 id="departmentName"></h6>
+                                </div>
+                                <div class="col-sm-4 text-center">
+
+                                    <h5 class="text-success" id="demo"></h5>
+                                    <h6 id="nameRepair"></h6>
+                                </div>
+                                <div class="col-sm-4 text-end">
+                                    <h6 class="text-danger"><p id="timeCreatedAt"></p></h6>
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-sm-12">
+                                    <h6>351348646435453</h6>
+                                </div>
+                            </div>
+
+                            </div>
                 </div>
             </div>
-            <div class="d-flex flex-row justify-content-between mx-1">
-                <div class="d-flex flex-column p-3"><p class="mb-1">Need to create brand guidelines for my brand</p> <small class="text-muted">12 days remaining</small>
-                </div>
-                <div class="price pt-3 pl-3">
-                    <span class="mb-2">Hourly</span>
-                    <h5><span>&dollar;</span>40</h5>
-                </div>
-            </div>  --}}
+
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        let repairData = {!! $repairsData !!}
+cont
+        function filterRepairs() {
+            const resultRepairs = document.getElementById("search");
+
+            const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
+
+            const dateObject = new Date(filterData.created_at);
+
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const formattedDate = dateObject.toLocaleDateString('th-TH', options);
+
+            console.log(formattedDate);
+
+
+            console.log(filterData);
+            document.getElementById("demo").innerHTML ="สถานะ : "+ filterData.status_repair;
+            document.getElementById("timeCreatedAt").innerHTML = "วันที่ : "+formattedDate;
+            document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : "+filterData.department.department_name;
+            document.getElementById("nameRepair").innerHTML ="ชื่อผู้เเจ้งซ่อม : "+ filterData.name;
+            // let repairsfilterData;
+        }
+    </script>
 @endsection

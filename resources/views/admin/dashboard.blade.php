@@ -1,5 +1,6 @@
 @extends('layout.master')
 
+
 @section('content')
     <script>
         // Initialization for ES Users
@@ -20,65 +21,9 @@
         <section>
             <!-- cards -->
             <div class="container-fluid">
-                <div class="row">
+                <div class="row justify-content-center align-items-center g-2">
                     <div class="col-xl-10 col-md-8 col-lg-9 ml-auto">
                         <div class="row pt-md-7 mt-md-3 mb-5">
-
-                            <div class="col-xl-3 col-sm-6 p2">
-                                <div class="card card-common">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <i class="fa fa-users fa-3x text-info"></i>
-                                            <div class="text-right text-secondary">
-                                                <h5>จำนวนแอดมิน</h5>
-                                                <h3>{{$countAdmin}}</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-secondary">
-                                        <a class="small text-white stretched-link" href="{{ route('pages.addadmin') }}"></a>
-                                        <i class="fa fa-arrow-circle-right mr-3"></i>
-                                        <span>ข้อมูลเพิ่มเติม</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-3 col-sm-6 p2">
-                                <div class="card card-common">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <i class="fa fa-users fa-3x text-warning"></i>
-                                            <div class="text-right text-secondary">
-                                                <h5>จำนวนนายช่าง</h5>
-                                                <h3>{{$countTechnician}}</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-secondary">
-                                        <a class="small text-white stretched-link" href="{{ route('technician.index') }}"></a>
-                                        <i class="fa fa-arrow-circle-right mr-3"></i>
-                                        <span>ข้อมูลเพิ่มเติม</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-3 col-sm-6 p2">
-                                <div class="card card-common">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <i class="fa fa-users fa-3x text-success"></i>
-                                            <div class="text-right text-secondary">
-                                                <h5>แผนก</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-secondary">
-                                        <a class="small text-white stretched-link" href="{{ route('D.index')}}"></a>
-                                        <i class="fa fa-arrow-circle-right mr-3"></i>
-                                        <span>ข้อมูลเพิ่มเติม</span>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="col-xl-3 col-sm-6 p2">
                                 <div class="card card-common mb-4">
@@ -98,6 +43,65 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-xl-3 col-sm-6 p2">
+                                <div class="card card-common">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <i class="fa fa-users fa-3x text-info"></i>
+                                            <div class="text-right text-secondary">
+                                                <h5>จำนวนแอดมิน</h5>
+                                                <h3>{{ $countAdmin }}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-secondary">
+                                        <a class="small text-white stretched-link" href="{{ route('pages.addadmin') }}"></a>
+                                        <i class="fa fa-arrow-circle-right mr-3"></i>
+                                        <span>ข้อมูลเพิ่มเติม</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-6 p2">
+                                <div class="card card-common">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <i class="fa fa-users fa-3x text-success"></i>
+                                            <div class="text-right text-secondary">
+                                                <h5>จำนวนนายช่าง</h5>
+                                                <h3>{{ $countTechnician }}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-secondary">
+                                        <a class="small text-white stretched-link"
+                                            href="{{ route('technician.index') }}"></a>
+                                        <i class="fa fa-arrow-circle-right mr-3"></i>
+                                        <span>ข้อมูลเพิ่มเติม</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-6 p2">
+                                <div class="card card-common">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <i class="fa fa-users fa-3x text-warning"></i>
+                                            <div class="text-right text-secondary">
+                                                <h5>จำนวนแผนก</h5>
+                                                <h3>{{$department}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-secondary">
+                                        <a class="small text-white stretched-link" href="{{ route('D.index') }}"></a>
+                                        <i class="fa fa-arrow-circle-right mr-3"></i>
+                                        <span>ข้อมูลเพิ่มเติม</span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -153,8 +157,9 @@
                         <div class="card-footer border-0 bg-body-tertiary p-2 d-flex justify-content-around">
                             <a class="btn btn-link m-0 text-reset" href="#" role="button" data-ripple-color="primary"
                                 data-mdb-ripple-init>ตารางงาน<i class="fa fa-comments ms-2"></i></a>
-                            <a class="btn btn-link m-0 text-reset" href="#" role="button" data-ripple-color="primary"
-                                data-mdb-ripple-init>เลือกช่าง<i class="fa fa-user ms-2"></i></a>
+                            <a class="btn btn-link m-0 text-reset" href="#" role="button"
+                                data-ripple-color="primary" data-mdb-ripple-init>เลือกช่าง<i
+                                    class="fa fa-user ms-2"></i></a>
                         </div>
                     </div>
                 </div>

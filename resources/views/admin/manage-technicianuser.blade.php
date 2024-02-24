@@ -28,11 +28,12 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="UtTable" class="table table-primary">
+                <table id="UtTable" class="table table-striped">
                     <thead>
                         <tr>
                             <th colspan="col"> ลำดับ </th>
                             <th colspan="col">ชื่อ</th>
+                            <th colspan="col">แผนก</th>
                             <th colspan="col">อีเมล</th>
                             <th colspan="col">จัดการ</th>
                         </tr>
@@ -42,14 +43,17 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $dataUt->name }}</td>
+                                <td>{{ $dataUt->departments->department_name}}</td>
                                 <td>{{ $dataUt->email }}</td>
                                 <td>
                                     <div class="row justify-content-start align-items-center g-2">
                                         <div class="col-auto">
-                                            <button type="button" onclick="resetUt({{ $dataUt->id }})"
-                                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalReset">
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="resetUt({{ $dataUt->id }})" data-bs-toggle="modal"
+                                                data-bs-target="#ModalReset">
                                                 รีเซ็ตรหัสผ่าน
                                             </button>
+
                                         </div>
                                         <div class="col-auto">
                                             <button type="button" onclick="editUt({{ $dataUt->id }})"
@@ -71,6 +75,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modal-add -->
     <div class="modal fade" id="ModalAdd" tabindex="-1" aria-labelledby="ModalAddLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -175,30 +180,30 @@
         </div>
     </div>
 
-     <!-- Modal-reset -->
-     <div class="modal fade" id="ModalReset" tabindex="-1" aria-labelledby="ModalResetLabel" aria-hidden="true">
+    <!-- Modal-reset -->
+    <div class="modal fade" id="ModalReset" tabindex="-1" aria-labelledby="ModalResetLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="addTechnician" data-parsley-validate>
+            <form id="resetTechnician" data-parsley-validate>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ModalResetLabel">เพิ่มผู้ใช้งานช่าง</h1>
+                        <h1 class="modal-title fs-5" id="ModalResetLabel">รีเซ็ตรหัสผ่าน</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        
                         <div class="form-group my-2">
-                            <input id="password" class="form-control" type="password" name="password"
+                            <input id="reset-password" class="form-control" type="password" name="password"
                                 placeholder="รหัสผ่าน" required data-parsley-required-message="กรุณากรอกรหัสผ่าน">
                         </div>
                         <div class="form-group my-2">
-                            <input id="password-confirm" class="form-control" type="password" name="password_confirmation"
-                                placeholder="ยืนยันรหัสผ่าน" required data-parsley-equalto="#password"
-                                data-parsley-required-message="กรุณากรอกรหัสผ่าน"
+                            <input id="reset-password-confirm" class="form-control" type="password"
+                                name="password_confirmation" placeholder="ยืนยันรหัสผ่าน" required
+                                data-parsley-equalto="#reset-password" data-parsley-required-message="กรุณากรอกรหัสผ่าน"
                                 data-parsley-equalto-message="รหัสผ่านไม่ตรง">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="submitForm()" class="btn btn-primary">บันทึก</button>
+                        <button type="button" onclick="submitFormResetPassword()" class="btn btn-primary reset-item"
+                            data-technician_id="123">บันทึก</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                     </div>
                 </div>
@@ -322,10 +327,39 @@
             }
         }
 
-        function resetUt() {
-console.log('123');
+        let utIdReset;
+
+        function resetUt(id) {
+            utIdReset = id;
         }
-        document.querySelector('#UtTable').addEventListener('click', (e) => {
+
+        function submitFormResetPassword() {
+            // console.log("Technician ID:", utIdReset); //แสดงค่า $dataUt->id
+            if ($('#resetTechnician').parsley().validate()) {
+                let formData = new FormData(document.getElementById('resetTechnician'));
+
+                axios.post($url + `/admin/tradesman/reset/password/${utIdReset}`, formData)
+                    .then(function(response) {
+                        // Handle the success response if needed
+                        console.log(response.data);
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: response.data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    })
+                    .catch(function(error) {
+                        // Handle the error response if needed
+                        console.error(error);
+                    });
+            }
+        }
+
+        document.querySelector('#ModalReset').addEventListener('click', (e) => {
             if (e.target.matches('.delete-item')) {
                 console.log(e.target.dataset.technician_id);
                 let tuId = e.target.dataset.technician_id;
