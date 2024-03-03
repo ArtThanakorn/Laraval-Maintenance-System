@@ -17,15 +17,9 @@ class Repair extends Model
         return $this->hasMany(ImageRepair::class,'id_repair');
     }
 
-<<<<<<< HEAD
-    public function department(){
-        return $this->hasOne(Department::class, 'department_id', 'type');
-    } 
-=======
     public function department()
     {
         return $this->hasOne(Department::class,'department_id','type');
     }
 
->>>>>>> testart
 }
