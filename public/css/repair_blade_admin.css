@@ -1,0 +1,11 @@
+
+    /* ปรับความสูงของไอคอนใน input-group */
+    .input-group .input-group-text {
+        height: 38px; /* ปรับความสูงตามที่ต้องการ */
+    }
+
+    /* ปรับความสูงของ input ใน input-group */
+    .input-group .form-control {
+        height: 38px; /* ปรับความสูงตามที่ต้องการ */
+    }
+

@@ -99,7 +99,12 @@ class RepairController extends Controller
 
     public function followUp()
     {
+<<<<<<< HEAD
         $repairsData = Repair::all();
         return view('user.follow-up-repair', compact('repairsData'));
+=======
+        $repairsData = Repair::with('department')->get();
+        return view('user.follow-up-repair',compact('repairsData'));
+>>>>>>> testart
     }
 }
