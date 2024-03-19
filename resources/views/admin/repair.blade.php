@@ -5,7 +5,7 @@
             <link href="/css/repair_blade_admin.css" rel="stylesheet" />
         <head>
     <div class="container">
-        <h1 class="mt-4">เเจ้งซ่อม</h1>
+        {{--  <h1 class="mt-4">เเจ้งซ่อม</h1>  --}}
 
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
@@ -15,7 +15,7 @@
 
         <div class="row justify-content-center align-items-center g-0">
             <div class="card mb-4">
-                <div class="card-header bg-info ">
+                <div class="card-header">
                     <i class="fa-solid fa-list"></i>
                     ฟอร์มเเจ้งซ่อม
                 </div>
@@ -47,7 +47,6 @@
                                 </label>
                             </div>
                         </div>
-
 
                         @error('checkstatus')
                             <span role="alert" class="text-danger">
@@ -88,21 +87,12 @@
 
                             </div>
                         </div>
-
-                        {{--  <!-- ฟิลด์ input เมื่อเลือก "อื่นๆ" -->
-                        <div id="otherField" style="display: none;">
-                            <br>
-                            <label for="otherType">กรุณาระบุประเภทงาน :</label>
-                            <input class="form-control" type="text" name="otherType" id="otherType">
-                        </div> --}}
                         <br>
-
-
 
                         <div class="card border-danger mb-3" style="max-width: 45rem;">
                             <div class="card-header bg-danger text-white">หมายเหตุ</div>
                             <div class="card-body">
-                                <h5 class="card-title text-danger">หน้าที่รับผิดของเเต่ละเเผนก</h5>
+                                <h6 class="card-title text-danger">หน้าที่รับผิดของเเต่ละเเผนก</h6>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item"><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ, หรือการแก้ไขปัญหาทั่วไป.</li>
                                     <li class="list-group-item"><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</li>
@@ -111,8 +101,6 @@
                                   </ul>
                             </div>
                         </div>
-
-
 
                         <div class="row">
                             <div class="col-md-12">
@@ -147,7 +135,7 @@
                                     <span class="input-group-text bg-info">
                                         <i class="fa fa-location-arrow"></i>
                                     </span>
-                                    <input class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="*ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location">
+                                    <input class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location">
                                 </div>
                                 @error('location')
                                     <span role="alert" class="text-danger">
@@ -212,7 +200,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="formFileMultiple" class="form-label">ภาพประกอบ (บังคับเลือกได้ไม่เกิน 5 รูปภาพ)</label>
+                            <label for="formFileMultiple" class="form-label">ภาพประกอบ <b class="text-danger">*เลือกรูปภาพได้ไม่เกิน 5 รูปภาพ</b></label>
                             {{--  <input class="form-control" type="file" id="formFileMultiple" name="image[]" multiple>  --}}
                         </div>
                         <div class="input-group">
@@ -232,15 +220,17 @@
                         @enderror
                         <br>
                     </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-primary">เเจ้งซ่อม</button>
-                            </div>
-                        </div>
-                    </div>
+
 
                 </form>
+
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="text-end">
+                        <button type="submit" class="btn  btn-outline-success">เเจ้งซ่อม</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

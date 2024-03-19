@@ -22,7 +22,7 @@ class RepairDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))->setRowId('id');
-            //  ->addColumn('action', 'department.department_name')  
+            //  ->addColumn('action', 'department.department_name')
     }
 
     /**
@@ -72,8 +72,9 @@ class RepairDataTable extends DataTable
             Column::make('site')->title('สถานที่')->searchable(true),
             Column::make('tag_repair'),
             Column::make('status_repair')->title('สถานะงานเเจ้งซ่อม'),
-            Column::make('created_at')->title('วันที่แจ้งซ่อม'),
-            
+            Column::make(date('d/m/Y', strtotime('created_at')))->title('วันที่แจ้งซ่อม'),
+            // created_at
+
         ];
     }
 

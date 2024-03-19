@@ -18,7 +18,6 @@
                             </div>
                     </div>
                 </div>
-                {{--  <p id="demo"></p>  --}}
             </div>
         </div>
         <br>
@@ -45,7 +44,6 @@
                                 <div class="col-sm-12">
                                     <div class="container">
                                         <input type="radio" class="profile" id="radio1">
-                                        {{--  <input type="radio" class="settings" id="radio2">  --}}
                                         <input type="radio" class="posts" id="radio2">
                                         <input type="radio" class="books"  id="radio3">
                                     <div class="head">
@@ -53,9 +51,6 @@
                                             <li class="st st1 active">
                                                 <h2 class="inner">เเจ้งซ่อม</h2>
                                             </li>
-                                            {{--  <li class="st st2">
-                                                <h2 class="inner">รับเเเจ้ง</h2>
-                                            </li>  --}}
                                             <li class="st st2">
                                                 <h2 class="inner">รอดำเนินการ</h2>
                                             </li>
@@ -67,10 +62,8 @@
                                             <span></span>
                                         </div>
                                     </div>
-
                                 </div>
                                 </div>
-
                     </div>
                 </div>
             </div>
