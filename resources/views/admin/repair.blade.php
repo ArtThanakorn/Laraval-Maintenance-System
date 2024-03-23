@@ -5,7 +5,7 @@
             <link href="/css/repair_blade_admin.css" rel="stylesheet" />
         <head>
     <div class="container">
-        <h1 class="mt-4">เเจ้งซ่อม</h1>
+        {{--  <h1 class="mt-4">เเจ้งซ่อม</h1>  --}}
 
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
@@ -15,7 +15,7 @@
 
         <div class="row justify-content-center align-items-center g-0">
             <div class="card mb-4">
-                <div class="card-header bg-info ">
+                <div class="card-header">
                     <i class="fa-solid fa-list"></i>
                     ฟอร์มเเจ้งซ่อม
                 </div>
@@ -48,7 +48,6 @@
                             </div>
                         </div>
 
-
                         @error('checkstatus')
                             <span role="alert" class="text-danger">
                                 <strong> {{ $message }}</strong>
@@ -71,48 +70,32 @@
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <div class="row">
-                                    <p>แผนกส่งซ่อม <b class="text-danger">*กรุณาอ่านหมายเหตุ</b></p>
-                                <div class="input-group">
-                                        <span class="input-group-text bg-info">
-                                            <i class="fas fa-wrench"></i>
-                                        </span>
-                                        <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
-                                            <option disabled selected>--เลือกประเภทงานซ่อม--</option>
-                                            @foreach ($Department as $name)
-                                                <option value="{{$name->department_id}}">{{$name->department_name}}</option>
-                                            @endforeach
-                                        </select>
-                                </div>
+                                <div class="row align-items-center">
+                                    <p>แผนกส่งซ่อม
+                                        <b class="text-danger">*กรุณาคลิกเพื่ออ่านคำอธิบายในการเลือกเเผนก</b>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        คลิก
+                                        </button>
+                                    </p>
+
+
+                                        <div class="input-group">
+                                                <span class="input-group-text bg-info">
+                                                    <i class="fas fa-wrench"></i>
+                                                </span>
+                                                <select class="form-select" aria-label="Default select example" name="chacktype" id="chacktype">
+                                                    <option disabled selected>--เลือกประเภทงานซ่อม--</option>
+                                                    @foreach ($Department as $name)
+                                                        <option value="{{$name->department_id}}">{{$name->department_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                        </div>
                                 </div>
 
                             </div>
                         </div>
-
-                        {{--  <!-- ฟิลด์ input เมื่อเลือก "อื่นๆ" -->
-                        <div id="otherField" style="display: none;">
-                            <br>
-                            <label for="otherType">กรุณาระบุประเภทงาน :</label>
-                            <input class="form-control" type="text" name="otherType" id="otherType">
-                        </div> --}}
                         <br>
-
-
-
-                        <div class="card border-danger mb-3" style="max-width: 45rem;">
-                            <div class="card-header bg-danger text-white">หมายเหตุ</div>
-                            <div class="card-body">
-                                <h5 class="card-title text-danger">หน้าที่รับผิดของเเต่ละเเผนก</h5>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ, หรือการแก้ไขปัญหาทั่วไป.</li>
-                                    <li class="list-group-item"><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</li>
-                                    <li class="list-group-item"><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า</li>
-                                    <li class="list-group-item"><b>งานภูมิทัศน์</b> เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</li>
-                                  </ul>
-                            </div>
-                        </div>
-
-
 
                         <div class="row">
                             <div class="col-md-12">
@@ -147,7 +130,7 @@
                                     <span class="input-group-text bg-info">
                                         <i class="fa fa-location-arrow"></i>
                                     </span>
-                                    <input class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="*ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location">
+                                    <input class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="ระบุตึก ชั้น ห้อง สถานที่ให้ครบถ้วน" name="location">
                                 </div>
                                 @error('location')
                                     <span role="alert" class="text-danger">
@@ -212,7 +195,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="formFileMultiple" class="form-label">ภาพประกอบ (บังคับเลือกได้ไม่เกิน 5 รูปภาพ)</label>
+                            <label for="formFileMultiple" class="form-label">ภาพประกอบ <b class="text-danger">*เลือกรูปภาพได้ไม่เกิน 5 รูปภาพ</b></label>
                             {{--  <input class="form-control" type="file" id="formFileMultiple" name="image[]" multiple>  --}}
                         </div>
                         <div class="input-group">
@@ -232,18 +215,46 @@
                         @enderror
                         <br>
                     </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-primary">เเจ้งซ่อม</button>
-                            </div>
-                        </div>
-                    </div>
+
 
                 </form>
+
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="text-end">
+                        <button type="submit" class="btn  btn-outline-success">เเจ้งซ่อม</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="staticBackdropLabel">หมายเหตุ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ, หรือการแก้ไขปัญหาทั่วไป.</p>
+            <p><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</p>
+            <p><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า</p>
+            <p><b>งานภูมิทัศน์</b> เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</p>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            <button type="button" class="btn btn-primary">เข้าใจแล้ว</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
 @endsection
 
 @section('script')
