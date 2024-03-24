@@ -55,7 +55,6 @@ class DashboardController extends Controller
         }
         //dd($bgcolor);  // Example output: #f2a543
 
-
         $data =  collect([
             'labels' => $departmentsArray,
             'datasets' => [

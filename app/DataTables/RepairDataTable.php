@@ -6,6 +6,7 @@ use App\Models\Repair;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,8 +22,13 @@ class RepairDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))->setRowId('id');
-            //  ->addColumn('action', 'department.department_name')  
+        return (new EloquentDataTable($query))
+            ->setRowId('id')
+            ->addColumn('created_at', function ($repair) {
+                // Format the created_at date using Carbon (replace with desired format)
+                return Carbon::parse($repair->created_at)->format('d/m/Y');  // Example: DD/MM/YYYY
+            })
+            ->rawColumns(['created_at']);  // Mark 'created_at' as raw for proper formatting
     }
 
     /**
@@ -73,7 +79,7 @@ class RepairDataTable extends DataTable
             Column::make('tag_repair'),
             Column::make('status_repair')->title('สถานะงานเเจ้งซ่อม'),
             Column::make('created_at')->title('วันที่แจ้งซ่อม'),
-            
+            //
         ];
     }
 
