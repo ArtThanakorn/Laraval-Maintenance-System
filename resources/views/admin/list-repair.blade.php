@@ -56,10 +56,10 @@
 @endsection
 @section('script')
     <script type="module">
-       
+
         let jsData = {!! json_encode($data) !!};
         console.log(jsData.datasets.backgroundColor);
-        
+
         // เก็บค่า department_name ใน array ใหม่
         const labels = [];
         for (const item of jsData.labels) {
