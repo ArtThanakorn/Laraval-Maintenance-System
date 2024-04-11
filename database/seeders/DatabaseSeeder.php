@@ -22,10 +22,11 @@ class DatabaseSeeder extends Seeder
                 'password'=> Hash::make('a123456789'),
                 'role'=> 1,
             ],
-            ['name' => 'tradesman 1',
-            'email' =>'tradesman1@rmuti.ac.th',
-            'password'=> Hash::make('t123456789'),
-            'role'=> 2,
+            [
+                'name' => 'tradesman 1',
+                'email' =>'tradesman1@rmuti.ac.th',
+                'password'=> Hash::make('t123456789'),
+                'role'=> 2,
             ]
         ];
         User::insert($dataUsers);
@@ -36,8 +37,8 @@ class DatabaseSeeder extends Seeder
         ];
 
         Department::insert($dataDepartments);
-       
 
-       
+
+
     }
 }

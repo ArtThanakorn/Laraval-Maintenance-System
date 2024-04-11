@@ -61,11 +61,11 @@
                         <div class="sb-sidenav-menu-heading">เมนู ช่าง</div>
                         <a class="nav-link" href="{{ url('/technician/dashboard') }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
-                            ดูงานเเจ้งซ่อม
+                            ดูรายการเเจ้งซ่อม
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{ url('/technician/listRepair') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                            จัดการงานซ่อม
+                            จัดการงานเเจ้งซ่อม
                         </a>
                         <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
