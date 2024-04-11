@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TechnicianUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardTechnicianController;
+use App\Http\Controllers\ListTechnicianController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\LoginController;
@@ -77,6 +78,7 @@ Route::prefix('user')->group(function () {
 
 // rount Technician
 Route::get('/technician/dashboard', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
+Route::get('/technician/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
 
 Auth::routes();
 
