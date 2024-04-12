@@ -20,7 +20,7 @@ class RepairController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request);
+        // dd($request);
         $request->validate([
             'checkstatus' => 'required|string',
 
@@ -66,7 +66,7 @@ class RepairController extends Controller
             'email' => $request->email,
             'number' => $request->number,
             // Gets a prefix unique
-            'tag_repair' => uniqid()
+            'tag_repair' => substr(uniqid(), -5)
         ]);
 
         $saveRepair = DB::table('repairs')

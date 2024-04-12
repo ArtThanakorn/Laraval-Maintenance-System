@@ -1,5 +1,5 @@
 import './bootstrap';
-import 'laravel-datatables-vite';
-import Chart from 'chart.js';
+// import 'laravel-datatables-vite';
+// import Chart from 'chart.js';
 
-window.Chart = Chart;
+// window.Chart = Chart;

@@ -77,7 +77,7 @@
 @section('script')
     <script>
         let repairData = {!! $repairsData !!}
-cont
+// cont
         function filterRepairs() {
             const resultRepairs = document.getElementById("search");
 

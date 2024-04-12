@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Carbon\Carbon;
+use Illuminate\Database\Query\IndexHint;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -20,15 +21,20 @@ class RepairDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
+   public $i=1;
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+
         return (new EloquentDataTable($query))
             ->setRowId('id')
             ->addColumn('created_at', function ($repair) {
                 // Format the created_at date using Carbon (replace with desired format)
                 return Carbon::parse($repair->created_at)->format('d/m/Y');  // Example: DD/MM/YYYY
             })
-            ->rawColumns(['created_at']);  // Mark 'created_at' as raw for proper formatting
+            ->addColumn('index', function ($repair) {
+                    return  $this->i++;
+            })
+            ->rawColumns(['created_at','index']);  // Mark 'created_at' as raw for proper formatting
     }
 
     /**
@@ -45,20 +51,20 @@ class RepairDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('repair-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        // Button::make('excel'),
-                        // Button::make('csv'),
-                        // Button::make('pdf'),
-                        // Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('repair-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            // ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                // Button::make('excel'),
+                // Button::make('csv'),
+                // Button::make('pdf'),
+                // Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -72,6 +78,7 @@ class RepairDataTable extends DataTable
             //       ->printable(false)
             //       ->width(60)
             //       ->addClass('text-center'),
+            Column::computed('index')->title('ลำดับ'),
             Column::computed('department.department_name')->title('ประเภทงานซ่อม')->searchable(true),
             Column::make('name')->title('ชื่อผู้แจ้งซ่อม')->searchable(true),
             Column::make('details')->title('รายละเอียดงานซ่อม'),
@@ -90,5 +97,4 @@ class RepairDataTable extends DataTable
     {
         return 'Repair_' . date('YmdHis');
     }
-
 }

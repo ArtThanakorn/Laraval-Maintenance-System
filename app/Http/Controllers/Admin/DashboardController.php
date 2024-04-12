@@ -23,6 +23,7 @@ class DashboardController extends Controller
 
     public function repair_show(RepairDataTable $dataTable)
     {
+        
         $liRepair = Repair::with('department')->get();
 
         $departments = Department::select('department_id', 'department_name')->where('status_display', '=', 0)->get();
