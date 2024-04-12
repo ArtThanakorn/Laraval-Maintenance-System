@@ -9,3 +9,15 @@
         height: 38px; /* ปรับความสูงตามที่ต้องการ */
     }
 
+    .row.align-items-center {
+        display: flex;
+    }
+
+    .row.align-items-center p,
+    .row.align-items-center button {
+        margin-right: 0px; /* ปรับระยะห่างตามต้องการ */
+    }
+
+    .fixed-width-btn {
+        width: 60px; /* ปรับความกว้างตามที่คุณต้องการ */
+    }

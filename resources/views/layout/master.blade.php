@@ -23,9 +23,12 @@
     <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
     <!-- Include Parsley.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
+
     <!-- Data Table JS -->
-    <script src='https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js'></script>
-    <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
+    <script src='https://code.jquery.com/jquery-3.7.1.js'></script>
+    <script src='https://cdn.datatables.net/2.0.3/js/dataTables.js'></script>
+    <!-- Data Table CSS -->
+    <link rel="stylesheet" href="//cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
 
     <!--  datatables js -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
