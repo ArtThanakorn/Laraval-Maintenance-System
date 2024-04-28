@@ -63,15 +63,15 @@
                             <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
                             ดูรายการเเจ้งซ่อม
                         </a>
-                        <a class="nav-link" href="{{ url('/technician/listRepair') }}">
+                        {{--  <a class="nav-link" href="{{ url('/technician/listRepair') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
                             จัดการงานเเจ้งซ่อม
                         </a>
                         <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
                             เเจ้งซ่อมเสร็จเเล้ว
-                        </a>
-                        <a class="nav-link" href="">
+                        </a>  --}}
+                        <a class="nav-link" href="{{ url('/technician/personal') }} ">
                             <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
                             ข้อมูลส่วนตัว
                         </a>

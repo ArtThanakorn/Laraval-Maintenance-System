@@ -141,7 +141,7 @@
 </script>
 
 {{--  เริ่มการ์ดด้านบน  --}}
-        <div class="container my-3">
+        {{--  <div class="container my-3">
             <div class="row ">
                 <div class="col-xl-4 col-lg-6 mb-4">
                     <div class="card">
@@ -200,39 +200,33 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  --}}
 
         {{--  จบการ์ด ด้านบน  --}}
 
         {{--  เริ่มตาราง  --}}
+
+
+
         <div class="container">
             <h3 class="mt-4">ตารางข้อมูลรายการเเจ้งซ่อม</h3>
-            <hr>
-                {{--  <table id="example" class="table-hover">
-                    <thead>
-                        <th>ID</th>
-                        <th>ชื่องาน</th>
-                        <th>รายละเอียดผู้เเจ้ง</th>
-                        <th>รายละเอียดงาน</th>
-                        <th>สถานที่</th>
-                        <th>สถานะ</th>
-                        <th>วันที่มอบงาน</th>
-                        <th>รับงาน</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>ไฟเสีย</td>
-                            <td>นาย หนึ่ง</td>
-                            <td>หลอดไฟเปิดไม่คิด</td>
-                            <td>อาคาร 18 ชั้น 2</td>
-                            <td>กำลังดำเนินการ</td>
-                            <td>15-03-2023,1945.21</td>
-                            <td><button class="btn btn-success btn-sm">รับงาน</button></td>
-                        </tr>
-                    </tbody>
-                </table>  --}}
 
+            <hr>
+            <div class="card text-center">
+                <div class="card-header">
+                  <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#">รายการเเจ้งซ่อมทั้งหมด</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">กำลังดำเนินการ</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link disabled" href="#">ซ่อมเสร็จเเล้ว</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
                 <table id="example" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -713,6 +707,33 @@
                         </tr>
                     </tfoot>
                 </table>
+                </div>
+            </div>
+                {{--  <table id="example" class="table-hover">
+                    <thead>
+                        <th>ID</th>
+                        <th>ชื่องาน</th>
+                        <th>รายละเอียดผู้เเจ้ง</th>
+                        <th>รายละเอียดงาน</th>
+                        <th>สถานที่</th>
+                        <th>สถานะ</th>
+                        <th>วันที่มอบงาน</th>
+                        <th>รับงาน</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>ไฟเสีย</td>
+                            <td>นาย หนึ่ง</td>
+                            <td>หลอดไฟเปิดไม่คิด</td>
+                            <td>อาคาร 18 ชั้น 2</td>
+                            <td>กำลังดำเนินการ</td>
+                            <td>15-03-2023,1945.21</td>
+                            <td><button class="btn btn-success btn-sm">รับงาน</button></td>
+                        </tr>
+                    </tbody>
+                </table>  --}}
+
         </div>
         {{--  จบตาราง  --}}
 
