@@ -1,2 +1,5 @@
 import './bootstrap';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'laravel-datatables-vite';
+import Chart from 'chart.js';
+
+window.Chart = Chart;
