@@ -287,64 +287,40 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
-            </div>
-            </div>
-            </div>
 
 
-            <!-- Modal -->
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger text-white">
-                            <h5 class="modal-title" id="staticBackdropLabel">หมายเหตุ</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ, หรือการแก้ไขปัญหาทั่วไป.
-                            </p>
-                            <p><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</p>
-                            <p><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า</p>
-                            <p><b>งานภูมิทัศน์</b> เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</p>
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="staticBackdropLabel">หมายเหตุ</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ,
+                                    หรือการแก้ไขปัญหาทั่วไป.
+                                </p>
+                                <p><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</p>
+                                <p><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า
+                                </p>
+                                <p><b>งานภูมิทัศน์</b> เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</p>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                            <button type="button" class="btn btn-primary">เข้าใจแล้ว</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                <button type="button" class="btn btn-primary">เข้าใจแล้ว</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endsection
+            @endsection
 
-        @section('script')
-            <script>
-                /*
-                                            // รับค่าของ <select>
-                                            const selectElement = document.getElementById("chacktype");
-                                            const otherField = document.getElementById("otherField");
-                                            const otherTypeInput = document.getElementById("otherType");
-
-                                            // เพิ่มกฎเกณฑ์การแสดงฟิลด์ <input> เมื่อเลือก "อื่นๆ"
-                                            selectElement.addEventListener("change", function() {
-                                                if (selectElement.value === "อื่นๆ") {
-                                                    otherField.style.display = "block"; // แสดงฟิลด์
-                                                } else {
-                                                    otherField.style.display = "none"; // ซ่อนฟิลด์
-                                                    otherTypeInput.value = ""; // ล้างค่าของฟิลด์ <input>
-                                                }
-                                            });
-
-                                            Swal.fire({
-                                                title: 'Error!',
-                                                text: 'Do you want to continue',
-                                                icon: 'error',
-                                                confirmButtonText: 'Cool'
-                                            })
-                                            */
-            </script>
-        @endsection
+            @section('script')
+            @endsection

@@ -20,14 +20,15 @@ class AdminUserController extends Controller
 
     public function admin_user_store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
 
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|string|min:8|confirmed',
-        // ], [
-        //     'name.required' => "กรุณาป้อน ชื่อ"
-        // ]);
+        if($validator->fails()) {
+            return $this->sendErrorValidators('Invalid params', $validator->errors());
+        }
 
         User::create([
             'name' => $request->name,
@@ -69,13 +70,13 @@ class AdminUserController extends Controller
     {
         // dd($request->all(), $au_id);
         $request->validate([
-            'name' => ['string', 'max:255'],
-            'email' => ['string', 'email', 'max:255'],
+            'nameEdit' => ['string', 'max:255'],
+            'emailEdit' => ['string', 'email', 'max:255'],
         ]);
 
         User::where('id', $au_id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => $request->nameEdit,
+            'email' => $request->emailEdit,
         ]);
 
         return response()->json([

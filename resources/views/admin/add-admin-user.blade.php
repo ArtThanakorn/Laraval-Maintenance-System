@@ -5,12 +5,6 @@
         .card {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         }
-
-        .parsley-required,
-        .parsley-equalto {
-            color: red;
-            padding-top: 5px;
-        }
     </style>
 @endsection
 
@@ -18,10 +12,11 @@
     <div class="card">
         <div class="card-header">
             <div class="row justify-content-between align-items-center g-2">
-                <div class="col-3">ผู้ใช้งานผู้ดูแลระบบ</div>
+                <div class="col-3">{{ 'ผู้ใช้งานผู้ดูแลระบบ' }}</div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalAdd">
-                        <i class="bi bi-plus-square"></i> เพิ่มผู้ใช้งานผู้ดูแลระบบ
+                    <button type="button" class="btn btn-primary" onclick="addForm()" data-bs-toggle="modal"
+                        data-bs-target="#ModalAdd">
+                        <i class="bi bi-plus-square"></i> {{ 'เพิ่มผู้ใช้งานผู้ดูแลระบบ' }}
                     </button>
                 </div>
             </div>
@@ -31,10 +26,10 @@
                 <table id="AuTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th colspan="col"> ลำดับ </th>
-                            <th colspan="col">ชื่อ</th>
-                            <th colspan="col">อีเมล</th>
-                            <th colspan="col">จัดการ</th>
+                            <th colspan="col"> {{ 'ลำดับ' }} </th>
+                            <th colspan="col">{{ 'ชื่อ' }}</th>
+                            <th colspan="col">{{ 'อีเมล' }}</th>
+                            <th colspan="col">{{ 'จัดการ' }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,19 +44,19 @@
                                             <button type="button" class="btn btn-primary"
                                                 onclick="resetAu({{ $dataAu->id }})" data-bs-toggle="modal"
                                                 data-bs-target="#ModalReset">
-                                                รีเซ็ตรหัสผ่าน
+                                                {{ 'รีเซ็ตรหัสผ่าน' }}
                                             </button>
 
                                         </div>
                                         <div class="col-auto">
                                             <button type="button" onclick="editAu({{ $dataAu->id }})"
                                                 class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEdit">
-                                                แก้ไข
+                                                {{ 'แก้ไข' }}
                                             </button>
                                         </div>
                                         <div class="col-auto">
                                             <button type="button" class="btn btn-danger delete-item"
-                                                data-admin_id="{{ $dataAu->id }}">ลบ</button>
+                                                data-admin_id="{{ $dataAu->id }}">{{ 'ลบ' }}</button>
                                         </div>
                                     </div>
                                 </td>
@@ -76,38 +71,39 @@
     <!-- Modal-add -->
     <div class="modal fade" id="ModalAdd" tabindex="-1" aria-labelledby="ModalAddLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="addUser" data-parsley-validate>
+            <form id="addUser">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ModalAddLabel">เพิ่มผู้ใช้งานผู้ดูแลระบบ</h1>
+                        <h1 class="modal-title fs-5" id="ModalAddLabel">{{ 'เพิ่มผู้ใช้งานผู้ดูแลระบบ' }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group my-2">
-                            <input id="name" @error('name') is-invalid @enderror class="form-control" type="text"
-                                name="name" placeholder="ชื่อ - นามสกุล" required="" data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกชื่อ-นามสกุล">
+                            <input id="name" class="form-control" type="text" name="name"
+                                placeholder="ชื่อ - นามสกุล">
+                            <div id="error-add-name" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
-                            <input id="email" class="form-control" type="text" name="email" placeholder="อีเมล"
-                                required="" data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกอีเมล"data-parsley-type-message="รูปแบบอีเมลไม่ถูกต้อง">
+                            <input id="email" class="form-control" type="text" name="email" placeholder="อีเมล">
+                            <div id="error-add-email" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
 
                         <div class="form-group my-2">
                             <input id="password" class="form-control" type="password" name="password"
-                                placeholder="รหัสผ่าน" required data-parsley-required-message="กรุณากรอกรหัสผ่าน">
+                                placeholder="รหัสผ่าน">
+                            <div id="error-add-password" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
                             <input id="password-confirm" class="form-control" type="password" name="password_confirmation"
-                                placeholder="ยืนยันรหัสผ่าน" required data-parsley-equalto="#password"
-                                data-parsley-required-message="กรุณากรอกรหัสผ่าน"
-                                data-parsley-equalto-message="รหัสผ่านไม่ตรง">
+                                placeholder="ยืนยันรหัสผ่าน">
+                            <div id="error-add-confirm-password" class="form-text text-danger" style="margin-left: 1rem">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="submitForm()" class="btn btn-primary">บันทึก</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="submit" class="btn btn-primary">{{ 'บันทึก' }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                     </div>
                 </div>
             </form>
@@ -117,28 +113,29 @@
     <!-- Modal-edit -->
     <div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="ModalEditLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form onsubmit="return updateAu(event)" id="editUser" data-parsley-validate>
+            <form id="editUser">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ModalEditLabel">แก้ไขผู้ใช้งานผู้ดูแลระบบ</h1>
+                        <h1 class="modal-title fs-5" id="ModalEditLabel">{{ 'แก้ไขผู้ใช้งานผู้ดูแลระบบ' }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="id" id="editId">
+                        {{-- <input type="hidden" name="id" id="editId"> --}}
                         <div class="form-group my-2">
-                            <input id="nameEdit" class="form-control" type="text" name="name"
-                                placeholder="ชื่อ - นามสกุล" required="" data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกชื่อ-นามสกุล">
+                            <input id="nameEdit" class="form-control" type="text" name="nameEdit"
+                                placeholder="ชื่อ - นามสกุล">
+                            <div id="error-edit-name" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
-                            <input id="emailEdit" class="form-control" type="text" name="email"
-                                placeholder="อีเมล" required="" data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกอีเมล"data-parsley-type-message="รูปแบบอีเมลไม่ถูกต้อง">
+                            <input id="emailEdit" class="form-control" type="text" name="emailEdit"
+                                placeholder="อีเมล">
+                            <div id="error-edit-email" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="submit-editUser" class="btn btn-success">บันทึก</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="submit" class="btn btn-success">{{ 'บันทึก' }}</button>
+                        <button type="button" class="btn btn-danger"
+                            data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                     </div>
                 </div>
             </form>
@@ -148,28 +145,31 @@
     <!-- Modal-reset -->
     <div class="modal fade" id="ModalReset" tabindex="-1" aria-labelledby="ModalResetLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="resetUserAdmin" data-parsley-validate onsubmit="return submitFormResetPassword(event)">
+            <form id="resetUserAdmin">{{-- data-parsley-validate onsubmit="return submitFormResetPassword(event)" --}}
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ModalResetLabel">รีเซ็ตรหัสผ่าน</h1>
+                        <h1 class="modal-title fs-5" id="ModalResetLabel">{{ 'รีเซ็ตรหัสผ่าน' }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="id" id="resetId">
+                        {{-- <input type="hidden" name="id" id="resetId"> --}}
                         <div class="form-group my-2">
                             <input id="reset-password" class="form-control" type="password" name="password_reset"
-                                placeholder="รหัสผ่าน" required data-parsley-required-message="กรุณากรอกรหัสผ่าน">
+                                placeholder="รหัสผ่าน">
+                            <div id="error-reset-password" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
                             <input id="reset-password-confirm" class="form-control" type="password"
-                                name="password_confirmation" placeholder="ยืนยันรหัสผ่าน" required
-                                data-parsley-equalto="#reset-password" data-parsley-required-message="กรุณากรอกรหัสผ่าน"
-                                data-parsley-equalto-message="รหัสผ่านไม่ตรง">
+                                name="password_confirmation" placeholder="ยืนยันรหัสผ่าน">
+                            <div id="error-reset-confirm-password" class="form-text text-danger"
+                                style="margin-left: 1rem"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="submit-resetUserPassword"  class="btn btn-primary reset-item">บันทึก</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="submit" id="submit-resetUserPassword"
+                            class="btn btn-primary reset-item">{{ 'บันทึก' }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                     </div>
                 </div>
             </form>
@@ -179,53 +179,119 @@
 
 @section('script')
     <script>
-        function submitForm() {
-            if ($('#addUser').parsley().validate()) {
+        function addForm() {
+            document.getElementById('name').value = "";
+            document.getElementById('error-add-name').innerHTML = "";
+            document.getElementById('email').value = "";
+            document.getElementById('error-add-email').innerHTML = "";
+            document.getElementById('password').value = "";
+            document.getElementById('error-add-password').innerHTML = "";
+            document.getElementById('password-confirm').value = "";
+            document.getElementById('error-add-confirm-password').innerHTML = "";
+
+            const formaddtUa = document.querySelector('#addUser');
+            // Determine the URL for the Axios request
+            let url = "{{ route('store.userAdmin') }}";
+
+            let isError = {
+                aName: false,
+                aEmail: false,
+                aPassword: false,
+                aConPassword: false,
+            };
+            let isValid = true;
+
+            formaddtUa.addEventListener("submit", (e) => {
+                e.preventDefault();
+
                 // Get form data
-                let formData = new FormData(document.getElementById('addUser'));
+                let formData = new FormData(formaddtUa);
+                const Name = formData.get('name');
+                const Email = formData.get('email');
+                const Password = formData.get('password');
+                const ConPassword = formData.get('password_confirmation');
 
-                // Determine the URL for the Axios request
-                let url = "{{ route('store.userAdmin') }}";
+                if (Name.trim().length < 1) {
+                    isError.aName = true;
+                    document.getElementById('error-add-name').innerHTML = "กรุณาระบุชื่อ - นามสกุล";
+                } else {
+                    isError.aName = false;
+                    document.getElementById('error-add-name').innerHTML = "";
+                }
 
-                // Send the Axios request
-                axios.post(url, formData)
-                    .then(function(response) {
-                        // Handle the success response if needed
-                        console.log(response.data);
-                        Swal.fire({
-                            title: response.data.message,
-                            width: 600,
-                            padding: "3em",
-                            color: "#716add",
-                            background: "#fff url(/images/trees.png)",
-                            backdrop: `
-                                        rgba(0,0,123,0.4)
-                                        url("/images/nyan-cat.gif")
-                                        left top
-                                        no-repeat
-                                      `
-                        }).then((result) => {
-                            location.reload();
+                if (Email.trim().length < 1) {
+                    isError.aEmail = true;
+                    document.getElementById('error-add-email').innerHTML = "กรุณาระบุอีเมล";
+                } else if (!/^[\w-.]+@[\w-.]+\.[a-zA-Z]{2,}$/.test(Email)) {
+                    isError.aEmail = true;
+                    document.getElementById('error-add-email').innerHTML = "รูปแบบอีเมลไม่ถูกต้อง";
+                } else {
+                    isError.aEmail = false;
+                    document.getElementById('error-add-email').innerHTML = "";
+                }
+
+                if (Password.trim().length < 1) {
+                    isError.aPassword = true;
+                    document.getElementById('error-add-password').innerHTML = "กรุณาระบุรหัสผ่าน";
+                } else if (Password.trim().length <= 8) {
+                    isError.aPassword = true;
+                    document.getElementById('error-add-password').innerHTML = "รหัสผ่านต้องมากกว่า 8";
+                } else {
+                    isError.aPassword = false;
+                    document.getElementById('error-add-password').innerHTML = "";
+                }
+
+                if (ConPassword.trim().length < 1) {
+                    isError.aConPassword = true;
+                    document.getElementById('error-add-confirm-password').innerHTML = "กรุณายืนยันรหัสผ่าน";
+                } else if (ConPassword != Password) {
+                    isError.aConPassword = true;
+                    document.getElementById('error-add-confirm-password').innerHTML = "รหัสผ่านไม่ตรง";
+                } else {
+                    isError.aConPassword = false;
+                    document.getElementById('error-add-confirm-password').innerHTML = "";
+                }
+
+                const hasError = Object.values(isError).find((err) => err === true);
+                hasError ? isValid = false : isValid = true;
+
+                if (isValid) {
+
+                    axios.post(url, formData)
+                        .then(function(response) {
+                            // Handle the success response if needed
+                            console.log(response.data);
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        })
+                        .catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
                         });
-                    })
-                    .catch(function(error) {
-                        // Handle the error response if needed
-                        console.error(error);
-                    });
-            }
+                }
+            })
         }
 
         function editAu(id) {
-            let editId = document.getElementById("editId");
+
             let name = document.getElementById("nameEdit");
             let email = document.getElementById("emailEdit");
+            document.getElementById('error-edit-name').innerHTML = "";
+            document.getElementById('error-edit-email').innerHTML = "";
+
             if (id) {
                 axios.get($url + `/admin/edit/${id}`)
                     .then(function(response) {
                         data = response.data;
                         console.log(data);
                         // let formData = new FormData(document.getElementById('editUser'));
-                        editId.value = data.Technician.id
                         name.value = data.Technician.name
                         email.value = data.Technician.email
                     })
@@ -233,71 +299,145 @@
                         console.log(error);
                     });
             }
-        }
 
-        function updateAu(event) {
-            event.preventDefault();
+            const formeditUa = document.querySelector('#editUser');
+            let isError = {
+                eName: false,
+                eEmail: false,
+            };
+            let isValid = true;
 
-            const form = event.target;
-            const formData = new FormData(form);
 
-            const id = formData.get('id');
+            formeditUa.addEventListener("submit", (e) => {
+                e.preventDefault();
 
-            axios.post($url + `/admin/user/update/${id}`, formData)
-                .then(res => {
-                    console.log(res)
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: res.data.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((res) => {
-                        location.reload();
-                    });
-                })
-                .catch(function(error) {
-                    // Handle the error response if needed
-                    console.error(error);
-                });
+                // Get form data
+                let formData = new FormData(formeditUa);
+                const Name = formData.get('nameEdit');
+                const Email = formData.get('emailEdit');
+
+                if (Name.trim().length < 1) {
+                    isError.eName = true;
+                    document.getElementById('error-edit-name').innerHTML = "กรุณาระบุชื่อ - นามสกุล";
+                } else {
+                    isError.eName = false;
+                    document.getElementById('error-edit-name').innerHTML = "";
+                }
+
+                if (Email.trim().length < 1) {
+                    isError.eEmail = true;
+                    document.getElementById('error-edit-email').innerHTML = "กรุณาระบุอีเมล";
+                } else if (!/^[\w-.]+@[\w-.]+\.[a-zA-Z]{2,}$/.test(Email)) {
+                    isError.eEmail = true;
+                    document.getElementById('error-edit-email').innerHTML = "รูปแบบอีเมล";
+                } else {
+                    isError.eEmail = false;
+                    document.getElementById('error-edit-email').innerHTML = "";
+                }
+
+                const hasError = Object.values(isError).find((err) => err === true);
+                hasError ? isValid = false : isValid = true;
+
+                if (isValid) {
+
+                    axios.post($url + `/admin/user/update/${id}`, formData)
+                        .then(res => {
+                            console.log(res)
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: res.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                location.reload();
+                            });
+                        })
+                        .catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
+                        });
+                }
+            })
         }
 
         function resetAu(id) {
-            console.log(id);
-            document.getElementById("resetId").value = id;
             document.getElementById("reset-password").value = "";
-            document.getElementById("reset-password-confirm").value ="";
+            document.getElementById('error-reset-password').innerHTML = "";
+            document.getElementById("reset-password-confirm").value = "";
+            document.getElementById('error-reset-confirm-password').innerHTML = "";
+
+            const formresetUa = document.querySelector('#resetUserAdmin');
+            let isError = {
+                rpassword: false,
+                rpasswordConfirm: false,
+            };
+            let isValid = true;
+            formresetUa.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                // Get form data
+                let formData = new FormData(formresetUa);
+                const Password = formData.get('password_reset');
+                const ConPassword = formData.get('password_confirmation');
+
+                if (Password.trim().length < 1) {
+                    isError.rpassword = true;
+                    document.getElementById('error-reset-password').innerHTML = "กรุณาระบุรหัสผ่าน";
+                } else if (Password.trim().length <= 8) {
+                    isError.rpassword = true;
+                    document.getElementById('error-reset-password').innerHTML = "รหัสผ่านต้องมากกว่า 8";
+                } else {
+                    isError.rpassword = false;
+                    document.getElementById('error-reset-password').innerHTML = "";
+                }
+
+                if (ConPassword.trim().length < 1) {
+                    isError.rpasswordConfirm = true;
+                    document.getElementById('error-reset-confirm-password').innerHTML = "กรุณายืนยันรหัสผ่าน";
+                } else if (ConPassword != Password) {
+                    isError.rpasswordConfirm = true;
+                    document.getElementById('error-reset-confirm-password').innerHTML = "รหัสผ่านไม่ตรง";
+                } else {
+                    isError.rpasswordConfirm = false;
+                    document.getElementById('error-reset-confirm-password').innerHTML = "";
+                }
+
+                const hasError = Object.values(isError).find((err) => err === true);
+                hasError ? isValid = false : isValid = true;
+
+                if (isValid) {
+
+                    axios.post($url + `/admin/user/reset/password/${id}`, formData)
+                        .then(res => {
+                            console.log(res)
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: res.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                location.reload();
+                            });
+                        })
+                        .catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
+                        });
+                }
+            })
         }
 
-        function submitFormResetPassword(event) {
+        /*function submitFormResetPassword(event) {
             event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
             const id = formData.get('id');
-            /* Display the key/value pairs*/
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
             if ($('#resetUserAdmin').parsley().validate()) {
-                axios.post($url + `/admin/user/reset/password/${id}`, formData)
-                .then(res => {
-                    console.log(res)
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: res.data.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((res) => {
-                        location.reload();
-                    });
-                })
-                .catch(function(error) {
-                    // Handle the error response if needed
-                    console.error(error);
-                });
+               
             }
-        }
+        }*/
 
         document.querySelector('#AuTable').addEventListener('click', (e) => {
             if (e.target.matches('.delete-item')) {

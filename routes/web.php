@@ -39,8 +39,8 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::post('account/pages', [AdminUserController::class, 'admin_user_store'])->name('store.userAdmin');
     Route::get('edit/{au_id}', [AdminUserController::class, 'admin_user_edit'])->name('edit.AuId');
     Route::post('user/update/{au_id}', [AdminUserController::class, 'admin_edituser_store'])->name('update.Au');
-    Route::post('user/reset/password/{au_id}',[AdminUserController::class, 'admin_user_reset_password']);
-    Route::delete('user/destroy/{au_id}',[AdminUserController::class, 'admin_destroyuser'])->name('destroy.admin');
+    Route::post('user/reset/password/{au_id}', [AdminUserController::class, 'admin_user_reset_password']);
+    Route::delete('user/destroy/{au_id}', [AdminUserController::class, 'admin_destroyuser'])->name('destroy.admin');
 
     // route technician
     Route::get('user/technician/add', [TechnicianUserController::class, 'index'])->name('technician.index');
@@ -48,16 +48,17 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::post('account/technician/pages', [TechnicianUserController::class, 'technician_user_store'])->name('store.account.technician');
     Route::post('user/updateUt/{tu_id}', [TechnicianUserController::class, 'technician_edituser_store'])->name('update.Tu');
     Route::post('tradesman/reset/password/{tu_id}', [TechnicianUserController::class, 'technician_reset_password'])->name('reset.Tu');
-    Route::delete('tradesman/destroy/{tu_id}',[TechnicianUserController::class, 'technician_destroyuser'])->name('destroy.tradesman');
+    Route::delete('tradesman/destroy/{tu_id}', [TechnicianUserController::class, 'technician_destroyuser'])->name('destroy.tradesman');
     //department
     Route::get('department/index', [DepartmentController::class, 'index'])->name('D.index');
     Route::post('department/edit/{id}', [DepartmentController::class, 'departmentEdit'])->name('D.edit');
-    Route::post('department/create',[DepartmentController::class, 'createDepartment'])->name('D.create');
+    Route::post('department/create', [DepartmentController::class, 'createDepartment'])->name('D.create');
     Route::post('department/update/{id}', [DepartmentController::class, 'updateDepartment'])->name('D.update');
+    Route::delete('department/destroy/{id}', [DepartmentController::class, 'destroy_department']);
 
     //แจ้งซ่อม
     Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
-    Route::get('handle/repair',[RepairController::class, 'handle_repaair'])->name('handle.repair');
+    Route::get('handle/repair', [RepairController::class, 'handle_repaair'])->name('handle.repair');
 });
 
 // rounte Login && register
@@ -73,12 +74,16 @@ Route::prefix('user')->group(function () {
     Route::get('repair', [RepairController::class, 'index'])->name('index.repair');
     Route::post('addrepair', [RepairController::class, 'store'])->name('add.repair');
     Route::get('confirm/repair/{id}', [RepairController::class, 'confirm_repair'])->name('user.confirmRepair');
-    Route::get('followup/repair', [RepairController::class,'followUp'])->name('repair.followUp');
+    Route::get('followup/repair', [RepairController::class, 'followUp'])->name('repair.followUp');
 });
 
 // rount Technician
-Route::get('/technician/dashboard', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
-Route::get('/technician/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
+Route::prefix('technician')->group(function () {
+    Route::get('/dashboard/{p}', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
+    Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
+    Route::post('/workmoves',[DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
+});
+
 
 Auth::routes();
 
