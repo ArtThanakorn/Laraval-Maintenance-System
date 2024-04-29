@@ -7,7 +7,7 @@ use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
+use Phattarachai\LineNotify\Facade\Line;
 use Illuminate\Support\Facades\DB;
 
 class RepairController extends Controller
@@ -57,7 +57,7 @@ class RepairController extends Controller
         } else {
             $chacktypedb = $request->chacktype;
         }
-        Repair::create([
+        $repairs = Repair::create([
             'status' => $request->checkstatus,
             'name' => $request->chackname,
             'type' => $chacktypedb,
@@ -69,6 +69,13 @@ class RepairController extends Controller
             'tag_repair' => substr(uniqid(), -5)
         ]);
 
+        $url = url('/')."/technician/dashboard/10";
+        $department = Department::find($request->chacktype);
+            $message =" มีการส่งงานไปยัง {$department->department_name}\n";
+            $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
+        if ($repairs) {
+            Line::send($message.$message2);
+        };
         $saveRepair = DB::table('repairs')
             ->latest('id_repair')
             ->first();

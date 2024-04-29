@@ -96,8 +96,8 @@
                                             <strong> {{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    <br>
-                                    <div class="row">
+                                   
+                                    {{-- <div class="row">
                                         <div class="col-md-6">
                                             <p>ชื่อผู้เเจ้ง</p>
                                             <div class="input-group">
@@ -133,9 +133,9 @@
 
                                         </div>
                                     </div>
-                                    <br>
+                                    <br> --}}
 
-                                    <div class="card border-danger mb-3" style="max-width: 45rem;">
+                                    {{-- <div class="card border-danger mb-3" style="max-width: 45rem;">
                                         <div class="card-header bg-danger text-white">หมายเหตุ</div>
                                         <div class="card-body">
                                             <h6 class="card-title text-danger">หน้าที่รับผิดของเเต่ละเเผนก</h6>
@@ -152,13 +152,13 @@
                                                     เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</li>
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="exampleFormControlTextarea1">รายละเอียดปัญหา</label>
-                                                {{--  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail"></textarea>  --}}
+                                                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail"></textarea> 
                                             </div>
                                             <div class="input-group">
                                                 <span class="input-group-text bg-info">
@@ -166,7 +166,7 @@
                                                 </span>
                                                 <input class="form-control" id="exampleFormControlTextarea1" rows="1"
                                                     placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail">
-                                                {{--  <textarea class="form-control" id="exampleFormControlTextarea1" cols="30" rows="10" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail"></textarea>  --}}
+                                                 <textarea class="form-control" id="exampleFormControlTextarea1" cols="30" rows="10" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail"></textarea> 
                                             </div>
                                             @error('detail')
                                                 <span role="alert" class="text-danger">
@@ -175,7 +175,7 @@
                                             @enderror
                                             <br>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="row">
                                         <div class="col-md-12">
