@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('login.page');
+})->name('login.page')->middleware('caut');
 
 Route::get('/page/success', function () {
     return view('admin.confirmRepair');
@@ -78,7 +78,7 @@ Route::prefix('user')->group(function () {
 });
 
 // rount Technician
-Route::prefix('technician')->group(function () {
+Route::prefix('technician')->middleware('istradesmanrepair')->group(function () {
     Route::get('/dashboard/{p}', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
     Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
     Route::post('/workmoves',[DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
