@@ -140,73 +140,7 @@
 
 </script>
 
-{{--  เริ่มการ์ดด้านบน  --}}
-        {{--  <div class="container my-3">
-            <div class="row ">
-                <div class="col-xl-4 col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <i class="fa fa-tasks fa-3x text-info"></i>
-                                <div class="text-end text-secondary">
-                                    <h5>ดูรายการเเจ้งซ่อม</h5>
-                                    <h3>12</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-secondary">
-                            <a class="small text-white stretched-link" href=""></a>
-                            <i class="fa fa-arrow-circle-right mr-3"></i>
-                            <span>ข้อมูลเพิ่มเติม</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <i class="fa fa-wrench fa-3x text-warning"></i>
-                                <div class="text-end text-secondary">
-                                    <h5>จัดการงานเเจ้งซ่อม</h5>
-                                    <h3>12</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-secondary">
-                            <a class="small text-white stretched-link" href=""></a>
-                            <i class="fa fa-arrow-circle-right mr-3"></i>
-                            <span>ข้อมูลเพิ่มเติม</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <i class="fa fa-check-circle fa-3x text-success"></i>
-                                <div class="text-end text-secondary">
-                                    <h5>ซ่อมเสร็จเเล้ว</h5>
-                                    <h3>12</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-secondary">
-                            <a class="small text-white stretched-link" href=""></a>
-                            <i class="fa fa-arrow-circle-right mr-3"></i>
-                            <span>ข้อมูลเพิ่มเติม</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>  --}}
-
-        {{--  จบการ์ด ด้านบน  --}}
-
         {{--  เริ่มตาราง  --}}
-
-
 
         <div class="container">
             <h3 class="mt-4">ตารางข้อมูลรายการเเจ้งซ่อม</h3>
@@ -226,8 +160,9 @@
                     </li>
                   </ul>
                 </div>
+
                 <div class="card-body">
-                <table id="example" class="display" style="width:100%">
+                    <table id="example" class="display" style="width:100%">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -707,6 +642,7 @@
                         </tr>
                     </tfoot>
                 </table>
+
                 </div>
             </div>
                 {{--  <table id="example" class="table-hover">
