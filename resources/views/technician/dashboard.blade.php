@@ -25,77 +25,22 @@
             border-color: #000;
             color: #fff;
         }
+
+        .img-thumbnail {
+            width: 250px;
+            height: 200px;
+        }
+
+        .senWorkContent {
+            max-width: 90%;
+        }
     </style>
 @endsection
 
 @section('content')
-    {{--  เริ่มการ์ดด้านบน  --}}
-    {{-- <div class="container my-3">
-            <div class="row ">
-                <div class="col-xl-4 col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <i class="fa fa-tasks fa-3x text-info"></i>
-                                <div class="text-end text-secondary">
-                                    <h5>ดูรายการเเจ้งซ่อม</h5>
-                                    <h3>12</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-secondary">
-                            <a class="small text-white stretched-link" href=""></a>
-                            <i class="fa fa-arrow-circle-right mr-3"></i>
-                            <span>ข้อมูลเพิ่มเติม</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <i class="fa fa-wrench fa-3x text-warning"></i>
-                                <div class="text-end text-secondary">
-                                    <h5>จัดการงานเเจ้งซ่อม</h5>
-                                    <h3>12</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-secondary">
-                            <a class="small text-white stretched-link" href=""></a>
-                            <i class="fa fa-arrow-circle-right mr-3"></i>
-                            <span>ข้อมูลเพิ่มเติม</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <i class="fa fa-check-circle fa-3x text-success"></i>
-                                <div class="text-end text-secondary">
-                                    <h5>ซ่อมเสร็จเเล้ว</h5>
-                                    <h3>12</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer text-secondary">
-                            <a class="small text-white stretched-link" href=""></a>
-                            <i class="fa fa-arrow-circle-right mr-3"></i>
-                            <span>ข้อมูลเพิ่มเติม</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-    {{--  จบการ์ด ด้านบน  --}}
-
     {{--  เริ่มตาราง  --}}
     <div class="container">
-        <h3 class="mt-4">ตารางข้อมูลรายการเเจ้งซ่อม</h3>
+        <h3 class="mt-4">{{ 'ตารางข้อมูลรายการเเจ้งซ่อม' }}</h3>
         <div class="row justify-content-center align-items-center g-2 mb-3">
             <div class="card">
                 <div class="row justify-content-between align-items-center g-2 mt-2 ">
@@ -152,12 +97,12 @@
                     <table class="table table-bordered mb-5">
                         <thead>
                             <tr class="table-success">
-                                <th scope="col">ลำดับ</th>
-                                <th scope="col">ผู้แจ้งซ่อม</th>
-                                <th scope="col">รายละเอียด</th>
-                                <th scope="col">สถานที่</th>
-                                <th scope="col">สถานะ</th>
-                                <th scope="col">จัดการ</th>
+                                <th scope="col">{{ 'ลำดับ' }}</th>
+                                <th scope="col">{{ 'ผู้แจ้งซ่อม' }}</th>
+                                <th scope="col">{{ 'รายละเอียด' }}</th>
+                                <th scope="col">{{ 'สถานที่' }}</th>
+                                <th scope="col">{{ 'สถานะ' }}</th>
+                                <th scope="col">{{ 'จัดการ' }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -172,6 +117,10 @@
                                         <button type="button" class="btn btn-warning" data-mdb-ripple-init
                                             data-bs-toggle="modal" data-bs-target="#editModal"
                                             onclick="openEditModal({{ $key }})">{{ 'แก้ไข' }}</button>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#senWork" onclick="openSendWork({{ $key }})">
+                                            {{ 'ส่งงาน' }}
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -183,7 +132,7 @@
                     {{--  จบตาราง  --}}
                 </div>
             </div>
-            <!-- Modal -->
+            <!-- Modal โบ้ยงาน -->
             <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <form id="form-technician">
@@ -263,17 +212,83 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Modal ส่งงาน -->
+            <div class="modal fade" id="senWork" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg senWorkContent">
+                    <div class="modal-content">
+                        <form id="upDateWork" class="contentimg">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ 'ส่งงาน' }}</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="max-height: 500px">
+                                <div class="row justify-content-center align-items-start g-2">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="FormControlInputName"
+                                                class="form-label">{{ 'ผู้แจ้งซ่อม' }}</label>
+                                            <input type="text" class="form-control" id="updateName" placeholder=""
+                                                readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="FormControlInputSite"
+                                                class="form-label">{{ 'สถานที่' }}</label>
+                                            <input type="email" class="form-control" id="updateSite" placeholder=""
+                                                readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="FormControlTextareaDetails"
+                                                class="form-label">{{ 'รายละเอียด' }}</label>
+                                            <textarea class="form-control" id="updateDetails" rows="2" readonly></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="FormControlInputStatus"
+                                                class="form-label">{{ 'สถานะ' }}</label>
+                                            {{-- <input type="email" class="form-control" id="updateStatus" placeholder=""
+                                            readonly> --}}
+                                            <select class="form-select" aria-label="Default select example"
+                                                id="updateWork-level-select" name="updateWork_select">
+                                                {{-- <option selected>Open this select menu</option> --}}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="formFile" class="form-label">{{ 'อัพเดทงานซ่อม' }}</label>
+                                            <input class="form-control" type="file" id="formFile" name="imfupdate[]"
+                                                multiple>
+                                        </div>
+                                        <div class="row justify-content-start align-items-start g-2">
+                                            <div class="col-auto text-center">
+                                                <div id="image-preview"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 text-center ">
+                                        <div id="updateimg">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">{{ 'อัพเดท' }}</button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">{{ 'ปิด' }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         @endsection
         @section('script')
             <script>
                 function submitForm() {
                     // Get form data
                     let formData = new FormData(document.getElementById('form-technician'));
-                    /* Display the key/value pairs*/
-                    // for (var pair of formData.entries()) {
-                    //     console.log(pair[0] + ', ' + pair[1]);
-                    // }
-                    // return false;
+
                     // Determine the URL for the Axios request
                     let url = "{{ route('moveswork') }}";
 
@@ -287,7 +302,7 @@
                                 text: "You clicked the button!",
                                 icon: "success"
                             }).then((result) => {
-                                location.href = $url+"/technician/dashboard/10";
+                                location.href = $url + "/technician/dashboard/10";
                             });
                         })
                         .catch(function(error) {
@@ -301,24 +316,17 @@
                     let p = document.getElementById('per-page').value;
                     console.log(p);
                     window.location.replace($url + `/technician/dashboard/${p}`);
-                    // axios.get($url +`/technician/dashboard/${p}`)
-                    //     .then(function(response) {
-                    //         location.reload();
-                    //     })
-                    //     .catch(function(error) {
-                    //         console.log(error);
-                    //     });
                 }
 
                 const department = {!! json_encode($department) !!};
+                // ดึงข้อมูลจากตัวแปร $workData ที่ได้รับมาจาก Laravel
+                let workData = <?php echo json_encode($workData); ?>;
 
                 function openEditModal(index) {
-                    // ดึงข้อมูลจากตัวแปร $workData ที่ได้รับมาจาก Laravel
-                    var workData = <?php echo json_encode($workData); ?>;
-
                     // ดึงข้อมูลของแถวที่เลือก
-                    var selectedData = workData.data[index];
+                    let selectedData = workData.data[index];
                     console.log(selectedData);
+                  
                     // แสดงข้อมูลใน Modal
                     const modalDataDetails = document.getElementById('editModalDetails').value = selectedData.details;
                     const modalDataSite = document.getElementById('editModalSite').value = selectedData.site;
@@ -344,7 +352,6 @@
                             optionElement.selected = true;
                             optionElement.disabled = true;
                         }
-
                         departmentSelectElement.appendChild(optionElement);
                     }
                 }
@@ -356,6 +363,94 @@
                     let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
                     let url = "{{ url('technician/dashboard') }}/" + p + "?status=" + queryParam;
                     window.location.href = url;
+                }
+
+                function openSendWork(index) {
+                    const imageInput = document.getElementById('formFile');
+                    const imagePreviewContainer = document.getElementById('image-preview');
+                    let selectedDataWork = workData.data[index];
+                    document.getElementById('updateWork-level-select').innerHTML = "";
+                    imageInput.value = "";
+
+                    console.log(selectedDataWork);
+
+                    // Clear existing preview images
+                    imagePreviewContainer.innerHTML = '';
+
+                    // Show data in Modal
+                    document.getElementById('updateName').value = selectedDataWork.name;
+                    // document.getElementById('updateStatus').value = selectedDataWork.status_repair;
+                    document.getElementById('updateSite').value = selectedDataWork.site;
+                    document.getElementById('updateDetails').value = selectedDataWork.details;
+                    const updateImg = document.getElementById('updateimg');
+                    updateImg.innerHTML = '';
+                    for (const image of selectedDataWork.image_repair) {
+                        // console.log(image.nameImage); (Optional for debugging)
+                        const imageElement = document.createElement('img');
+                        imageElement.classList.add("img-thumbnail", "mb-2"); // Add classes for styling (optional)
+                        imageElement.src = `/uploads/repair/${image.nameImage}`; // Assuming image data is in base64 format
+                        updateImg.appendChild(imageElement);
+                    }
+
+                    if (selectedDataWork.status_repair == "รอดำเนินการ") {
+                        $('#updateWork-level-select').append(
+                            `<option value="รอดำเนินการ">รอดำเนินการ</option>
+                             <option value="เนินการเสร็จสิ้น">เนินการเสร็จสิ้น</option>`);
+                    } else {
+                        $('#updateWork-level-select').append(
+                            `<option value="เนินการเสร็จสิ้น" selected>เนินการเสร็จสิ้น</option>`);
+                    }
+
+                    const formUpDateWork = document.querySelector('#upDateWork');
+
+                    imageInput.addEventListener('change', function() {
+                        const files = this.files;
+                        imagePreviewContainer.innerHTML = ''; // Clear previews again here
+
+                        for (const file of files) {
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                const imageElement = document.createElement('img');
+                                imageElement.src = event.target.result;
+                                imageElement.style.height = "150px";
+                                imageElement.classList.add("mx-2");
+                                imagePreviewContainer.appendChild(imageElement);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+
+                    formUpDateWork.addEventListener("submit", (e) => {
+                        e.preventDefault();
+
+                        const files = imageInput.files;
+                        let formData = new FormData(formUpDateWork);
+
+
+                        /* Display the key/value pairs*/
+                        for (var pair of formData.entries()) {
+                            console.log(pair[0] + ', ' + pair[1]);
+                        }
+                        // return false;
+
+                        axios.post($url + `/technician/update/work/${selectedDataWork.id_repair}`, formData).then(
+                            function(response) {
+                                console.log(response.data);
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: response.data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            }
+                        ).catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
+                        });
+                    });
                 }
             </script>
         @endsection

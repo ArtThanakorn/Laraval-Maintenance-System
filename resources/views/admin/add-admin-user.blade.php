@@ -429,16 +429,6 @@
             })
         }
 
-        /*function submitFormResetPassword(event) {
-            event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            const id = formData.get('id');
-            if ($('#resetUserAdmin').parsley().validate()) {
-               
-            }
-        }*/
-
         document.querySelector('#AuTable').addEventListener('click', (e) => {
             if (e.target.matches('.delete-item')) {
                 console.log(e.target.dataset.admin_id);
