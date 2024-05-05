@@ -20,7 +20,7 @@ class DepartmentController extends Controller
     public function createDepartment(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'department_name' => ['required', 'string'],
+            'departmentName' => ['required', 'string'],
         ]);
 
         if ($validator->fails()) {
@@ -30,7 +30,7 @@ class DepartmentController extends Controller
             ], 422);
         } else {
             $department =  Department::create([
-                'department_name' => $request->department_name,
+                'department_name' => $request->departmentName,
             ]);
 
             if ($department) {
@@ -57,7 +57,7 @@ class DepartmentController extends Controller
     {
         // dd($request);
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string'],
+            'departmentNameEdit' => ['required', 'string'],
         ]);
 
         if ($validator->fails()) {
@@ -67,8 +67,8 @@ class DepartmentController extends Controller
             ], 422);
         } else {
             $department =  Department::where('department_id', $id)->update([
-                'department_name' => $request->name,
-                'status_display'=> $request->display
+                'department_name' => $request->departmentNameEdit,
+                'status_display'=> $request->switchEdit
             ]);
 
             if ($department) {
@@ -83,5 +83,9 @@ class DepartmentController extends Controller
                 ], 500);
             }
         }
+    }
+
+    public function destroy_department($id){
+        Department::destroy($id);
     }
 }

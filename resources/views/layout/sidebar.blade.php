@@ -84,7 +84,9 @@
                             ข้อมูลส่วนตัว
                         </a>
                         <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">
                             <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
                             ออกจากระบบ
                         </a> --}}

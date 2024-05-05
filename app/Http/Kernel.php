@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckAute;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsTradesmanRepair;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isadmin' => IsAdmin::class,
         'istradesmanrepair' => IsTradesmanRepair::class,
+        'caut'=> CheckAute::class,
     ];
 }

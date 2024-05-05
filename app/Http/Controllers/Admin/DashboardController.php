@@ -23,6 +23,7 @@ class DashboardController extends Controller
 
     public function repair_show(RepairDataTable $dataTable)
     {
+        
         $liRepair = Repair::with('department')->get();
 
         $departments = Department::select('department_id', 'department_name')->where('status_display', '=', 0)->get();
@@ -54,7 +55,6 @@ class DashboardController extends Controller
             $bgcolor[] = random_color();
         }
         //dd($bgcolor);  // Example output: #f2a543
-
 
         $data =  collect([
             'labels' => $departmentsArray,

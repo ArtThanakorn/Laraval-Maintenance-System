@@ -7,7 +7,7 @@ use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
+use Phattarachai\LineNotify\Facade\Line;
 use Illuminate\Support\Facades\DB;
 
 class RepairController extends Controller
@@ -20,22 +20,19 @@ class RepairController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request);
+        // dd($request->all());
         $request->validate([
-            'checkstatus' => 'required|string',
-
             'chackname' => 'required|string',
+            'chacktype' => 'required',
             'detail' => 'required|string',
             'location' => 'required|string',
             'email' => 'required|string',
             'number' => 'required|nullable|numeric|digits_between:10,10',
             'image' => 'required|array|max:5',
-
-            'image.*' => 'required|mimes:jpeg,png,jpg,gif',
+            'image.*' => 'mimes:jpeg,png,jpg,gif',
 
         ], [
             'checkstatus.required' => 'กรุณาระบุสถาณะผู้เเจ่งซ่อม',
-
             'chackname.required' => 'กรุณาระบุชื่อ-นามสกุลผู้เเจ่งซ่อม',
             'detail.required' => 'กรุณาระบุรายละเอียดปัญหา',
             'location.required' => 'กรุณาระบุสถาณที่เเจ่งซ่อม',
@@ -46,27 +43,20 @@ class RepairController extends Controller
 
             'image.array' => 'รูปภาพต้องเป็นอาร์เรย์',
             'image.max' => 'รูปภาพต้องไม่เกิน 5 รูปภาพ',
-
-            'image.*.required' => 'กรุณาเลือกรูปภาพ',
+            'image.required' => 'กรุณาเลือกรูปภาพ',
             'image.*.mimes' => 'รูปภาพต้องเป็นไฟล์รูปภาพที่มีนามสกุล .jpeg, .png, .jpg, หรือ .gif',
-
         ]);
 
-        if ($request->chacktype == 'อื่นๆ') {
-            $chacktypedb = $request->otherType;
-        } else {
-            $chacktypedb = $request->chacktype;
-        }
-        Repair::create([
+        $repairs = Repair::create([
             'status' => $request->checkstatus,
             'name' => $request->chackname,
-            'type' => $chacktypedb,
+            'type' => $request->chacktype,
             'details' => $request->detail,
             'site' => $request->location,
             'email' => $request->email,
             'number' => $request->number,
             // Gets a prefix unique
-            'tag_repair' => uniqid()
+            'tag_repair' => substr(uniqid(), -5)
         ]);
 
         $saveRepair = DB::table('repairs')
@@ -83,6 +73,14 @@ class RepairController extends Controller
                 ]);
             }
         }
+
+        $url = url('/') . "/technician/dashboard/10";
+        $department = Department::find($request->chacktype);
+        $message = " มีการส่งงานไปยัง {$department->department_name}\n";
+        $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
+        if ($repairs) {
+            Line::send($message . $message2);
+        };
         return redirect()->route('user.confirmRepair', ['id' => $saveRepair->id_repair]);
     }
     public function confirm_repair($id)
@@ -100,6 +98,6 @@ class RepairController extends Controller
     public function followUp()
     {
         $repairsData = Repair::with('department')->get();
-        return view('user.follow-up-repair',compact('repairsData'));
+        return view('user.follow-up-repair', compact('repairsData'));
     }
 }

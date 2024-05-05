@@ -5,22 +5,17 @@
         .card {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         }
-
-        .parsley-required,
-        .parsley-equalto {
-            color: red;
-            padding-top: 5px;
-        }
     </style>
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header">
             <div class="row justify-content-between align-items-center g-2">
-                <div class="col-3">ผู้ใช้งานช่าง</div>
+                <div class="col-3">{{ 'ผู้ใช้งานช่าง' }}</div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalAdd">
-                        <i class="bi bi-plus-square"></i> เพิ่มผู้ใช้งานช่าง
+                    <button type="button" class="btn btn-primary" onclick="submitForm()" data-bs-toggle="modal"
+                        data-bs-target="#ModalAdd">
+                        <i class="bi bi-plus-square"></i> {{ 'เพิ่มผู้ใช้งานช่าง' }}
                     </button>
                 </div>
             </div>
@@ -31,11 +26,11 @@
                 <table id="UtTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th colspan="col"> ลำดับ </th>
-                            <th colspan="col">ชื่อ</th>
-                            <th colspan="col">แผนก</th>
-                            <th colspan="col">อีเมล</th>
-                            <th colspan="col">จัดการ</th>
+                            <th colspan="col"> {{ 'ลำดับ' }} </th>
+                            <th colspan="col">{{ 'ชื่อ' }}</th>
+                            <th colspan="col">{{ 'แผนก' }}</th>
+                            <th colspan="col">{{ 'อีเมล' }}</th>
+                            <th colspan="col">{{ 'จัดการ' }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +38,7 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $dataUt->name }}</td>
-                                <td>{{ $dataUt->departments->department_name}}</td>
+                                <td>{{ $dataUt->departments->department_name }}</td>
                                 <td>{{ $dataUt->email }}</td>
                                 <td>
                                     <div class="row justify-content-start align-items-center g-2">
@@ -51,7 +46,7 @@
                                             <button type="button" class="btn btn-primary"
                                                 onclick="resetUt({{ $dataUt->id }})" data-bs-toggle="modal"
                                                 data-bs-target="#ModalReset">
-                                                รีเซ็ตรหัสผ่าน
+                                                {{ 'รีเซ็ตรหัสผ่าน' }}
                                             </button>
 
                                         </div>
@@ -59,12 +54,12 @@
                                             <button type="button" onclick="editUt({{ $dataUt->id }})"
                                                 class="btn btn-warning editUt" data-bs-toggle="modal"
                                                 data-bs-target="#ModalEdit">
-                                                แก้ไข
+                                                {{ 'แก้ไข' }}
                                             </button>
                                         </div>
                                         <div class="col-auto">
                                             <button type="button" class="btn btn-danger delete-item"
-                                                data-technician_id="{{ $dataUt->id }}">ลบ</button>
+                                                data-technician_id="{{ $dataUt->id }}">{{ 'ลบ' }}</button>
                                         </div>
                                     </div>
                                 </td>
@@ -79,57 +74,57 @@
     <!-- Modal-add -->
     <div class="modal fade" id="ModalAdd" tabindex="-1" aria-labelledby="ModalAddLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="addTechnician" data-parsley-validate>
+            <form id="addTechnician" name="addTechnician">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ModalAddLabel">เพิ่มผู้ใช้งานช่าง</h1>
+                        <h1 class="modal-title fs-5" id="ModalAddLabel">{{ 'เพิ่มผู้ใช้งานช่าง' }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group my-2">
-                            <input value="{{ old('name', $DataTu->name) }}" id="name"
-                                @error('name') is-invalid @enderror class="form-control" type="text" name="name"
-                                placeholder="ชื่อ - นามสกุล" required="" data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกชื่อ-นามสกุล">
+                            <input value="{{ old('name', $DataTu->name) }}" id="name" class="form-control"
+                                type="text" name="name" placeholder="ชื่อ - นามสกุล">
+                            <div id="error-add-name" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
                             <input value="{{ old('email', $DataTu->email) }}" id="email" class="form-control"
-                                type="text" name="email" placeholder="อีเมล" required=""
-                                data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกอีเมล"data-parsley-type-message="รูปแบบอีเมลไม่ถูกต้อง">
+                                type="text" name="email" placeholder="อีเมล">
+                            <div id="error-add-email" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
-                            <select class="form-select" name="department" aria-label="Default select example" required=""
-                                data-parsley-required-message="กรุณาเลือกแผนก">
-                                <option disabled selected>--เลือกแผนก--</option>
+                            <select class="form-select" id="department" name="department"
+                                aria-label="Default select example">
+                                <option value="0" disabled selected>{{ '--เลือกแผนก--' }}</option>
                                 @foreach ($Department as $data)
                                     <option value="{{ $data->department_id }}">{{ $data->department_name }}</option>
                                 @endforeach
-
                             </select>
+                            <div id="error-add-department" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
-                            <select class="form-select" name="level" aria-label="Default select example" required=""
-                                data-parsley-required-message="กรุณาเลือกระดับ">
-                                <option disabled selected>-- ระดับ --</option>
-                                <option value="1">หัวหน้า</option>
-                                <option value="2">พนักงาน</option>
+                            <select class="form-select" id="level" name="level" aria-label="Default select example">
+                                <option value="0" disabled selected>{{ '-- ระดับ --' }}</option>
+                                <option value="1">{{ 'หัวหน้า' }}</option>
+                                <option value="2">{{ 'พนักงาน' }}</option>
                             </select>
+                            <div id="error-add-level" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
                             <input id="password" class="form-control" type="password" name="password"
-                                placeholder="รหัสผ่าน" required data-parsley-required-message="กรุณากรอกรหัสผ่าน">
+                                placeholder="รหัสผ่าน">
+                            <div id="error-add-password" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
-                            <input id="password-confirm" class="form-control" type="password" name="password_confirmation"
-                                placeholder="ยืนยันรหัสผ่าน" required data-parsley-equalto="#password"
-                                data-parsley-required-message="กรุณากรอกรหัสผ่าน"
-                                data-parsley-equalto-message="รหัสผ่านไม่ตรง">
+                            <input id="password-confirm" class="form-control" type="password"
+                                name="password_confirmation" placeholder="ยืนยันรหัสผ่าน">
+                            <div id="error-add-password-confirm" class="form-text text-danger" style="margin-left: 1rem">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="submitForm()" class="btn btn-primary">บันทึก</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="submit" class="btn btn-primary">{{ 'บันทึก' }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                     </div>
                 </div>
             </form>
@@ -139,7 +134,7 @@
     <!-- Modal-edit -->
     <div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="ModalEditLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="editTechnician" data-parsley-validate>
+            <form id="editTechnician">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="ModalEditLabel">แก้ไขผู้ใช้งานช่าง</h1>
@@ -148,17 +143,17 @@
                     <div class="modal-body">
                         <div class="form-group my-2">
                             <input id="nameEdit" class="form-control" type="text" name="name"
-                                placeholder="ชื่อ - นามสกุล" required="" data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกชื่อ-นามสกุล">
+                                placeholder="ชื่อ - นามสกุล">
+                            <div id="editName" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
                             <input id="emailEdit" class="form-control" type="text" name="email"
-                                placeholder="อีเมล" required="" data-parsley-trigger="change"
-                                data-parsley-required-message="กรุณากรอกอีเมล"data-parsley-type-message="รูปแบบอีเมลไม่ถูกต้อง">
+                                placeholder="อีเมล">
+                            <div id="editEmail" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
                             <select class="form-select" id="edit-department-select" aria-label="Default select example"
-                                required="" data-parsley-required-message="กรุณาเลือกแผนก">
+                                name="department">{{--  required="" data-parsley-required-message="กรุณาเลือกแผนก" --}}
                                 @foreach ($Department as $data)
                                     <option value="{{ $data->department_id }}">{{ $data->department_name }}</option>
                                 @endforeach
@@ -166,13 +161,13 @@
                         </div>
                         <div class="form-group my-2">
                             <select class="form-select" id="edit-level-select" aria-label="Default select example"
-                                required="" data-parsley-required-message="กรุณาเลือกระดับ">
+                                name="level">{{-- required="" data-parsley-required-message="กรุณาเลือกระดับ" --}}
 
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="updateTechnician()" class="btn btn-success">บันทึก</button>
+                        <button type="submit" class="btn btn-success">บันทึก</button>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
                     </div>
                 </div>
@@ -183,27 +178,27 @@
     <!-- Modal-reset -->
     <div class="modal fade" id="ModalReset" tabindex="-1" aria-labelledby="ModalResetLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="resetTechnician" data-parsley-validate>
+            <form id="resetTechnician">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="ModalResetLabel">รีเซ็ตรหัสผ่าน</h1>
+                        <h1 class="modal-title fs-5" id="ModalResetLabel">{{ 'รีเซ็ตรหัสผ่าน' }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group my-2">
                             <input id="reset-password" class="form-control" type="password" name="password"
-                                placeholder="รหัสผ่าน" required data-parsley-required-message="กรุณากรอกรหัสผ่าน">
+                                placeholder="รหัสผ่าน">
+                            <div id="error-reset-password" class="form-text text-danger" style="margin-left: 1rem"></div>
                         </div>
                         <div class="form-group my-2">
                             <input id="reset-password-confirm" class="form-control" type="password"
-                                name="password_confirmation" placeholder="ยืนยันรหัสผ่าน" required
-                                data-parsley-equalto="#reset-password" data-parsley-required-message="กรุณากรอกรหัสผ่าน"
-                                data-parsley-equalto-message="รหัสผ่านไม่ตรง">
+                                name="password_confirmation" placeholder="ยืนยันรหัสผ่าน">
+                            <div id="error-reset-password-confirm" class="form-text text-danger"
+                                style="margin-left: 1rem"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="submitFormResetPassword()" class="btn btn-primary reset-item"
-                            data-technician_id="123">บันทึก</button>
+                        <button type="submit" class="btn btn-primary reset-item">บันทึก</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                     </div>
                 </div>
@@ -215,37 +210,130 @@
 @section('script')
     <script>
         function submitForm() {
-            if ($('#addTechnician').parsley().validate()) {
+            document.forms["addTechnician"]["name"].value = "";
+            document.forms["addTechnician"]["email"].value = "";
+            document.forms["addTechnician"]["department"].value = "0";
+            document.forms["addTechnician"]["level"].value = "0";
+            document.forms["addTechnician"]["password"].value = "";
+            document.forms["addTechnician"]["password_confirmation"].value = "";
+            document.getElementById('error-add-name').innerHTML = "";
+            document.getElementById('error-add-email').innerHTML = "";
+            document.getElementById('error-add-department').innerHTML = "";
+            document.getElementById('error-add-level').innerHTML = "";
+            document.getElementById('error-add-password').innerHTML = "";
+            document.getElementById('error-add-password-confirm').innerHTML = "";
+
+            const formadditUt = document.querySelector('#addTechnician');
+            // Determine the URL for the Axios request
+            let url =
+                "{{ route('store.account.technician') }}";
+
+            let isError = {
+                aName: false,
+                aEmail: false,
+                aDepar: false,
+                aLavel: false,
+                aPassword: false,
+                aConPassword: false,
+            };
+            let isValid = true;
+
+            formadditUt.addEventListener("submit", (e) => {
+                e.preventDefault();
                 // Get form data
-                let formData = new FormData(document.getElementById('addTechnician'));
+                let formData = new FormData(document.forms["addTechnician"]);
+                const Name = formData.get('name');
+                const Email = formData.get('email');
+                const Depar = formData.get('department');
+                const Lavel = formData.get('level');
+                const Password = formData.get('password');
+                const ConPassword = formData.get('password_confirmation');
 
-                // Determine the URL for the Axios request
-                let url =
-                    "{{ route('store.account.technician') }}";
+                if (Name.trim().length < 1) {
+                    isError.aName = true;
+                    document.getElementById('error-add-name').innerHTML = "กรุณาระบุชื่อ - นามสกุล";
+                } else {
+                    isError.aName = false;
+                    document.getElementById('error-add-name').innerHTML = "";
+                }
 
-                // Send the Axios request
-                axios.post(url, formData)
-                    .then(function(response) {
-                        // Handle the success response if needed
-                        console.log(response.data);
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: response.data.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            location.reload();
+                if (Email.trim().length < 1) {
+                    isError.aEmail = true;
+                    document.getElementById('error-add-email').innerHTML = "กรุณาระบุอีเมล";
+                } else if (!/^[\w-.]+@[\w-.]+\.[a-zA-Z]{2,}$/.test(Email)) {
+                    isError.aEmail = true;
+                    document.getElementById('error-add-email').innerHTML = "รูปแบบอีเมลไม่ถูกต้อง";
+                } else {
+                    isError.aEmail = false;
+                    document.getElementById('error-add-email').innerHTML = "";
+                }
+
+                if (Depar == null) {
+                    isError.aDepar = true;
+                    document.getElementById('error-add-department').innerHTML = "กรุณาเลือกแผนก";
+                } else {
+                    isError.aDepar = false;
+                    document.getElementById('error-add-department').innerHTML = "";
+                }
+
+                if (Lavel == null) {
+                    isError.aLavel = true;
+                    document.getElementById('error-add-level').innerHTML = "กรุณาเลือกระดับ";
+                } else {
+                    isError.aLavel = false;
+                    document.getElementById('error-add-level').innerHTML = "";
+                }
+
+                if (Password.trim().length < 1) {
+                    isError.aPassword = true;
+                    document.getElementById('error-add-password').innerHTML = "กรุณาระบุรหัสผ่าน";
+                } else {
+                    isError.aPassword = false;
+                    document.getElementById('error-add-password').innerHTML = "";
+                }
+
+                if (ConPassword != Password) {
+                    console.log(ConPassword);
+                    isError.aConPassword = true;
+                    document.getElementById('error-add-password-confirm').innerHTML = "รหัสผ่านไม่ตรง";
+                } else {
+                    isError.aConPassword = false;
+                    document.getElementById('error-add-password-confirm').innerHTML = "";
+                }
+
+                const hasError = Object.values(isError).find((err) => err === true);
+                hasError ? isValid = false : isValid = true;
+
+                if (isValid) {
+
+                    /* Display the key/value pairs*/
+                    // for (var pair of formData.entries()) {
+                    //     console.log(pair[0] + ', ' + pair[1]);
+                    // }
+                    // return false;
+
+                    // Send the Axios request
+                    axios.post(url, formData)
+                        .then(function(response) {
+                            // Handle the success response if needed
+                            console.log(response.data);
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        })
+                        .catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
                         });
-                    })
-                    .catch(function(error) {
-                        // Handle the error response if needed
-                        console.error(error);
-                    });
-            }
+                }
+            })
         }
-
-        let UtId;
 
         function editUt(id) {
             if (id) {
@@ -253,7 +341,6 @@
                     .then(function(response) {
                         let data = response.data;
                         console.log(data);
-                        UtId = data.Technician.id;
                         document.getElementById("nameEdit").value = data.Technician.name
                         document.getElementById("emailEdit").value = data.Technician.email
                         // ดึงค่า department_id ของ Technician
@@ -293,73 +380,133 @@
                     .catch(function(error) {
                         console.log(error);
                     });
-
             }
-        }
 
-        function updateTechnician() {
-            if ($('#editTechnician').parsley().validate()) {
-                console.log(UtId);
-                const formData = new FormData();
-                formData.append('ut_name', document.getElementById("nameEdit").value);
-                formData.append('ut_email', document.getElementById("emailEdit").value);
-                formData.append('ut_department', document.getElementById("edit-department-select").value);
-                formData.append('ut_level', document.getElementById("edit-level-select").value);
+            let isError = {
+                eName: false,
+                eEmail: false
+            };
+            let isValid = true;
+            const formeditUt = document.querySelector('#editTechnician');
 
-                axios.post($url + `/admin/user/updateUt/${UtId}`, formData)
-                    .then(function(response) {
-                        // Handle the success response if needed
-                        console.log(response.data);
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: response.data.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            location.reload();
+            formeditUt.addEventListener("submit", (e) => {
+                e.preventDefault();
+                let formData = new FormData(formeditUt);
+                const Name = formData.get('name');
+                const Email = formData.get('email');
+
+                if (Name.trim().length < 1) {
+                    isError.eName = true;
+                    document.getElementById('editName').innerHTML = "กรุณาระบุชื่อ - นามสกุล";
+                } else {
+                    isError.eName = false;
+                    document.getElementById('editName').innerHTML = "";
+                }
+                if (Email.trim().length < 1) {
+                    isError.eEmail = true;
+                    document.getElementById('editEmail').innerHTML = "กรุณาระอีเมล";
+                } else if (!/^[\w-.]+@[\w-.]+\.[a-zA-Z]{2,}$/.test(Email)) {
+                    isError.eEmail = true;
+                    document.getElementById('editEmail').innerHTML = "รูปแบบอีเมลไม่ถูกต้อง";
+                } else {
+                    isError.eEmail = false;
+                    document.getElementById('editEmail').innerHTML = "";
+                }
+                const hasError = Object.values(isError).find((err) => err === true);
+                hasError ? isValid = false : isValid = true;
+
+                if (isValid) {
+                    axios.post($url + `/admin/user/updateUt/${id}`, formData)
+                        .then(function(response) {
+                            // Handle the success response if needed
+                            console.log(response.data);
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        })
+                        .catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
                         });
-                    })
-                    .catch(function(error) {
-                        // Handle the error response if needed
-                        console.error(error);
-                    });
-            }
+                }
+            })
         }
-
-        let utIdReset;
 
         function resetUt(id) {
-            utIdReset = id;
-        }
+            document.getElementById('reset-password').value = "";
+            document.getElementById('reset-password-confirm').value = "";
+            document.getElementById('error-reset-password').innerHTML = "";
+            document.getElementById('error-reset-password-confirm').innerHTML = "";
+            let isError = {
+                rPassword: false,
+                rPasswordConfirm: false
+            };
+            let isValid = true;
+            const formResetUt = document.querySelector('#resetTechnician');
 
-        function submitFormResetPassword() {
-            // console.log("Technician ID:", utIdReset); //แสดงค่า $dataUt->id
-            if ($('#resetTechnician').parsley().validate()) {
-                let formData = new FormData(document.getElementById('resetTechnician'));
+            formResetUt.addEventListener("submit", (e) => {
+                e.preventDefault();
+                let formData = new FormData(formResetUt);
 
-                axios.post($url + `/admin/tradesman/reset/password/${utIdReset}`, formData)
-                    .then(function(response) {
-                        // Handle the success response if needed
-                        console.log(response.data);
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: response.data.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((result) => {
-                            location.reload();
+                const ResetPassword = formData.get('password');
+                const ResetPasswordConfirm = formData.get('password_confirmation');
+
+                if (ResetPassword.trim().length < 1) {
+                    document.getElementById('error-reset-password').innerHTML = "กรุณาระบุรหัสผ่าน";
+                    isError.rPassword = true;
+                } else if (ResetPassword.trim().length <= 8) {
+                    document.getElementById('error-reset-password').innerHTML = "รหัสผ่านต้องมากกว่า 8 ตัว";
+                    isError.rPassword = true;
+                } else {
+                    document.getElementById('error-reset-password').innerHTML = "";
+                    isError.rPassword = false;
+                }
+
+                if (ResetPasswordConfirm.trim().length < 1) {
+                    isError.rPasswordConfirm = true;
+                    document.getElementById('error-reset-password-confirm').innerHTML = "กรุณาระบุรหัสผ่าน";
+                } else if (ResetPasswordConfirm != ResetPassword) {
+                    isError.rPasswordConfirm = true;
+                    document.getElementById('error-reset-password-confirm').innerHTML = "ระบุรหัสผ่านไม่ตรง";
+                } else {
+                    document.getElementById('error-reset-password-confirm').innerHTML = "";
+                    isError.rPasswordConfirm = false;
+                }
+
+
+                const hasError = Object.values(isError).find((err) => err === true);
+                hasError ? isValid = false : isValid = true;
+
+                if (isValid) {
+                    axios.post($url + `/admin/tradesman/reset/password/${id}`, formData)
+                        .then(function(response) {
+                            // Handle the success response if needed
+                            console.log(response.data);
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        })
+                        .catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
                         });
-                    })
-                    .catch(function(error) {
-                        // Handle the error response if needed
-                        console.error(error);
-                    });
-            }
+                }
+            });
         }
 
-        document.querySelector('#ModalReset').addEventListener('click', (e) => {
+        document.querySelector('#UtTable').addEventListener('click', (e) => {
             if (e.target.matches('.delete-item')) {
                 console.log(e.target.dataset.technician_id);
                 let tuId = e.target.dataset.technician_id;

@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
-class IsTradesmanRepair
+class CheckAute
 {
     /**
      * Handle an incoming request.
@@ -16,15 +16,14 @@ class IsTradesmanRepair
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            if (auth()->user()->role === 2) {
-                return $next($request);
+        if(Auth::check()){
+            if (auth()->user()->role === 1) {
+                return redirect(route('admin.dashdoard'));
             } else {
-                Auth::logout();
-                return redirect(route('login.page'))->with('error', "ไม่ใช่ admin");
+                return redirect(route('technician.dashboard',['p'=>10]));
             }
-        } else {
-            return redirect(route('login.page'));
+        }else{
+            return $next($request);
         }
     }
 }

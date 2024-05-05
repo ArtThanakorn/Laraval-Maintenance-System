@@ -43,13 +43,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="graphT"></canvas>
-                </div>
-            </div>
-        </div> --}}
 
     </div>
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}

@@ -27,6 +27,24 @@ class DatabaseSeeder extends Seeder
                 'email' =>'tradesman1@rmuti.ac.th',
                 'password'=> Hash::make('t123456789'),
                 'role'=> 2,
+            ],
+            [
+                'name' => 'tradesman 2',
+                'email' =>'tradesman2@rmuti.ac.th',
+                'password'=> Hash::make('t2123456789'),
+                'role'=> 2,
+            ],
+            [
+                'name' => 'tradesman 3',
+                'email' =>'tradesman3@rmuti.ac.th',
+                'password'=> Hash::make('t3123456789'),
+                'role'=> 2,
+            ],
+            [
+                'name' => 'tradesman 4',
+                'email' =>'tradesman4@rmuti.ac.th',
+                'password'=> Hash::make('t4123456789'),
+                'role'=> 2,
             ]
         ];
         User::insert($dataUsers);

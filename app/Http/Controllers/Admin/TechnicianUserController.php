@@ -63,7 +63,7 @@ class TechnicianUserController extends Controller
     {
         // dd($tu_id);
         $DataTu = User::find($tu_id);
-        $Department = Department::select('department_id', 'department_name')->get();
+        $Department = Department::select('department_id', 'department_name')->where('status_display', 0)->get();
         // dd($DataTu);
         return response()->json([
             'message' => 'ok',
@@ -77,10 +77,10 @@ class TechnicianUserController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'ut_name' => ['required', 'string'],
-            'ut_email' => ['required', 'string'],
-            'ut_department' => ['required', 'integer'],
-            'ut_level' => ['required', 'integer'],
+            'name' => ['required', 'string'],
+            'email' => ['required', 'string'],
+            'department' => ['required', 'integer'],
+            'level' => ['required', 'integer'],
         ]);
 
         if ($validator->fails()) {
@@ -90,10 +90,10 @@ class TechnicianUserController extends Controller
             ], 422);
         } else {
             $Technician = User::where('id', $tu_id)->update([
-                'name' => $request->ut_name,
-                'email' => $request->ut_email,
-                'department' => $request->ut_department,
-                'level' => $request->ut_level
+                'name' => $request->name,
+                'email' => $request->email,
+                'department' => $request->department,
+                'level' => $request->level
             ]);
 
             if ($Technician) {

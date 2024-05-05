@@ -24,16 +24,16 @@
     <!-- Include Parsley.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
 
-    <!-- Data Table JS -->
-    <script src='https://code.jquery.com/jquery-3.7.1.js'></script>
-    <script src='https://cdn.datatables.net/2.0.3/js/dataTables.js'></script>
+    
     <!-- Data Table CSS -->
     <link rel="stylesheet" href="//cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
 
     <!--  datatables js -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap5.css">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap5.css"> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.4/css/dataTables.bootstrap5.css">
+    
     <script>
         var $url = {!! json_encode(url('/')) !!};
     </script>
@@ -47,7 +47,7 @@
         <a class="navbar-brand ps-3"
             @if (Auth::user()->role === 1) href="{{ route('admin.dashdoard') }}"
            @elseif (Auth::user()->role === 2)
-           href="{{ route('technician.dashboard') }}"
+           href="{{ route('technician.dashboard',['p'=>10]) }}"
            @else
            href="{{ route('index.repair') }}" @endif>Maintenance
             System</a>
@@ -119,10 +119,14 @@
     <script src="/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <!--  datatables -->
-    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.4/js/dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/2.0.4/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.4/js/dataTables.bootstrap5.js"></script>
+    <!-- Data Table JS -->
+    <script src='https://code.jquery.com/jquery-3.7.1.js'></script>
+    <script src='https://cdn.datatables.net/2.0.3/js/dataTables.js'></script>
+    
     
     {{-- <script src="assets/demo/chart-area-demo.js"></script>
     <script src="assets/demo/chart-bar-demo.js"></script> --}}
