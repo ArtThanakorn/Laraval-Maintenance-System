@@ -68,6 +68,7 @@
                                 <select class="form-select" id="status-repair" aria-label="Default select example"
                                     onchange="statusRepair()">
                                     <option selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option>
+                                    <option value="ทั้งหมด">{{ __('ทั้งหมด') }}</option>
                                     <option value="เนินการเสร็จสิ้น">{{ __('เนินการเสร็จสิ้น') }}</option>
                                     <option value="รอดำเนินการ">{{ __('รอดำเนินการ') }}</option>
                                 </select>
@@ -81,10 +82,8 @@
                                         <input type="text" name="q" placeholder="Search"
                                             class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
                                             value="{{ $search_param }}" />
-                                        <button type="submit"
-                                            class="w-10 flex items-center justify-center border-t border-r border-b border-gray-200 rounded-r text-gray-100 bg-blue-500">
-                                            <i class="bi bi-search"></i>
-                                        </button>
+                                        <button type="submit" class="btn btn-default"><i
+                                                class="fas fa-search"></i></button>
                                     </div>
                                 </form>
                             </div>
@@ -117,6 +116,7 @@
                                         <button type="button" class="btn btn-warning" data-mdb-ripple-init
                                             data-bs-toggle="modal" data-bs-target="#editModal"
                                             onclick="openEditModal({{ $key }})">{{ 'แก้ไข' }}</button>
+
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                             data-bs-target="#senWork" onclick="openSendWork({{ $key }})">
                                             {{ 'ส่งงาน' }}
@@ -256,8 +256,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="formFile" class="form-label">{{ 'อัพเดทงานซ่อม' }}</label>
-                                            <input class="form-control" type="file" id="formFile" name="imfupdate[]"
-                                                multiple>
+                                            <input class="form-control" type="file" id="uploadFile"
+                                                name="imfupdate[]" multiple onchange="previewImg()">
                                         </div>
                                         <div class="row justify-content-start align-items-start g-2">
                                             <div class="col-auto text-center">
@@ -274,7 +274,8 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">{{ 'อัพเดท' }}</button>
+                                <button type="button" id="buUpWork"
+                                    class="btn btn-primary">{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                             </div>
@@ -326,7 +327,7 @@
                     // ดึงข้อมูลของแถวที่เลือก
                     let selectedData = workData.data[index];
                     console.log(selectedData);
-                  
+
                     // แสดงข้อมูลใน Modal
                     const modalDataDetails = document.getElementById('editModalDetails').value = selectedData.details;
                     const modalDataSite = document.getElementById('editModalSite').value = selectedData.site;
@@ -365,25 +366,34 @@
                     window.location.href = url;
                 }
 
-                function openSendWork(index) {
-                    const imageInput = document.getElementById('formFile');
-                    const imagePreviewContainer = document.getElementById('image-preview');
-                    let selectedDataWork = workData.data[index];
-                    document.getElementById('updateWork-level-select').innerHTML = "";
-                    imageInput.value = "";
+                const formUpDateWork = document.getElementById('upDateWork');
 
+                function openSendWork(index) {
+                    let selectedDataWork = workData.data[index];
                     console.log(selectedDataWork);
 
-                    // Clear existing preview images
-                    imagePreviewContainer.innerHTML = '';
+                    const imagePreviewContainer = document.getElementById('image-preview');
+                    imagePreviewContainer.innerHTML = "";
 
+                    document.getElementById('updateWork-level-select').innerHTML = "";
+                    document.getElementById('uploadFile').value = null;
                     // Show data in Modal
                     document.getElementById('updateName').value = selectedDataWork.name;
-                    // document.getElementById('updateStatus').value = selectedDataWork.status_repair;
                     document.getElementById('updateSite').value = selectedDataWork.site;
                     document.getElementById('updateDetails').value = selectedDataWork.details;
+                    const id = selectedDataWork.id_repair;
                     const updateImg = document.getElementById('updateimg');
                     updateImg.innerHTML = '';
+                    //select สฐานนะ
+                    if (selectedDataWork.status_repair == "รอดำเนินการ") {
+                        $('#updateWork-level-select').append(
+                            `<option value="รอดำเนินการ">รอดำเนินการ</option>
+                            <option value="เนินการเสร็จสิ้น">เนินการเสร็จสิ้น</option>`);
+                    } else {
+                        $('#updateWork-level-select').append(
+                            `<option value="เนินการเสร็จสิ้น" selected>เนินการเสร็จสิ้น</option>`);
+                    }
+                    //โชรูป
                     for (const image of selectedDataWork.image_repair) {
                         // console.log(image.nameImage); (Optional for debugging)
                         const imageElement = document.createElement('img');
@@ -392,65 +402,57 @@
                         updateImg.appendChild(imageElement);
                     }
 
-                    if (selectedDataWork.status_repair == "รอดำเนินการ") {
-                        $('#updateWork-level-select').append(
-                            `<option value="รอดำเนินการ">รอดำเนินการ</option>
-                             <option value="เนินการเสร็จสิ้น">เนินการเสร็จสิ้น</option>`);
-                    } else {
-                        $('#updateWork-level-select').append(
-                            `<option value="เนินการเสร็จสิ้น" selected>เนินการเสร็จสิ้น</option>`);
+
+                    document.getElementById('buUpWork').addEventListener('click', function() {
+                        console.log('ปุ่มถูกกด');
+                        sendUpdataWork(id);
+                    });
+                }
+
+                function sendUpdataWork(id) {
+                    let formData = new FormData(document.getElementById('upDateWork'));
+                    /* Display the key/value pairs*/
+                    for (var pair of formData.entries()) {
+                        console.log(pair[0] + ', ' + pair[1]);
                     }
-
-                    const formUpDateWork = document.querySelector('#upDateWork');
-
-                    imageInput.addEventListener('change', function() {
-                        const files = this.files;
-                        imagePreviewContainer.innerHTML = ''; // Clear previews again here
-
-                        for (const file of files) {
-                            const reader = new FileReader();
-                            reader.onload = function(event) {
-                                const imageElement = document.createElement('img');
-                                imageElement.src = event.target.result;
-                                imageElement.style.height = "150px";
-                                imageElement.classList.add("mx-2");
-                                imagePreviewContainer.appendChild(imageElement);
-                            };
-                            reader.readAsDataURL(file);
+                    // return false;
+                    axios.post($url + `/technician/update/work/${id}`, formData).then(
+                        function(response) {
+                            console.log(response.data);
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((result) => {
+                                location.href = $url + `/technician/dashboard/10`;
+                            });
                         }
+                    ).catch(function(error) {
+                        // Handle the error response if needed
+                        console.error(error);
                     });
-
-                    formUpDateWork.addEventListener("submit", (e) => {
-                        e.preventDefault();
-
-                        const files = imageInput.files;
-                        let formData = new FormData(formUpDateWork);
+                }
 
 
-                        /* Display the key/value pairs*/
-                        for (var pair of formData.entries()) {
-                            console.log(pair[0] + ', ' + pair[1]);
-                        }
-                        // return false;
-
-                        axios.post($url + `/technician/update/work/${selectedDataWork.id_repair}`, formData).then(
-                            function(response) {
-                                console.log(response.data);
-                                Swal.fire({
-                                    position: "top-end",
-                                    icon: "success",
-                                    title: response.data.message,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then((result) => {
-                                    location.reload();
-                                });
-                            }
-                        ).catch(function(error) {
-                            // Handle the error response if needed
-                            console.error(error);
-                        });
-                    });
+                function previewImg() {
+                    const imagePreviewContainer = document.getElementById('image-preview');
+                    imagePreviewContainer.innerHTML = "";
+                    const imageInput = document.getElementById('uploadFile');
+                    const files = imageInput.files;
+                    for (const file of files) {
+                        console.log(files);
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const imageElement = document.createElement('img');
+                            imageElement.src = event.target.result;
+                            imageElement.style.height = "150px";
+                            imageElement.classList.add("mx-2");
+                            imagePreviewContainer.appendChild(imageElement);
+                        };
+                        reader.readAsDataURL(file);
+                    }
                 }
             </script>
         @endsection

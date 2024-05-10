@@ -19,7 +19,7 @@ class DashboardTechnicianController extends Controller
         $workData_query = Repair::query();
 
         $search_param = $request->query('q') ?? $request->query('status');
-
+// dd($search_param);
         if ($search_param) {
             $workData_query->where('type', Auth::user()->department);
             $workData_query->where(function ($query) use ($search_param) {
@@ -29,13 +29,14 @@ class DashboardTechnicianController extends Controller
                     ->orWhere('status_repair', 'like', "%$search_param%");
             });
         }
+
         $workData = $workData_query->with('imageRepair')->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->paginate($p);
 
         $department = Department::where('status_display', 0)->get();
 
         $imgrepairs = ImageRepair::all();
 
-
+// dd($workData);
         return view('technician.dashboard', compact('workData', 'p', 'search_param', 'department', 'imgrepairs'));
     }
 
@@ -56,20 +57,22 @@ class DashboardTechnicianController extends Controller
 
     public function work_updata(Request $request, $id)
     {
+        
         $files = $request->file('imfupdate');
-
+        
+       $Urepai = Repair::find( $id);
         Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
 
         foreach ($files as $images) {
             $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // ชื่อรูป
             $images->move(public_path('uploads/repair/'), $imageName); // path ที่ต้องการเก็บรูป
             ImageRepair::create([
-                'id_repair' => $id,
+                'id_repair' =>  $Urepai->id_repair,
                 'nameImage' => $imageName
             ]);
         }
 
-        // dd('123');
+     
         return response()->json([
             'success' => 1,
             'message' => 'การอัพเดทงานเสร็จสมบูรณ์'

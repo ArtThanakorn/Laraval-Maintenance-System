@@ -57,7 +57,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::delete('department/destroy/{id}', [DepartmentController::class, 'destroy_department']);
 
     //แจ้งซ่อม
-    Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
+    Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
     Route::get('handle/repair', [RepairController::class, 'handle_repaair'])->name('handle.repair');
 });
 
@@ -81,8 +81,8 @@ Route::prefix('user')->group(function () {
 Route::prefix('technician')->middleware('istradesmanrepair')->group(function () {
     Route::get('/dashboard/{p}', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
     Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
-    Route::post('/workmoves',[DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
-    Route::post('/update/work/{id}',[DashboardTechnicianController::class, 'work_updata']);
+    Route::post('/workmoves', [DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
+    Route::post('/update/work/{id}', [DashboardTechnicianController::class, 'work_updata']);
 });
 
 

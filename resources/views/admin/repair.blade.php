@@ -21,6 +21,28 @@
             </div>
             <div class="card-body">
                 <div class="row">
+                    <div class="fromCheck mb-2">
+                        <label for="headfromcheck">{{"ตำแหน่งผู้แจ้ง"}}</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="statusRadio" value="อาจารย์" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                              {{"อาจารย์"}}
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="statusRadio" value="เจ้าหน้าที่" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                              {{"เจ้าหน้าที่"}}
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="statusRadio" value="นักศึกษา" id="flexRadioDefault3">
+                            <label class="form-check-label" for="flexRadioDefault3">
+                              {{"นักศึกษา"}}
+                            </label>
+                          </div>
+                    </div>
+               
                     <div class="col-md-6">
                         <p>{{ 'ชื่อผู้เเจ้ง' }}</p>
                         <div class="input-group">
@@ -218,3 +240,16 @@
 
 @section('script')
 @endsection
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>

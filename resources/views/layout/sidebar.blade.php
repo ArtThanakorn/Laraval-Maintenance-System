@@ -18,7 +18,7 @@
                             <div class="sb-nav-link-icon"><i class="fa fa-tasks text-info"></i></div>
                             ติดตามการแจ้งซ่อม
                         </a>
-                        <a class="nav-link" href="{{ route('show.repair') }}">
+                        <a class="nav-link" href="{{ route('show.repair',['p'=>10]) }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-pie-chart text-danger"></i></div>
                             รายการเเจ้งซ่อม
                         </a>
