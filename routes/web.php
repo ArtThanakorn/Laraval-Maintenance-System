@@ -83,6 +83,7 @@ Route::prefix('technician')->middleware('istradesmanrepair')->group(function () 
     Route::get('/dashboard/{p}', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
     // Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
     Route::post('/workmoves',[DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
+    Route::post('/update/work/{id}',[DashboardTechnicianController::class, 'work_updata']);
 });
 
 
