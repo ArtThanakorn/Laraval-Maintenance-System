@@ -180,7 +180,7 @@
                                 Swal.fire({
                                     position: "top-end",
                                     icon: "success",
-                                    title: response.data.message,
+                                    title: "Your work has been saved",
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -324,7 +324,7 @@
                 console.log('123');
                 console.log(e.target.dataset.deparTable_id);
                 let DepaId = e.target.dataset.deparTable_id;
-
+             
             }
         });*/
         </script>
