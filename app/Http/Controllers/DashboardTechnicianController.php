@@ -18,17 +18,31 @@ class DashboardTechnicianController extends Controller
         // $workData = Repair::where('type', Auth::user()->department)->paginate($p);//
         $workData_query = Repair::query();
 
-        $search_param = $request->query('q') ;
+        $search_param = $request->query('q');
         $inupfilter = $request->query('status');
-// dd($search_param);
-        if ($search_param) {
-            $workData_query->where('type', Auth::user()->department);
-            $workData_query->where(function ($query) use ($search_param) {
-                $query
-                    ->orWhere('status', 'like', "%$search_param%")
-                    ->orWhere('site', 'like', "%$search_param%")
-                    ->orWhere('status_repair', 'like', "%$search_param%");
-            });
+        // dd($search_param);
+        if ($inupfilter == "ดำเนินการเสร็จสิ้น") {
+            $workData_query->where('type', Auth::user()->department)->where('status_repair', $inupfilter);
+            if ($inupfilter == "ดำเนินการเสร็จสิ้น" && $search_param) {
+                $workData_query->where('type', Auth::user()->department)->where('status_repair', $inupfilter);
+                $workData_query->where(function ($query) use ($search_param) {
+                    $query
+                        ->orWhere('status', 'like', "%$search_param%")
+                        ->orWhere('site', 'like', "%$search_param%")
+                        ->orWhere('status_repair', 'like', "%$search_param%");
+                });
+            }
+        } elseif ($inupfilter == "รอดำเนินการ") {
+            $workData_query->where('type', Auth::user()->department)->where('status_repair', $inupfilter);
+            if ($inupfilter == "รอดำเนินการ" && $search_param) {
+                $workData_query->where('type', Auth::user()->department)->where('status_repair', $inupfilter);
+                $workData_query->where(function ($query) use ($search_param) {
+                    $query
+                        ->orWhere('status', 'like', "%$search_param%")
+                        ->orWhere('site', 'like', "%$search_param%")
+                        ->orWhere('status_repair', 'like', "%$search_param%");
+                });
+            }
         }
 
         $workData = $workData_query->with('imageRepair')->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->paginate($p);
@@ -37,7 +51,7 @@ class DashboardTechnicianController extends Controller
 
         $imgrepairs = ImageRepair::all();
 
-// dd($workData);
+        // dd($workData);
         return view('technician.dashboard', compact('workData', 'p', 'search_param', 'department', 'imgrepairs'));
     }
 
@@ -58,10 +72,10 @@ class DashboardTechnicianController extends Controller
 
     public function work_updata(Request $request, $id)
     {
-        
+
         $files = $request->file('imfupdate');
-        
-       $Urepai = Repair::find( $id);
+
+        $Urepai = Repair::find($id);
         Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
 
         foreach ($files as $images) {
@@ -73,7 +87,7 @@ class DashboardTechnicianController extends Controller
             ]);
         }
 
-     
+
         return response()->json([
             'success' => 1,
             'message' => 'การอัพเดทงานเสร็จสมบูรณ์'

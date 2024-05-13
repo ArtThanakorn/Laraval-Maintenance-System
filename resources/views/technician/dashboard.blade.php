@@ -67,10 +67,10 @@
                             <div class="flex" style="width:5cm">
                                 <select class="form-select" id="status-repair" aria-label="Default select example"
                                     onchange="statusRepair()">
-                                    <option selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option>
-                                    <option value="ทั้งหมด">{{ __('ทั้งหมด') }}</option>
-                                    <option value="เนินการเสร็จสิ้น">{{ __('เนินการเสร็จสิ้น') }}</option>
-                                    <option value="รอดำเนินการ">{{ __('รอดำเนินการ') }}</option>
+                                    {{-- <option selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option> --}}
+                                    <option value="ทั้งหมด" selected >{{ __('ทั้งหมด') }}</option>
+                                    <option value="ดำเนินการเสร็จสิ้น" {{isset($_GET["status"]) && $_GET["status"] == "ดำเนินการเสร็จสิ้น" ?'selected' : ''}}>{{ __('ดำเนินการเสร็จสิ้น') }}</option>
+                                    <option value="รอดำเนินการ" {{isset($_GET["status"]) && $_GET["status"] == "รอดำเนินการ"?'selected' : ''}}>{{ __('รอดำเนินการ') }}</option>
                                 </select>
                             </div>
                         </div>
