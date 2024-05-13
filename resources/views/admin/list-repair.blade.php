@@ -61,9 +61,9 @@
                     <div class="flex" style="width:5cm">
                         <select class="form-select" id="status-repair" aria-label="Default select example"
                             onchange="statusRepair()">
-                            <option selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option>
-                            <option value="ทั้งหมด"{{isset($_GET["status"]) && $_GET["status"] == "ทั้งหมด"?'selected' : ''}}>{{ __('ทั้งหมด') }}</option>
-                            <option value="เนินการเสร็จสิ้น"{{isset($_GET["status"]) && $_GET["status"] == "เนินการเสร็จสิ้น" ?'selected' : ''}}>{{ __('เนินการเสร็จสิ้น') }}</option>
+                            {{-- <option value="สถานะงานเเจ้งซ่อม" selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option> --}}
+                            <option value="ทั้งหมด" selected {{isset($_GET["status"]) && $_GET["status"] == "ทั้งหมด"?'selected' : ''}}>{{ __('ทั้งหมด') }}</option>
+                            <option value="ดำเนินการเสร็จสิ้น"{{isset($_GET["status"]) && $_GET["status"] == "ดำเนินการเสร็จสิ้น" ?'selected' : ''}}>{{ __('ดำเนินการเสร็จสิ้น') }}</option>
                             <option value="รอดำเนินการ"{{isset($_GET["status"]) && $_GET["status"] == "รอดำเนินการ"?'selected' : ''}}>{{ __('รอดำเนินการ') }}</option>
                         </select>
                     </div>
@@ -74,7 +74,7 @@
                         <div class="flex">
                             <input type="text" name="q" placeholder="Search" id="inpufil"
                                 class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
-                                onchange="filterRepair()" />{{-- value="{{ $search_param }}" --}}
+                                value="{{ $inupfilter }}" onchange="filterRepair()" />{{-- value="{{ $search_param }}" --}}
                             {{-- <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button> --}}
                         </div>
 
@@ -96,10 +96,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{-- @dd($repairs) --}}
                         @foreach ($repairs as $key => $data)
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
-                                <td>{{ $data['department']['department_name'] }}</td>
+                                <td>{{ $data['department_name'] }}</td>
                                 <td>{{ $data['name'] }}</td>
                                 <td>{{ $data['details'] }}</td>
                                 <td>{{ $data['site'] }}</td>
@@ -116,6 +117,7 @@
             </div>
         </div>
     </div>
+    {{-- @dd($jChart) --}}
     <div class="row justify-content-center align-items-center g-2 mb-3" style="max-height: 500px;">
         <div class="col-md-6">
             <div class="card">
@@ -137,14 +139,17 @@
 @endsection
 @section('script')
     <script type="module">
-        let jsData = {!! json_encode($jChart) !!};
-        console.log(jsData);
+       let jsData = {!! json_encode($jChart) !!};
+        console.log(jsData.datasets1.data.work);
 
         // เก็บค่า department_name ใน array ใหม่
         const labels = [];
-        for (const item of jsData.labels) {
+        const Numberofjobs = [];
+        for (const item of jsData.datasets1.data) {
             labels.push(item.department_name);
+            Numberofjobs.push(item.work);
         }
+        console.log(Numberofjobs);
         let ctx = document.getElementById('graphCanvas').getContext('2d');
         let ctx2 = document.getElementById('graphCanvas2').getContext('2d');
         let myChart = new Chart(ctx, {
@@ -152,8 +157,8 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    data: Object.values(jsData.datasets.data),
-                    backgroundColor: jsData.datasets.backgroundColor,
+                    data: Numberofjobs,
+                    backgroundColor: jsData.datasets1.backgroundColor,
                     hoverOffset: 4,
                     borderWidth: 1,
                 }]
@@ -174,7 +179,7 @@ let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
                 labels: ['งานที่ยังไม่เสร็จ','งานที่เสร็จแล้ว'],
                 datasets: [{
                     data:[jsnotcompleted,jscompleted] ,
-                    backgroundColor:["#dc3545","#198754"] ,
+                    backgroundColor:jsData.datasets2.backgroundColor ,
                     hoverOffset: 4,
                     borderWidth: 1,
                 }]

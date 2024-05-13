@@ -18,7 +18,8 @@ class DashboardTechnicianController extends Controller
         // $workData = Repair::where('type', Auth::user()->department)->paginate($p);//
         $workData_query = Repair::query();
 
-        $search_param = $request->query('q') ?? $request->query('status');
+        $search_param = $request->query('q') ;
+        $inupfilter = $request->query('status');
 // dd($search_param);
         if ($search_param) {
             $workData_query->where('type', Auth::user()->department);
