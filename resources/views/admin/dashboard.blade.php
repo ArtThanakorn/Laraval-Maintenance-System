@@ -37,7 +37,7 @@
                                         </div>
                                     </div>
                                     <div class="card-footer text-secondary">
-                                        <a class="small text-white stretched-link" href="{{ route('show.repair') }}"></a>
+                                        <a class="small text-white stretched-link" href="{{ route('show.repair',['p'=>10]) }}"></a>
                                         <i class="fa fa-arrow-circle-right mr-3"></i>
                                         <span>ข้อมูลเพิ่มเติม</span>
                                     </div>

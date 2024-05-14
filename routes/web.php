@@ -58,7 +58,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::delete('department/destroy/{id}', [DepartmentController::class, 'destroy_department']);
 
     //แจ้งซ่อม
-    Route::get('show/repair', [DashboardController::class, 'repair_show'])->name('show.repair');
+    Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
     Route::get('handle/repair', [RepairController::class, 'handle_repaair'])->name('handle.repair');
 });
 
