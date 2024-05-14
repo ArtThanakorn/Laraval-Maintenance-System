@@ -72,6 +72,7 @@ class DashboardController extends Controller
                     ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
                     ->groupBy('repairs.type', 'departments.department_name')
                     ->get();
+
             }
         } elseif ($select_param == "รอดำเนินการ") {
             $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)->orderBy('repairs.updated_at', 'desc')->get();
@@ -132,6 +133,11 @@ class DashboardController extends Controller
                 ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
                 ->groupBy('repairs.type', 'departments.department_name')
                 ->get();
+                
+                //Number of jobs (จำนวนงาน)
+                $ChartWorkcompleted = $liRepair->filter(function ($item) {return $item->status_repair === 'ดำเนินการเสร็จสิ้น';})->count();
+                
+                $ChartWorknotcompleted = $liRepair->filter(function ($item) {return $item->status_repair === 'รอดำเนินการ';})->count();
         } else {
             // $liRepair = Repair::with('department')->select('departments.department_name','name')->orderBy('updated_at', 'desc')->get();
             $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->get();
@@ -144,7 +150,7 @@ class DashboardController extends Controller
             $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
             $ChartWorknotcompleted = Repair::where('status_repair', "รอดำเนินการ")->count();
         }
-        // dd($liRepair);
+        // dd($ChartWorkcompleted, $ChartWorknotcompleted);
 
 
         $liRepairthaiDate = $liRepair->map(function ($item) {
