@@ -43,6 +43,16 @@ class DashboardTechnicianController extends Controller
                         ->orWhere('status_repair', 'like', "%$search_param%");
                 });
             }
+        }elseif($inupfilter == "ทั้งหมด" && $search_param){
+            $workData_query->where('type', Auth::user()->department);
+                $workData_query->where(function ($query) use ($search_param) {
+                    $query
+                        ->orWhere('status', 'like', "%$search_param%")
+                        ->orWhere('site', 'like', "%$search_param%")
+                        ->orWhere('status_repair', 'like', "%$search_param%");
+                });
+        }else{
+            $workData_query->where('type', Auth::user()->department);
         }
 
         $workData = $workData_query->with('imageRepair')->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->paginate($p);

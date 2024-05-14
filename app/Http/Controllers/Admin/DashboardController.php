@@ -47,7 +47,7 @@ class DashboardController extends Controller
                 ->get();
             //countWork
             $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
-         
+
             if ($select_param == "ดำเนินการเสร็จสิ้น" && $inupfilter) {
                 $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)
                     ->where(function ($query) use ($inupfilter) {
@@ -72,7 +72,13 @@ class DashboardController extends Controller
                     ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
                     ->groupBy('repairs.type', 'departments.department_name')
                     ->get();
-
+                //Number of jobs (จำนวนงาน)
+                $ChartWorkcompleted = $liRepair->filter(function ($item) {
+                    return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
+                })->count();
+                $ChartWorknotcompleted = $liRepair->filter(function ($item) {
+                    return $item->status_repair === 'รอดำเนินการ';
+                })->count();
             }
         } elseif ($select_param == "รอดำเนินการ") {
             $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)->orderBy('repairs.updated_at', 'desc')->get();
@@ -83,7 +89,7 @@ class DashboardController extends Controller
                 ->groupBy('repairs.type', 'departments.department_name')
                 ->get();
             //countWork
-           
+
             $ChartWorknotcompleted = Repair::where('status_repair', "รอดำเนินการ")->count();
             if ($select_param == "รอดำเนินการ" && $inupfilter) {
                 $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)
@@ -109,6 +115,13 @@ class DashboardController extends Controller
                     ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
                     ->groupBy('repairs.type', 'departments.department_name')
                     ->get();
+                //Number of jobs (จำนวนงาน)
+                $ChartWorkcompleted = $liRepair->filter(function ($item) {
+                    return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
+                })->count();
+                $ChartWorknotcompleted = $liRepair->filter(function ($item) {
+                    return $item->status_repair === 'รอดำเนินการ';
+                })->count();
             }
         } elseif ($select_param == "ทั้งหมด" && $inupfilter) {
             $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
@@ -133,11 +146,15 @@ class DashboardController extends Controller
                 ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
                 ->groupBy('repairs.type', 'departments.department_name')
                 ->get();
-                
-                //Number of jobs (จำนวนงาน)
-                $ChartWorkcompleted = $liRepair->filter(function ($item) {return $item->status_repair === 'ดำเนินการเสร็จสิ้น';})->count();
-                
-                $ChartWorknotcompleted = $liRepair->filter(function ($item) {return $item->status_repair === 'รอดำเนินการ';})->count();
+
+            //Number of jobs (จำนวนงาน)
+            $ChartWorkcompleted = $liRepair->filter(function ($item) {
+                return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
+            })->count();
+
+            $ChartWorknotcompleted = $liRepair->filter(function ($item) {
+                return $item->status_repair === 'รอดำเนินการ';
+            })->count();
         } else {
             // $liRepair = Repair::with('department')->select('departments.department_name','name')->orderBy('updated_at', 'desc')->get();
             $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->get();
