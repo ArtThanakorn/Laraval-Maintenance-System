@@ -260,7 +260,8 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">{{ 'อัพเดท' }}</button>
+                                <button type="button" id="buUpWork"
+                                    class="btn btn-primary" >{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                             </div>
@@ -371,6 +372,8 @@
                     // document.getElementById('updateStatus').value = selectedDataWork.status_repair;
                     document.getElementById('updateSite').value = selectedDataWork.site;
                     document.getElementById('updateDetails').value = selectedDataWork.details;
+
+
                     const updateImg = document.getElementById('updateimg');
                     updateImg.innerHTML = '';
                     for (const image of selectedDataWork.image_repair) {
@@ -381,13 +384,22 @@
                         updateImg.appendChild(imageElement);
                     }
 
-                    if (selectedDataWork.status_repair == "รอดำเนินการ") {
-                        $('#updateWork-level-select').append(
-                            `<option value="รอดำเนินการ">รอดำเนินการ</option>
-                             <option value="ดำเนินการเสร็จสิ้น">ดำเนินการเสร็จสิ้น</option>`);
-                    } else {
-                        $('#updateWork-level-select').append(
-                            `<option value="ดำเนินการเสร็จสิ้น" selected>ดำเนินการเสร็จสิ้น</option>`);
+
+                    document.getElementById('buUpWork').addEventListener('click', function() {
+                        const id = selectedDataWork.id_repair;
+                        console.log('ปุ่มถูกกด');
+                        sendUpdataWork(id);
+                    });
+                }
+
+                function sendUpdataWork(id) {
+                    // let selectedData = workData.data[index];
+                    console.log(id);
+                    // return false;
+                    let formData = new FormData(document.getElementById('upDateWork'));
+                    /* Display the key/value pairs*/
+                    for (var pair of formData.entries()) {
+                        console.log(pair[0] + ', ' + pair[1]);
                     }
 
                     const formUpDateWork = document.querySelector('#upDateWork');

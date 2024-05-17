@@ -54,7 +54,9 @@
                                                         </button>
                                                     </div>
                                                     <div class="col-auto">
-                                                        <button type="button" class="btn btn-danger" onclick="destroyDepar({{ $row->department_id }})" data-deparTable_id="{{ $row->department_id }}">
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="destroyDepar({{ $row->department_id }})"
+                                                            data-deparTable_id="{{ $row->department_id }}">
                                                             {{ 'ลบ' }}
                                                         </button>
                                                     </div>
@@ -104,30 +106,34 @@
                 <form id="editDepartment">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="ModalEditLabel">{{"แก้ไขรายชื่อแผนก"}}</h1>
+                            <h1 class="modal-title fs-5" id="ModalEditLabel">{{ 'แก้ไขรายชื่อแผนก' }}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row justify-content-start align-items-center g-2 mb-2">
                                 <div class="col-12">
-                                    <label for="" class="form-label">{{"ชื่อแผนก"}}</label>
-                                    <input type="text" name="departmentNameEdit" id="departmentNameEdit" class="form-control"
-                                        placeholder="ชื่อแผนก" >
-                                        <div id="error-edit-depar" class="form-text text-danger" style="margin-left: 1rem"></div>
+                                    <label for="" class="form-label">{{ 'ชื่อแผนก' }}</label>
+                                    <input type="text" name="departmentNameEdit" id="departmentNameEdit"
+                                        class="form-control" placeholder="ชื่อแผนก">
+                                    <div id="error-edit-depar" class="form-text text-danger" style="margin-left: 1rem">
+                                    </div>
                                 </div>
                             </div>
                             <div class="row justify-content-start align-items-center g-2 ">
                                 <div class="col-6 ">
                                     <div class="form-check form-switch">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{"แสดงผล"}}</label>
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck" name="switchEdit">
+                                        <label class="form-check-label"
+                                            for="flexSwitchCheckDefault">{{ 'แสดงผล' }}</label>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck"
+                                            name="switchEdit">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">{{"บันทึก"}}</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{"ยกเลิก"}}</button>
+                            <button type="submit" class="btn btn-primary">{{ 'บันทึก' }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                         </div>
                     </div>
                 </form>
@@ -143,7 +149,7 @@
 
             }
 
-            function sbtDepartment(){
+            function sbtDepartment() {
                 // Determine the URL for the Axios request
                 let url = "{{ route('D.create') }}";
 
@@ -151,6 +157,7 @@
                 let isError = {
                     aDepar: false,
                 };
+
                 let isValid = true;
 
 
@@ -222,7 +229,7 @@
                             console.log(error);
                         });
 
-                }else{
+                } else {
                     console.log("ไม่มีidเข้ามา");
                 }
 
@@ -239,17 +246,17 @@
                     const Depar = formData.get('departmentNameEdit');
                     const Swit = formData.get('switchEdit');
 
-                    if(Depar.trim().length < 1){
+                    if (Depar.trim().length < 1) {
                         isError.eDepar = true;
                         document.getElementById('error-edit-depar').innerHTML = "กรุณากรอกชื่อแผนก";
-                    }else{
+                    } else {
                         isError.eDepar = false;
                         document.getElementById('error-edit-depar').innerHTML = "";
                     }
 
                     if (!Swit) {
                         formData.append('switchEdit', 1);
-                    }else{
+                    } else {
                         formData.append('switchEdit', 0);
                     }
 
@@ -264,28 +271,28 @@
                         // return false;
 
                         axios.post($url + `/admin/department/update/${id}`, formData)
-                        .then(function(response) {
-                            console.log(response);
-                            Swal.fire({
-                                position: "top-end",
-                                icon: "success",
-                                title: response.data.message,
-                                showConfirmButton: false,
-                                timer: 1500
+                            .then(function(response) {
+                                console.log(response);
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: response.data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1500)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
                             });
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500)
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        });
                     }
 
                 })
             }
 
-            function destroyDepar(id){
+            function destroyDepar(id) {
                 console.log(id);
                 Swal.fire({
                     title: 'คุณต้องการลบแผนกนี้หรือไม่',
@@ -323,12 +330,12 @@
                 });
             }
             /*document.querySelector('#deparTable').addEventListener('click', (e) => {
-            if (e.target.matches('.delete-item')) {
-                console.log('123');
-                console.log(e.target.dataset.deparTable_id);
-                let DepaId = e.target.dataset.deparTable_id;
+                    if (e.target.matches('.delete-item')) {
+                        console.log('123');
+                        console.log(e.target.dataset.deparTable_id);
+                        let DepaId = e.target.dataset.deparTable_id;
 
-            }
-        });*/
+                    }
+                });*/
         </script>
     @endsection
