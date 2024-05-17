@@ -44,6 +44,7 @@ class DashboardController extends Controller
                 ->where('status_repair', $select_param)
                 ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
                 ->groupBy('repairs.type', 'departments.department_name')
+                ->orderBy('repairs.updated_at', 'desc')
                 ->get();
             //countWork
             $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
@@ -157,7 +158,9 @@ class DashboardController extends Controller
             })->count();
         } else {
             // $liRepair = Repair::with('department')->select('departments.department_name','name')->orderBy('updated_at', 'desc')->get();
-            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->get();
+            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
+            ->orderBy('repairs.updated_at', 'desc')
+            ->get();
 
             $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
                 ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))

@@ -263,7 +263,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" id="buUpWork"
-                                    class="btn btn-primary">{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
+                                    class="btn btn-primary" >{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                             </div>
@@ -370,7 +370,8 @@
                     document.getElementById('updateName').value = selectedDataWork.name;
                     document.getElementById('updateSite').value = selectedDataWork.site;
                     document.getElementById('updateDetails').value = selectedDataWork.details;
-                    const id = selectedDataWork.id_repair;
+                   
+                    
                     const updateImg = document.getElementById('updateimg');
                     updateImg.innerHTML = '';
                     //select สฐานนะ
@@ -393,12 +394,16 @@
 
 
                     document.getElementById('buUpWork').addEventListener('click', function() {
+                        const id = selectedDataWork.id_repair;
                         console.log('ปุ่มถูกกด');
                         sendUpdataWork(id);
                     });
                 }
 
                 function sendUpdataWork(id) {
+                    // let selectedData = workData.data[index];
+                    console.log(id);
+                    // return false;
                     let formData = new FormData(document.getElementById('upDateWork'));
                     /* Display the key/value pairs*/
                     for (var pair of formData.entries()) {
