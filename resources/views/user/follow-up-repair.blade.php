@@ -85,7 +85,7 @@
             const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
 
             if (filterData) {
-                const dateObject = new Date(filterData.created_at);
+                const dateObject = new Date(filterData.updated_at);
                 const options = {
                     day: '2-digit',
                     month: '2-digit',
