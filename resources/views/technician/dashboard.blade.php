@@ -50,7 +50,6 @@
                             <div class="flex" style="width: 2.5cm; margin-left: 14px;">
                                 <select id="per-page" class="form-select" aria-label="Default select example"
                                     onchange="entries()">
-
                                     <option value="10" {{ $p == 10 ? 'selected' : '' }}>10</option>
                                     <option value="25"{{ $p == 25 ? 'selected' : '' }}>25</option>
                                     <option value="50"{{ $p == 50 ? 'selected' : '' }}>50</option>
@@ -68,26 +67,26 @@
                                 <select class="form-select" id="status-repair" aria-label="Default select example"
                                     onchange="statusRepair()">
                                     {{-- <option selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option> --}}
-                                    <option value="ทั้งหมด" selected >{{ __('ทั้งหมด') }}</option>
-                                    <option value="ดำเนินการเสร็จสิ้น" {{isset($_GET["status"]) && $_GET["status"] == "ดำเนินการเสร็จสิ้น" ?'selected' : ''}}>{{ __('ดำเนินการเสร็จสิ้น') }}</option>
-                                    <option value="รอดำเนินการ" {{isset($_GET["status"]) && $_GET["status"] == "รอดำเนินการ"?'selected' : ''}}>{{ __('รอดำเนินการ') }}</option>
+                                    <option value="ทั้งหมด" selected>{{ __('ทั้งหมด') }}</option>
+                                    <option value="ดำเนินการเสร็จสิ้น"
+                                        {{ isset($_GET['status']) && $_GET['status'] == 'ดำเนินการเสร็จสิ้น' ? 'selected' : '' }}>
+                                        {{ __('ดำเนินการเสร็จสิ้น') }}</option>
+                                    <option value="รอดำเนินการ"
+                                        {{ isset($_GET['status']) && $_GET['status'] == 'รอดำเนินการ' ? 'selected' : '' }}>
+                                        {{ __('รอดำเนินการ') }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="p-2">
 
                             <div class="col-auto">
-                                <form action="{{ route('technician.dashboard', ['p' => 10], request()->query()) }}">
-                                    <div class="flex">
-                                        <input type="text" name="q" placeholder="Search"
-                                            class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
-                                            value="{{ $search_param }}" />
-                                        <button type="submit"
-                                            class="w-10 flex items-center justify-center border-t border-r border-b border-gray-200 rounded-r text-gray-100 bg-blue-500">
-                                            <i class="bi bi-search"></i>
-                                        </button>
-                                    </div>
-                                </form>
+                                <div class="flex">
+                                    <input type="text" id="inpufil" name="q" placeholder="Search"
+                                        class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
+                                        value="{{ $search_param }}" onchange="filterRepairWork()" />
+                                    {{-- <button type="submit" class="btn btn-default"><i
+                                                class="fas fa-search"></i></button> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -184,21 +183,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" id="editModalId" name="id">
-                                    {{-- <fieldset class="mb-3 row">
-                                        <legend class="col-form-legend col-4">
-                                            Group name
-                                        </legend>
-                                        <div class="col-8">
-                                            you can use radio and checkboxes here
-                                        </div>
-                                    </fieldset>
-                                    <div class="mb-3 row">
-                                        <div class="offset-sm-4 col-sm-8">
-                                            <button type="submit" class="btn btn-primary">
-                                                Action
-                                            </button>
-                                        </div>
-                                    </div> --}}
+
 
                                 </div>
                             </div>
@@ -284,6 +269,7 @@
                 </div>
             </div>
         @endsection
+
         @section('script')
             <script>
                 function submitForm() {
@@ -299,8 +285,8 @@
                             // Handle the success response if needed
                             console.log(response.data);
                             Swal.fire({
-                                title: "Success!",
-                                text: "You clicked the button!",
+                                title: "แก้ไขงานสำเสร็จ",
+                                text: "คลิกที่ปุ่มตกลง",
                                 icon: "success"
                             }).then((result) => {
                                 location.href = $url + "/technician/dashboard/10";
@@ -365,6 +351,8 @@
                     let url = "{{ url('technician/dashboard') }}/" + p + "?status=" + queryParam;
                     window.location.href = url;
                 }
+
+                // const formUpDateWork = document.getElementById('upDateWork');
 
                 function openSendWork(index) {
                     const imageInput = document.getElementById('formFile');
@@ -452,6 +440,17 @@
                             console.error(error);
                         });
                     });
+                }
+
+                function filterRepairWork() {
+                    let s = document.getElementById('status-repair').value;
+                    let p = document.getElementById('per-page').value;
+                    let i = document.getElementById('inpufil').value;
+                    let queryParam = encodeURIComponent(s);
+                    let inpuParam = encodeURIComponent(i);
+                    let url = $url + `/technician/dashboard/` + p + "?status=" + queryParam + "&q=" + inpuParam;
+                    console.log(url);
+                    window.location.href = url;
                 }
             </script>
         @endsection

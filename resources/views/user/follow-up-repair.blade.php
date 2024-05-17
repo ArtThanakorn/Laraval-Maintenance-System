@@ -96,12 +96,13 @@
 
                 if (filterData.status_repair == "รอดำเนินการ") {
                     document.getElementById("radio2").checked = true;
+                    document.getElementById("radio3").checked = false;
                     document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
                     document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
                     document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department
                         .department_name;
                     document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
-                } else if (filterData.status_repair == "เนินการเสร็จสิ้น") {
+                } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
                     document.getElementById("radio3").checked = true;
                     document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
                     document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;

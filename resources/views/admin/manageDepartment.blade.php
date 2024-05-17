@@ -89,7 +89,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">{{ 'บันทึก' }}</button>
+                            <button type="button" class="btn btn-primary" onclick="sbtDepartment()">{{ 'บันทึก' }}</button>
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                         </div>
@@ -140,6 +140,10 @@
             function addDepartmentName() {
                 document.getElementById('departmentName').value = "";
                 document.getElementById('error-add-depar').innerHTML = "";
+
+            }
+
+            function sbtDepartment(){
                 // Determine the URL for the Axios request
                 let url = "{{ route('D.create') }}";
 
@@ -149,8 +153,7 @@
                 };
                 let isValid = true;
 
-                formaddDt.addEventListener("submit", (e) => {
-                    e.preventDefault();
+
                     // Get form data
                     let formData = new FormData(formaddDt);
 
@@ -180,7 +183,7 @@
                                 Swal.fire({
                                     position: "top-end",
                                     icon: "success",
-                                    title: "Your work has been saved",
+                                    title: response.data.message,
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -192,7 +195,7 @@
                                 console.log(error);
                             });
                     }
-                })
+
             }
 
             function editDepartment(id) {
@@ -324,7 +327,7 @@
                 console.log('123');
                 console.log(e.target.dataset.deparTable_id);
                 let DepaId = e.target.dataset.deparTable_id;
-             
+
             }
         });*/
         </script>
