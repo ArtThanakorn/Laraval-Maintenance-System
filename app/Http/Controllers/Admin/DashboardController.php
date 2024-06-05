@@ -45,6 +45,7 @@ class DashboardController extends Controller
                 ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
                 ->groupBy('repairs.type', 'departments.department_name')
                 ->orderBy('repairs.updated_at', 'desc')
+                ->selectRaw('repairs.*')
                 ->get();
             //countWork
             $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
@@ -58,7 +59,9 @@ class DashboardController extends Controller
                             ->orWhere('tag_repair', 'like', "%$inupfilter%")
                             ->orWhere('department_name', 'like', "%$inupfilter%")
                             ->orWhere('status_repair', 'like', "%$inupfilter%");
-                    })->orderBy('repairs.updated_at', 'desc')->get();
+                    })->orderBy('repairs.updated_at', 'desc')
+                    ->selectRaw('repairs.*')
+                    ->get();
                 //jChart
                 $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
                     ->where('status_repair', $select_param)
@@ -82,7 +85,7 @@ class DashboardController extends Controller
                 })->count();
             }
         } elseif ($select_param == "รอดำเนินการ") {
-            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)->orderBy('repairs.updated_at', 'desc')->get();
+            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)->orderBy('repairs.updated_at', 'desc')->selectRaw('repairs.*')->get();
             //jChart
             $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
                 ->where('status_repair', $select_param)
@@ -101,7 +104,9 @@ class DashboardController extends Controller
                             ->orWhere('tag_repair', 'like', "%$inupfilter%")
                             ->orWhere('department_name', 'like', "%$inupfilter%")
                             ->orWhere('status_repair', 'like', "%$inupfilter%");
-                    })->orderBy('repairs.updated_at', 'desc')->get();
+                    })->orderBy('repairs.updated_at', 'desc')
+                    ->selectRaw('repairs.*')
+                    ->get();
                 //jChart
                 $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
                     ->where('status_repair', $select_param)
@@ -133,7 +138,9 @@ class DashboardController extends Controller
                         ->orWhere('tag_repair', 'like', "%$inupfilter%")
                         ->orWhere('department_name', 'like', "%$inupfilter%")
                         ->orWhere('status_repair', 'like', "%$inupfilter%");
-                })->orderBy('repairs.updated_at', 'desc')->get();
+                })->orderBy('repairs.updated_at', 'desc')
+                ->selectRaw('repairs.*')
+                ->get();
             //jChart
             $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
                 ->where(function ($query) use ($inupfilter) {
@@ -159,8 +166,9 @@ class DashboardController extends Controller
         } else {
             // $liRepair = Repair::with('department')->select('departments.department_name','name')->orderBy('updated_at', 'desc')->get();
             $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-            ->orderBy('repairs.updated_at', 'desc')
-            ->get();
+                ->orderBy('repairs.updated_at', 'desc')
+                ->selectRaw('repairs.*,departments.department_name')
+                ->get();
 
             $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
                 ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
@@ -170,7 +178,7 @@ class DashboardController extends Controller
             $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
             $ChartWorknotcompleted = Repair::where('status_repair', "รอดำเนินการ")->count();
         }
-        // dd($ChartWorkcompleted, $ChartWorknotcompleted);
+        // dd($liRepair);
 
 
         $liRepairthaiDate = $liRepair->map(function ($item) {
@@ -179,7 +187,7 @@ class DashboardController extends Controller
             $updatedItem['created_at'] = $thaiDate; // Replace the 'created_at' value
             return $updatedItem; // Return the modified item array
         });
-
+        // dd($liRepairthaiDate);
 
         // หาหน้าที่ถูกเรียก
         $page = Paginator::resolveCurrentPage('page');

@@ -50,6 +50,7 @@
                             <div class="flex" style="width: 2.5cm; margin-left: 14px;">
                                 <select id="per-page" class="form-select" aria-label="Default select example"
                                     onchange="entries()">
+
                                     <option value="10" {{ $p == 10 ? 'selected' : '' }}>10</option>
                                     <option value="25"{{ $p == 25 ? 'selected' : '' }}>25</option>
                                     <option value="50"{{ $p == 50 ? 'selected' : '' }}>50</option>
@@ -117,6 +118,7 @@
                                         <button type="button" class="btn btn-warning" data-mdb-ripple-init
                                             data-bs-toggle="modal" data-bs-target="#editModal"
                                             onclick="openEditModal({{ $key }})">{{ 'แก้ไข' }}</button>
+
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                             data-bs-target="#senWork" onclick="openSendWork({{ $key }})">
                                             {{ 'ส่งงาน' }}
@@ -132,13 +134,13 @@
                     {{--  จบตาราง  --}}
                 </div>
             </div>
-            <!-- Modal โบ้ยงาน -->
+            <!-- Modal โยนงาน -->
             <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <form id="form-technician">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="editModalLabel">เเก้ไขข้อมูลเเจ้งซ่อม</h1>
+                                <h1 class="modal-title fs-5" id="editModalLabel">ส่งต่องานไปแผนกอื่น</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -242,8 +244,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="formFile" class="form-label">{{ 'อัพเดทงานซ่อม' }}</label>
-                                            <input class="form-control" type="file" id="formFile" name="imfupdate[]"
-                                                multiple>
+                                            <input class="form-control" type="file" id="uploadFile"
+                                                name="imfupdate[]" multiple onchange="previewImg()">
                                         </div>
                                         <div class="row justify-content-start align-items-start g-2">
                                             <div class="col-auto text-center">
@@ -261,7 +263,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" id="buUpWork"
-                                    class="btn btn-primary" >{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
+                                    class="btn btn-primary">{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                             </div>
@@ -286,8 +288,8 @@
                             // Handle the success response if needed
                             console.log(response.data);
                             Swal.fire({
-                                title: "แก้ไขงานสำเสร็จ",
-                                text: "คลิกที่ปุ่มตกลง",
+                                title: "ส่งต่องานสำเร็จ",
+                                text: "กรุณาคลิกที่ปุ่ม OK",
                                 icon: "success"
                             }).then((result) => {
                                 location.href = $url + "/technician/dashboard/10";
@@ -356,26 +358,32 @@
                 // const formUpDateWork = document.getElementById('upDateWork');
 
                 function openSendWork(index) {
-                    const imageInput = document.getElementById('formFile');
-                    const imagePreviewContainer = document.getElementById('image-preview');
                     let selectedDataWork = workData.data[index];
-                    document.getElementById('updateWork-level-select').innerHTML = "";
-                    imageInput.value = "";
-
                     console.log(selectedDataWork);
 
-                    // Clear existing preview images
-                    imagePreviewContainer.innerHTML = '';
+                    const imagePreviewContainer = document.getElementById('image-preview');
+                    imagePreviewContainer.innerHTML = "";
 
+                    document.getElementById('updateWork-level-select').innerHTML = "";
+                    document.getElementById('uploadFile').value = null;
                     // Show data in Modal
                     document.getElementById('updateName').value = selectedDataWork.name;
-                    // document.getElementById('updateStatus').value = selectedDataWork.status_repair;
                     document.getElementById('updateSite').value = selectedDataWork.site;
                     document.getElementById('updateDetails').value = selectedDataWork.details;
 
 
                     const updateImg = document.getElementById('updateimg');
                     updateImg.innerHTML = '';
+                    //select สฐานนะ
+                    if (selectedDataWork.status_repair == "รอดำเนินการ") {
+                        $('#updateWork-level-select').append(
+                            `<option value="รอดำเนินการ">รอดำเนินการ</option>
+                            <option value="ดำเนินการเสร็จสิ้น">ดำเนินการเสร็จสิ้น</option>`);
+                    } else {
+                        $('#updateWork-level-select').append(
+                            `<option value="ดำเนินการเสร็จสิ้น" selected>ดำเนินการเสร็จสิ้น</option>`);
+                    }
+                    //โชรูป
                     for (const image of selectedDataWork.image_repair) {
                         // console.log(image.nameImage); (Optional for debugging)
                         const imageElement = document.createElement('img');
@@ -384,57 +392,30 @@
                         updateImg.appendChild(imageElement);
                     }
 
+                    const buUpWorkButton = document.getElementById('buUpWork');
+                    // Remove any existing event listener to prevent multiple submissions
+                    const newBuUpWorkButton = buUpWorkButton.cloneNode(true);
+                    buUpWorkButton.parentNode.replaceChild(newBuUpWorkButton, buUpWorkButton);
 
-                    document.getElementById('buUpWork').addEventListener('click', function() {
+                    newBuUpWorkButton.addEventListener('click', function() {
                         const id = selectedDataWork.id_repair;
-                        console.log('ปุ่มถูกกด');
+                        console.log('ปุ่มถูกกด ' + id);
                         sendUpdataWork(id);
                     });
                 }
 
                 function sendUpdataWork(id) {
                     // let selectedData = workData.data[index];
-                    console.log(id);
+                    // console.log(id);
                     // return false;
                     let formData = new FormData(document.getElementById('upDateWork'));
                     /* Display the key/value pairs*/
                     for (var pair of formData.entries()) {
                         console.log(pair[0] + ', ' + pair[1]);
                     }
-
-                    const formUpDateWork = document.querySelector('#upDateWork');
-
-                    imageInput.addEventListener('change', function() {
-                        const files = this.files;
-                        imagePreviewContainer.innerHTML = ''; // Clear previews again here
-
-                        for (const file of files) {
-                            const reader = new FileReader();
-                            reader.onload = function(event) {
-                                const imageElement = document.createElement('img');
-                                imageElement.src = event.target.result;
-                                imageElement.style.height = "150px";
-                                imageElement.classList.add("mx-2");
-                                imagePreviewContainer.appendChild(imageElement);
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-
-                    formUpDateWork.addEventListener("submit", (e) => {
-                        e.preventDefault();
-
-                        const files = imageInput.files;
-                        let formData = new FormData(formUpDateWork);
-
-
-                        /* Display the key/value pairs*/
-                        for (var pair of formData.entries()) {
-                            console.log(pair[0] + ', ' + pair[1]);
-                        }
-                        // return false;
-
-                        axios.post($url + `/technician/update/work/${selectedDataWork.id_repair}`, formData).then(
+                    // return false;
+                    if (id) {
+                        axios.post($url + `/technician/update/work/${id}`, formData).then(
                             function(response) {
                                 console.log(response.data);
                                 Swal.fire({
@@ -444,14 +425,34 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then((result) => {
-                                    location.reload();
+                                    location.href = $url + `/technician/dashboard/10`;
                                 });
                             }
                         ).catch(function(error) {
                             // Handle the error response if needed
                             console.error(error);
                         });
-                    });
+                    }
+                }
+
+
+                function previewImg() {
+                    const imagePreviewContainer = document.getElementById('image-preview');
+                    imagePreviewContainer.innerHTML = "";
+                    const imageInput = document.getElementById('uploadFile');
+                    const files = imageInput.files;
+                    for (const file of files) {
+                        console.log(files);
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const imageElement = document.createElement('img');
+                            imageElement.src = event.target.result;
+                            imageElement.style.height = "150px";
+                            imageElement.classList.add("mx-2");
+                            imagePreviewContainer.appendChild(imageElement);
+                        };
+                        reader.readAsDataURL(file);
+                    }
                 }
 
                 function filterRepairWork() {

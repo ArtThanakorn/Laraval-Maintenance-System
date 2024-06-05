@@ -86,11 +86,7 @@
 
             if (filterData) {
                 const dateObject = new Date(filterData.updated_at);
-                const options = {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                };
+                const options =  { year: 'numeric', month: 'long', day: 'numeric' };
                 const formattedDate = dateObject.toLocaleDateString('th-TH', options);
                 document.getElementById("list").style.display = 'block';
 
@@ -99,15 +95,13 @@
                     document.getElementById("radio3").checked = false;
                     document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
                     document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department
-                        .department_name;
+                    document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department.department_name;
                     document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
                     document.getElementById("radio3").checked = true;
                     document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
                     document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                        .department_name;
+                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
                     document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 }
             } else {

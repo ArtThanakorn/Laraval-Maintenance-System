@@ -20,7 +20,7 @@
                     <i class="fa fa-check-circle fa-5x text-success  my-3"></i>
                 </div>
                 <div class="col-auto">
-                    <h3>ยืนยันการเเจ่มซ่อมเรียบร้อย</h3>
+                    <h3>เเจ้งซ่อมสำเร็จ</h3>
                 </div>
             </div>
             <div class="row justify-content-center align-items-center g-2 mb-2">
