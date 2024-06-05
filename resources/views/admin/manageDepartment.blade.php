@@ -131,7 +131,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">{{ 'บันทึก' }}</button>
+                            <button type="button" id="buUpWork" class="btn btn-primary">{{ 'บันทึก' }}</button>
                             <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                         </div>
@@ -239,7 +239,12 @@
                 };
                 let isValid = true;
 
-                formeditDt.addEventListener("submit", (e) => {
+                const buUpWorkButton = document.getElementById('buUpWork');
+// Remove any existing event listener to prevent multiple submissions
+                    const newBuUpWorkButton = buUpWorkButton.cloneNode(true);
+                    buUpWorkButton.parentNode.replaceChild(newBuUpWorkButton, buUpWorkButton);
+
+                    newBuUpWorkButton.addEventListener('click', function(e) {
                     e.preventDefault();
 
                     let formData = new FormData(formeditDt);

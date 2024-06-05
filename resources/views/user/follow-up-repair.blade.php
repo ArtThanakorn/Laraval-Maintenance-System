@@ -78,22 +78,19 @@
 @section('script')
     <script>
         let repairData = {!! $repairsData !!}
-        // console.log(repairData);
+        console.log(repairData);
         function filterRepairs() {
             const resultRepairs = document.getElementById("search");
 
             const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
-
+          
             if (filterData) {
-                const dateObject = new Date(filterData.created_at);
-                const options = {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                };
+                const dateObject = new Date(filterData.updated_at);
+                
+                const options =  { year: 'numeric', month: 'long', day: 'numeric' };
                 const formattedDate = dateObject.toLocaleDateString('th-TH', options);
                 document.getElementById("list").style.display = 'block';
-
+                
                 if (filterData.status_repair == "รอดำเนินการ") {
                     document.getElementById("radio2").checked = true;
                     document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;

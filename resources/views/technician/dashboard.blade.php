@@ -263,7 +263,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" id="buUpWork"
-                                    class="btn btn-primary" >{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
+                                    class="btn btn-primary">{{ 'อัพเดท' }}</button>{{-- onclick="sendUpdataWork()" --}}
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                             </div>
@@ -370,8 +370,8 @@
                     document.getElementById('updateName').value = selectedDataWork.name;
                     document.getElementById('updateSite').value = selectedDataWork.site;
                     document.getElementById('updateDetails').value = selectedDataWork.details;
-                   
-                    
+
+
                     const updateImg = document.getElementById('updateimg');
                     updateImg.innerHTML = '';
                     //select สฐานนะ
@@ -391,18 +391,22 @@
                         imageElement.src = `/uploads/repair/${image.nameImage}`; // Assuming image data is in base64 format
                         updateImg.appendChild(imageElement);
                     }
+                    
+                    const buUpWorkButton = document.getElementById('buUpWork');
+                    // Remove any existing event listener to prevent multiple submissions
+                    const newBuUpWorkButton = buUpWorkButton.cloneNode(true);
+                    buUpWorkButton.parentNode.replaceChild(newBuUpWorkButton, buUpWorkButton);
 
-
-                    document.getElementById('buUpWork').addEventListener('click', function() {
+                    newBuUpWorkButton.addEventListener('click', function() {
                         const id = selectedDataWork.id_repair;
-                        console.log('ปุ่มถูกกด');
+                        console.log('ปุ่มถูกกด ' + id);
                         sendUpdataWork(id);
                     });
                 }
 
                 function sendUpdataWork(id) {
                     // let selectedData = workData.data[index];
-                    console.log(id);
+                    // console.log(id);
                     // return false;
                     let formData = new FormData(document.getElementById('upDateWork'));
                     /* Display the key/value pairs*/
@@ -410,23 +414,25 @@
                         console.log(pair[0] + ', ' + pair[1]);
                     }
                     // return false;
-                    axios.post($url + `/technician/update/work/${id}`, formData).then(
-                        function(response) {
-                            console.log(response.data);
-                            Swal.fire({
-                                position: "top-end",
-                                icon: "success",
-                                title: response.data.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then((result) => {
-                                location.href = $url + `/technician/dashboard/10`;
-                            });
-                        }
-                    ).catch(function(error) {
-                        // Handle the error response if needed
-                        console.error(error);
-                    });
+                    if (id) {
+                        axios.post($url + `/technician/update/work/${id}`, formData).then(
+                            function(response) {
+                                console.log(response.data);
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: response.data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((result) => {
+                                    location.href = $url + `/technician/dashboard/10`;
+                                });
+                            }
+                        ).catch(function(error) {
+                            // Handle the error response if needed
+                            console.error(error);
+                        });
+                    }
                 }
 
 
