@@ -59,7 +59,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
 
     //ห้อง
     Route::get('room/index',[RoomController::class, 'IndexRoom'])->name('R.index');
-    Route::post('', [RoomController::class, 'Roomstore']);
+    Route::post('room/', [RoomController::class, 'Roomstore']);
 
     //แจ้งซ่อม
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
