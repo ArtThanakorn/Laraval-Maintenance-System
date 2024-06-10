@@ -49,7 +49,7 @@
 
                                         </div>
                                         <div class="col-auto">
-                                            <button type="button" onclick="editAu({{ $dataAu->id }})"
+                                            <button type="button" onclick="editAu({{ $dataAu }})"
                                                 class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEdit">
                                                 {{ 'แก้ไข' }}
                                             </button>
@@ -134,7 +134,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">{{ 'บันทึก' }}</button>
-                        <button type="button" class="btn btn-danger"
+                        <button type="button" class="btn btn-danger" id="closemodal"
                             data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
                     <div class="modal-footer">
                         <button type="submit" id="submit-resetUserPassword"
                             class="btn btn-primary reset-item">{{ 'บันทึก' }}</button>
-                        <button type="button" class="btn btn-secondary"
+                        <button type="button" class="btn btn-secondary" id="closereset"
                             data-bs-dismiss="modal">{{ 'ยกเลิก' }}</button>
                     </div>
                 </div>
@@ -279,26 +279,16 @@
             })
         }
 
-        function editAu(id) {
-
+        function editAu(row) {
+            console.log(row);
+            // return false;
             let name = document.getElementById("nameEdit");
             let email = document.getElementById("emailEdit");
             document.getElementById('error-edit-name').innerHTML = "";
             document.getElementById('error-edit-email').innerHTML = "";
 
-            if (id) {
-                axios.get($url + `/admin/edit/${id}`)
-                    .then(function(response) {
-                        data = response.data;
-                        console.log(data);
-                        // let formData = new FormData(document.getElementById('editUser'));
-                        name.value = data.Technician.name
-                        email.value = data.Technician.email
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
-            }
+            name.value = row.name
+            email.value = row.email
 
             const formeditUa = document.querySelector('#editUser');
             let isError = {
@@ -308,7 +298,7 @@
             let isValid = true;
 
 
-            formeditUa.addEventListener("submit", (e) => {
+            formeditUa.onsubmit = function(e) {
                 e.preventDefault();
 
                 // Get form data
@@ -338,9 +328,11 @@
                 const hasError = Object.values(isError).find((err) => err === true);
                 hasError ? isValid = false : isValid = true;
 
+
+
                 if (isValid) {
 
-                    axios.post($url + `/admin/user/update/${id}`, formData)
+                    axios.post($url + `/admin/user/update/${row.id}`, formData)
                         .then(res => {
                             console.log(res)
                             Swal.fire({
@@ -358,22 +350,29 @@
                             console.error(error);
                         });
                 }
-            })
+            }
         }
 
         function resetAu(id) {
+            console.log(id);
             document.getElementById("reset-password").value = "";
             document.getElementById('error-reset-password').innerHTML = "";
             document.getElementById("reset-password-confirm").value = "";
             document.getElementById('error-reset-confirm-password').innerHTML = "";
 
             const formresetUa = document.querySelector('#resetUserAdmin');
+
             let isError = {
                 rpassword: false,
                 rpasswordConfirm: false,
             };
+
             let isValid = true;
-            formresetUa.addEventListener("submit", (e) => {
+
+            // const submitButton = document.getElementById('submit-resetUserPassword');
+            formresetUa.removeEventListener('click', resetAu); // Ensure you use a named function
+
+            formresetUa.onsubmit = function(e) {
                 e.preventDefault();
 
                 // Get form data
@@ -407,10 +406,9 @@
                 hasError ? isValid = false : isValid = true;
 
                 if (isValid) {
-
                     axios.post($url + `/admin/user/reset/password/${id}`, formData)
                         .then(res => {
-                            console.log(res)
+                            console.log(res);
                             Swal.fire({
                                 position: "top-end",
                                 icon: "success",
@@ -426,7 +424,9 @@
                             console.error(error);
                         });
                 }
-            })
+
+            };
+
         }
 
         document.querySelector('#AuTable').addEventListener('click', (e) => {

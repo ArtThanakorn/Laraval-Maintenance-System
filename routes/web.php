@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\ConfirmRepairController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\TechnicianUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardTechnicianController;
@@ -55,6 +56,10 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::post('department/create', [DepartmentController::class, 'createDepartment'])->name('D.create');
     Route::post('department/update/{id}', [DepartmentController::class, 'updateDepartment'])->name('D.update');
     Route::delete('department/destroy/{id}', [DepartmentController::class, 'destroy_department']);
+
+    //ห้อง
+    Route::get('room/index',[RoomController::class, 'IndexRoom'])->name('R.index');
+    Route::post('', [RoomController::class, 'Roomstore']);
 
     //แจ้งซ่อม
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');

@@ -16,6 +16,7 @@ class TechnicianUserController extends Controller
         $DataTu = new User();
         $liTechnicianUser = User::with('departments')->where('role', 2)->get();
         $Department = Department::where('status_display', 0)->get();
+        // dd();
         return view('admin.manage-technicianuser', compact('DataTu', 'liTechnicianUser', 'Department'));
     }
 
