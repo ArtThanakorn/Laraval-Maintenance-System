@@ -16,7 +16,7 @@ class RoomController extends Controller
         $rooms = Room::with('detail')->orderBy('updated_at', 'desc')->get();
 
 
-        return view('admin.room',compact('rooms'));
+        return view('admin.room', compact('rooms'));
     }
 
     public function Roomstore(Request $request)
@@ -26,7 +26,6 @@ class RoomController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nameRoom' => ['required', 'string'],
-            'equipment' => ['required']
         ]);
 
         if ($validator->fails()) {
@@ -39,18 +38,10 @@ class RoomController extends Controller
                 'name_room' => $request->nameRoom,
             ]);
 
-            foreach ($request->equipment as $equipments) {
-                RoomDetails::create([
-                    'room_id' => $rooms->id,
-                    'name_equipment' => $equipments,
-                ]);
-              }
-
-
             if ($rooms) {
                 return response()->json([
                     'status' => '200',
-                    'message' => 'เพิ่มรายชื่อแผนกสำเร็จ'
+                    'message' => 'เพิ่มห้องสำเร็จ'
                 ], 200);
             } else {
                 return response()->json([
