@@ -449,7 +449,7 @@
             };
             let isValid = true;
             const formResetUt = document.querySelector('#resetTechnician');
-            
+
             formResetUt.onsubmit = function(e) {
                 e.preventDefault();
 

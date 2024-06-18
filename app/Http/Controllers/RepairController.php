@@ -6,28 +6,35 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
+use App\Models\Room;
+use App\Models\RoomDetails;
 use Illuminate\Http\Request;
 use Phattarachai\LineNotify\Facade\Line;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
 
+
 class RepairController extends Controller
 {
-    public function index()
+    public function index($id)
     {
+        $rooms = RoomDetails::where('room_id',$id)->orderBy('updated_at', 'desc')->get();
+        // dd($rooms);
         $Department = Department::where('status_display', 0)->get();
-        return view('admin.repair', compact('Department'));
+
+        return view('admin.repair', compact('Department','rooms'));
     }
 
     public function store(Request $request)
     {
         // dd($request->all());
         $request->validate([
+            'statusRadio'=> 'required|string',
             'chackname' => 'required|string',
-            'chacktype' => 'required',
+            'toolcheck' => 'required',
             'detail' => 'required|string',
-            'location' => 'required|string',
+            // 'location' => 'required|string',
             'email' => 'required|string',
             'number' => 'required|nullable|numeric|digits_between:10,10',
             'image' => 'required|array|max:5',
@@ -37,7 +44,7 @@ class RepairController extends Controller
             'checkstatus.required' => 'กรุณาระบุสถาณะผู้เเจ่งซ่อม',
             'chackname.required' => 'กรุณาระบุชื่อ-นามสกุลผู้เเจ่งซ่อม',
             'detail.required' => 'กรุณาระบุรายละเอียดปัญหา',
-            'location.required' => 'กรุณาระบุสถาณที่เเจ่งซ่อม',                                        
+            // 'location.required' => 'กรุณาระบุสถาณที่เเจ่งซ่อม',
             'email.required' => 'กรุณาระบุอีเมลผู้เเจ่งซ่อม',
             'number.required' => 'กรุณาระบุเบอร์โทร',
             'number.numeric' => 'กรุณาระบุตัวเลขเฉพาะในช่องเบอร์โทร',

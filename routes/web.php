@@ -60,6 +60,10 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     //ห้อง
     Route::get('room/index', [RoomController::class, 'IndexRoom'])->name('R.index');
     Route::post('room/create', [RoomController::class, 'Roomstore'])->name('R.create');
+    Route::post('room/tool/create', [RoomController::class, 'RoomStoreEquipment'])->name('R.create.tool');
+    Route::post('room/tool/remove', [RoomController::class, 'EquipmentUpdata'])->name('R.remove.tool');
+    Route::post('room/update', [RoomController::class, 'EditNameRoom'])->name('R.updata');
+    Route::delete('room/destroy/{id}',[RoomController::class, 'DeleteRoom'])->name('R.deleta');
 
     //แจ้งซ่อม
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
@@ -76,7 +80,7 @@ Route::resource('/employee', EmployeeCRUDController::class);
 
 // rounte users
 Route::prefix('user')->group(function () {
-    Route::get('repair', [RepairController::class, 'index'])->name('index.repair');
+    Route::get('repair/{id}', [RepairController::class, 'index'])->name('index.repair');
     Route::post('addrepair', [RepairController::class, 'store'])->name('add.repair');
     Route::get('confirm/repair/{id}', [RepairController::class, 'confirm_repair'])->name('user.confirmRepair');
     Route::get('followup/repair', [RepairController::class, 'followUp'])->name('repair.followUp');
