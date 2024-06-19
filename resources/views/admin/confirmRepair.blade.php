@@ -20,7 +20,7 @@
                     <i class="fa fa-check-circle fa-5x text-success  my-3"></i>
                 </div>
                 <div class="col-auto">
-                    <h3>ยืนยันการเเจ่มซ่อมเรียบร้อย</h3>
+                    <h3>{{'ยืนยันการแจ้งซ่อมเรียบร้อย'}}</h3>
                 </div>
             </div>
             <div class="row justify-content-center align-items-center g-2 mb-2">
@@ -87,12 +87,12 @@
 
             </div>
 
-            <div class="row justify-content-center align-items-center g-2 mb-2">
+            {{-- <div class="row justify-content-center align-items-center g-2 mb-2">
                 <div class="col-auto">
                     <a class="btn btn-success" href="{{ route('index.repair') }}" role="button"><i
                             class="fa fa-home"></i>กลับหน้าหลัก</a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

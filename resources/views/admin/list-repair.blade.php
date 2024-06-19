@@ -62,9 +62,15 @@
                         <select class="form-select" id="status-repair" aria-label="Default select example"
                             onchange="statusRepair()">
                             {{-- <option value="สถานะงานเเจ้งซ่อม" selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option> --}}
-                            <option value="ทั้งหมด" selected {{isset($_GET["status"]) && $_GET["status"] == "ทั้งหมด"?'selected' : ''}}>{{ __('ทั้งหมด') }}</option>
-                            <option value="ดำเนินการเสร็จสิ้น"{{isset($_GET["status"]) && $_GET["status"] == "ดำเนินการเสร็จสิ้น" ?'selected' : ''}}>{{ __('ดำเนินการเสร็จสิ้น') }}</option>
-                            <option value="รอดำเนินการ"{{isset($_GET["status"]) && $_GET["status"] == "รอดำเนินการ"?'selected' : ''}}>{{ __('รอดำเนินการ') }}</option>
+                            <option value="ทั้งหมด" selected
+                                {{ isset($_GET['status']) && $_GET['status'] == 'ทั้งหมด' ? 'selected' : '' }}>
+                                {{ __('ทั้งหมด') }}</option>
+                            <option
+                                value="ดำเนินการเสร็จสิ้น"{{ isset($_GET['status']) && $_GET['status'] == 'ดำเนินการเสร็จสิ้น' ? 'selected' : '' }}>
+                                {{ __('ดำเนินการเสร็จสิ้น') }}</option>
+                            <option
+                                value="รอดำเนินการ"{{ isset($_GET['status']) && $_GET['status'] == 'รอดำเนินการ' ? 'selected' : '' }}>
+                                {{ __('รอดำเนินการ') }}</option>
                         </select>
                     </div>
                 </div>
@@ -93,6 +99,7 @@
                             <th scope="col">{{ 'รหัสแจ้งซ่อม' }}</th>
                             <th scope="col">{{ 'สถานะงานเเจ้งซ่อม' }}</th>
                             <th scope="col">{{ 'วันที่แจ้งซ่อม' }}</th>
+                            <th scope="col">{{ 'จัดการงานซ่อม' }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,12 +114,34 @@
                                 <td>{{ $data['tag_repair'] }}</td>
                                 <td>{{ $data['status_repair'] }}</td>
                                 <td>{{ $data['created_at'] }}</td>
+                                <td> {{-- onclick="openDetail({{ $row->detail }})" --}}
+                                    <button type="button" class="btn btn-warning" onclick="openmodal({{ $data['name'] }})" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" ><i class="bi bi-gear"></i></button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-end">
                     {!! $repairs->links('layout.pagination-custom') !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -128,18 +157,18 @@
             </div>
         </div>
         <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <p>{{ 'จำนวนงานแยกตามประเภทที่ไม่รู้' }}</p>
-                <canvas id="graphCanvas2"></canvas>
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ 'จำนวนงานแยกตามประเภทที่ไม่รู้' }}</p>
+                    <canvas id="graphCanvas2"></canvas>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 @section('script')
     <script type="module">
-       let jsData = {!! json_encode($jChart) !!};
+        let jsData = {!! json_encode($jChart) !!};
         console.log(jsData.datasets1.data.work);
 
         // เก็บค่า department_name ใน array ใหม่
@@ -170,16 +199,16 @@
                 }
             }
         });
-//ผลรวมงานทั้งหมด 
-let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
-let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
+        //ผลรวมงานทั้งหมด
+        let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
+        let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
         let myChart2 = new Chart(ctx2, {
             type: 'pie',
             data: {
-                labels: ['งานที่ยังไม่เสร็จ','งานที่เสร็จแล้ว'],
+                labels: ['งานที่ยังไม่เสร็จ', 'งานที่เสร็จแล้ว'],
                 datasets: [{
-                    data:[jsnotcompleted,jscompleted] ,
-                    backgroundColor:jsData.datasets2.backgroundColor ,
+                    data: [jsnotcompleted, jscompleted],
+                    backgroundColor: jsData.datasets2.backgroundColor,
                     hoverOffset: 4,
                     borderWidth: 1,
                 }]
@@ -212,11 +241,17 @@ let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
             let s = document.getElementById('status-repair').value;
             let p = document.getElementById('per-page').value;
             let i = document.getElementById('inpufil').value;
-            let queryParam = encodeURIComponent(s); 
+            let queryParam = encodeURIComponent(s);
             let inpuParam = encodeURIComponent(i);
-            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q="+inpuParam;
+            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q=" + inpuParam;
             console.log(url);
             window.location.href = url;
         }
+    </script>
+    <script>
+       function openmodal(row)
+       {
+            console.log('123');
+       }
     </script>
 @endsection

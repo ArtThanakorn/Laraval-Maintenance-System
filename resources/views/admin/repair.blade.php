@@ -28,7 +28,7 @@
                             <div class="col">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="statusRadio" value="อาจารย์"
-                                        id="flexRadioDefault1">
+                                        @if (old('statusRadio') == 'อาจารย์') checked @endif id="flexRadioDefault1">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                         {{ 'อาจารย์' }}
                                     </label>
@@ -37,7 +37,7 @@
                             <div class="col">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="statusRadio" value="เจ้าหน้าที่"
-                                        id="flexRadioDefault2">
+                                        @if (old('statusRadio') == 'เจ้าหน้าที่') checked @endif id="flexRadioDefault2">
                                     <label class="form-check-label" for="flexRadioDefault2">
                                         {{ 'เจ้าหน้าที่' }}
                                     </label>
@@ -46,7 +46,7 @@
                             <div class="col">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="statusRadio" value="นักศึกษา"
-                                        id="flexRadioDefault3">
+                                        @if (old('statusRadio') == 'นักศึกษา') checked @endif id="flexRadioDefault3">
                                     <label class="form-check-label" for="flexRadioDefault3">
                                         {{ 'นักศึกษา' }}
                                     </label>
@@ -60,7 +60,7 @@
                         </span>
                     </div>
                 </div>
-
+                <input type="hidden" name="location" value="{{$rooms->name_room}}">
                 <div class="row justify-content-center align-items-center g-2 mb-2">
                     <div class="row justify-content-center align-items-center g-2">
                         <div class="col"><label for="" class="form-label">{{ 'ชื่อผู้เเจ้ง' }}</label></div>
@@ -88,10 +88,14 @@
                             <span class="input-group-text bg-info">
                                 <i class="fas fa-wrench"></i>
                             </span>
+                            {{-- @dd($rooms) --}}
                             <select class="form-select" aria-label="Default select example" name="toolcheck" id="chacktype">
                                 <option disabled selected>--เลือกอุปกรณ์ซ่อม--</option>
-                                @foreach ($rooms as $tool)
-                                    <option value="{{ $tool->name_equipment }}" @if (old('toolcheck') == $tool->name_equipment) selected @endif>{{ $tool->name_equipment }}</option>
+
+                                @foreach ($rooms->detail as $detail)
+                                <option value="{{ $detail->name_equipment }}" @if (old('toolcheck') == $detail->name_equipment) selected @endif>{{ $detail->name_equipment }}</option>
+                                {{-- <option value="{{ $tool->name_equipment }}" @if (old('toolcheck') == $tool->name_equipment) selected @endif>{{ $tool->name_equipment }}</option> --}}
+                                {{-- {{ dd($detail) }} --}}
                                 @endforeach
                             </select>
                         </div>
@@ -163,7 +167,8 @@
                             <span class="input-group-text bg-info">
                                 <i class="fa fa-file-image"></i>
                             </span>
-                            <input class="form-control" type="file" id="formFileMultiple" name="image[]"  value="{{ old('image') }}" multiple>
+                            <input class="form-control" type="file" id="formFileMultiple" name="image[]"
+                                value="{{ old('image') }}" multiple>
                         </div>
                         <span role="alert" class="text-danger">
                             @error('image')
