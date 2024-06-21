@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id('department_id'); // bigint(20) unsigned NOT NULL AUTO_INCREMENT
-            $table->string('department_name', 100); // varchar(100) NOT NULL
+            $table->string('department_name', 100)->comment('ชื่อแผนก'); // varchar(100) NOT NULL
+            $table->tinyInteger('status_display')->comment('0=เปิดใช้งาน, 1=ไม่เปิดใช้งาน');
             $table->timestamps();
         });
     }

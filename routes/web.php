@@ -67,6 +67,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
 
     //แจ้งซ่อม
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
+    Route::post('repair/update', [DashboardController::class, 'setdepart'])->name('update.repair');
     Route::get('handle/repair', [RepairController::class, 'handle_repaair'])->name('handle.repair');
 });
 

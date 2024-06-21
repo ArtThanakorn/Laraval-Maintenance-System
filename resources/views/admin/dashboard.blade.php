@@ -109,7 +109,7 @@
                                             <i class="fa fa-users fa-3x " style="color: C738BD"></i>
                                             <div class="text-right text-secondary">
                                                 <h5>ห้อง</h5>
-                                                {{-- <h3>{{$department}}</h3> --}}
+                                                <h3>{{$rooms}}</h3>
                                             </div>
                                         </div>
                                     </div>

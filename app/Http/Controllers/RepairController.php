@@ -84,13 +84,7 @@ class RepairController extends Controller
             }
         }
 
-        // $url = url('/') . "/technician/dashboard/10";
-        // $department = Department::find($request->chacktype);
-        // $message = " มีการส่งงานไปยัง {$department->department_name}\n";
-        // $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
-        // if ($repairs) {
-        //     Line::send($message . $message2);
-        // };
+
         return redirect()->route('user.confirmRepair', ['id' => $saveRepair->id_repair]);
     }
     public function confirm_repair($id)

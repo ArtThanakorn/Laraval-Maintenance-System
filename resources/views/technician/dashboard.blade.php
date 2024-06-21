@@ -162,7 +162,7 @@
                                         <label for="inputName" class="col-4 col-form-label">สถานที่</label>
                                         <div class="col-8">
                                             <input type="text" class="form-control" id="editModalSite" readonly>
-                                            {{-- <input type="text" class="form-control" name="inputName" id="editModalSite" 
+                                            {{-- <input type="text" class="form-control" name="inputName" id="editModalSite"
                                                 placeholder="Name" > --}}
                                         </div>
                                     </div>
@@ -391,7 +391,7 @@
                         imageElement.src = `/uploads/repair/${image.nameImage}`; // Assuming image data is in base64 format
                         updateImg.appendChild(imageElement);
                     }
-                    
+
                     const buUpWorkButton = document.getElementById('buUpWork');
                     // Remove any existing event listener to prevent multiple submissions
                     const newBuUpWorkButton = buUpWorkButton.cloneNode(true);

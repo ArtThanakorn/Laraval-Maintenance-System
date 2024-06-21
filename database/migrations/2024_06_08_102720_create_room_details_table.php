@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('room_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('room_id');
-            $table->string('name_equipment');
+            $table->integer('room_id')->comment('id ห้อง');
+            $table->string('name_equipment')->comment('อุปกรณ์ในห้อง');
             $table->timestamps();
         });
     }
