@@ -229,6 +229,7 @@
                 }
             }
         });
+
         //ผลรวมงานทั้งหมด
         let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
         let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
@@ -337,7 +338,7 @@
             formWorkRepairSubmit.onsubmit = function(e) {
                 e.preventDefault();
 
-                console.log('123');
+                // console.log('123');
                 /* Display the key/value pairs*/
                 for (var pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);
