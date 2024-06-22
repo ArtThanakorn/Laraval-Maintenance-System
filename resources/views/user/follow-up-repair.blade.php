@@ -78,7 +78,7 @@
 @section('script')
     <script>
         let repairData = {!! $repairsData !!}
-        // console.log(repairData);
+        console.log(repairData);
         function filterRepairs() {
             const resultRepairs = document.getElementById("search");
 
@@ -86,6 +86,7 @@
 
             if (filterData) {
                 const dateObject = new Date(filterData.updated_at);
+
                 const options =  { year: 'numeric', month: 'long', day: 'numeric' };
                 const formattedDate = dateObject.toLocaleDateString('th-TH', options);
                 document.getElementById("list").style.display = 'block';

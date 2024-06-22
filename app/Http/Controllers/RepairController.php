@@ -9,6 +9,8 @@ use App\Models\Repair;
 use Illuminate\Http\Request;
 use Phattarachai\LineNotify\Facade\Line;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+
 
 class RepairController extends Controller
 {
@@ -35,7 +37,7 @@ class RepairController extends Controller
             'checkstatus.required' => 'กรุณาระบุสถาณะผู้เเจ่งซ่อม',
             'chackname.required' => 'กรุณาระบุชื่อ-นามสกุลผู้เเจ่งซ่อม',
             'detail.required' => 'กรุณาระบุรายละเอียดปัญหา',
-            'location.required' => 'กรุณาระบุสถาณที่เเจ่งซ่อม',
+            'location.required' => 'กรุณาระบุสถาณที่เเจ่งซ่อม',                                        
             'email.required' => 'กรุณาระบุอีเมลผู้เเจ่งซ่อม',
             'number.required' => 'กรุณาระบุเบอร์โทร',
             'number.numeric' => 'กรุณาระบุตัวเลขเฉพาะในช่องเบอร์โทร',
@@ -97,7 +99,8 @@ class RepairController extends Controller
 
     public function followUp()
     {
-        $repairsData = Repair::with('department')->get();
+        $repairsData = Repair::with('department')
+        ->get();
         return view('user.follow-up-repair', compact('repairsData'));
     }
 }
