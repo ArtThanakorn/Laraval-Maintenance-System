@@ -78,7 +78,6 @@ Route::get('/login/register', [RegisterController::class, 'index']);
 // rounte Employee
 Route::resource('/employee', EmployeeCRUDController::class);
 
-
 // rounte users
 Route::prefix('user')->group(function () {
     Route::get('repair/{id}', [RepairController::class, 'index'])->name('index.repair');
