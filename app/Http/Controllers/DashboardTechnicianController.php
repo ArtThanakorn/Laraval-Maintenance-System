@@ -97,6 +97,12 @@ class DashboardTechnicianController extends Controller
 
     public function workRecipient(Request $request)
     {
-        dd($request);
+        // dd($request->all());
+        Repair::where('id_repair',$request->repair_id)->update(['user_responsible'=>$request->recipient]);
+
+        return response()->json([
+            'success' => 1,
+            'message' => 'การมอบหมายงานเสร็จสมบูรณ์'
+        ]);
     }
 }
