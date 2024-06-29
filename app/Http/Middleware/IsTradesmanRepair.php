@@ -21,7 +21,7 @@ class IsTradesmanRepair
                 return $next($request);
             } else {
                 Auth::logout();
-                return redirect(route('login.page'))->with('error', "ไม่ใช่ admin");
+                return redirect(route('login.page'))->with('error', "ไม่ใช่ technician");
             }
         } else {
             return redirect(route('login.page'));

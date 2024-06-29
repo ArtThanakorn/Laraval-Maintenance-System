@@ -262,7 +262,7 @@ class DashboardController extends Controller
         $repairs = Repair::where('id_repair', $request->id_repair)->update(['type' => $request->depart_id]);
 
         // $url = url('/') . "/technician/dashboard/10";
-        $url = url('/') . "/technician/dashboard/10";
+        $url = route('technician.dashboard',['p'=>10]);
         $department = Department::find($request->depart_id);
         $message = " มีการส่งงานไปยัง {$department->department_name}\n";
         $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";

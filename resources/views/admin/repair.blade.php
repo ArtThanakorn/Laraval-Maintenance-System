@@ -176,7 +176,6 @@
                                 <strong> {{ $message }}</strong>
                             @enderror
                         </span>
-
                     </div>
                 </div>
             </div>
