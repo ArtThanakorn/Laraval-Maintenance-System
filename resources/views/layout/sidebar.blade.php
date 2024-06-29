@@ -10,10 +10,10 @@
                             <div class="sb-nav-link-icon"><i class="fa fa-home text-info"></i></div>
                             หน้าหลัก
                         </a>
-                        <a class="nav-link" href="{{ route('index.repair') }}">
+                        {{-- <a class="nav-link" href="{{ route('index.repair') }}">
                             <div class="sb-nav-link-icon"><i class="fa fa-wrench text-info"></i></div>
                             แจ้งซ่อม
-                        </a>
+                        </a> --}}
                         <a class="nav-link" href="{{route('repair.followUp')}}">
                             <div class="sb-nav-link-icon"><i class="fa fa-tasks text-info"></i></div>
                             ติดตามการแจ้งซ่อม

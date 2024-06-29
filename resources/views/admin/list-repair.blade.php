@@ -60,9 +60,15 @@
                         <select class="form-select" id="status-repair" aria-label="Default select example"
                             onchange="statusRepair()">
                             {{-- <option value="สถานะงานเเจ้งซ่อม" selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option> --}}
-                            <option value="ทั้งหมด" selected {{isset($_GET["status"]) && $_GET["status"] == "ทั้งหมด"?'selected' : ''}}>{{ __('ทั้งหมด') }}</option>
-                            <option value="ดำเนินการเสร็จสิ้น"{{isset($_GET["status"]) && $_GET["status"] == "ดำเนินการเสร็จสิ้น" ?'selected' : ''}}>{{ __('ดำเนินการเสร็จสิ้น') }}</option>
-                            <option value="รอดำเนินการ"{{isset($_GET["status"]) && $_GET["status"] == "รอดำเนินการ"?'selected' : ''}}>{{ __('รอดำเนินการ') }}</option>
+                            <option value="ทั้งหมด" selected
+                                {{ isset($_GET['status']) && $_GET['status'] == 'ทั้งหมด' ? 'selected' : '' }}>
+                                {{ __('ทั้งหมด') }}</option>
+                            <option
+                                value="ดำเนินการเสร็จสิ้น"{{ isset($_GET['status']) && $_GET['status'] == 'ดำเนินการเสร็จสิ้น' ? 'selected' : '' }}>
+                                {{ __('ดำเนินการเสร็จสิ้น') }}</option>
+                            <option
+                                value="รอดำเนินการ"{{ isset($_GET['status']) && $_GET['status'] == 'รอดำเนินการ' ? 'selected' : '' }}>
+                                {{ __('รอดำเนินการ') }}</option>
                         </select>
                     </div>
                 </div>
@@ -89,10 +95,11 @@
                             <th scope="col">{{ 'รหัสแจ้งซ่อม' }}</th>
                             <th scope="col">{{ 'สถานะงานเเจ้งซ่อม' }}</th>
                             <th scope="col">{{ 'วันที่แจ้งซ่อม' }}</th>
+                            <th scope="col">{{ 'จัดการงานซ่อม' }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @dd($repairs) --}}
+                        {{-- @dd($repairs[0]) --}}
                         @foreach ($repairs as $key => $data)
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
@@ -103,6 +110,11 @@
                                 <td>{{ $data['tag_repair'] }}</td>
                                 <td>{{ $data['status_repair'] }}</td>
                                 <td>{{ $data['created_at'] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-whatever="{{ $data['id_repair'] }}"
+                                        onclick="openmodal1({{ $key }})">{{ 'แก้ไข' }}</button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -110,6 +122,53 @@
                 <div class="d-flex justify-content-end">
                     {!! $repairs->links('layout.pagination-custom') !!}
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="edit-work-repair">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'จัดการงานซ่อม' }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row justify-content-center align-items-center g-2">
+                            <div class="col-md-6">
+                                <p id="name-repair"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p id="tool-repair"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p id="room-repair"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p id="tag-repair"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">{{ 'ประเภทงานซ่อม' }}</label>
+                                    <select class="form-select" name="depart_id" id="department-select">
+                                        <option selected disabled>{{ '--เลือกประเภทงานซ่อม--' }}</option>
+                                        @foreach ($branch_department as $departments)
+                                            <option value="{{ $departments->department_id }}">
+                                                {{ $departments->department_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" name="id_repair" id="edit-repair-id">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" onclick="formSubmit()">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -131,11 +190,10 @@
             </div>
         </div>
     </div>
-    </div>
 @endsection
 @section('script')
     <script type="module">
-       let jsData = {!! json_encode($jChart) !!};
+        let jsData = {!! json_encode($jChart) !!};
         console.log(jsData.datasets1.data.work);
 
         // เก็บค่า department_name ใน array ใหม่
@@ -166,16 +224,16 @@
                 }
             }
         });
-//ผลรวมงานทั้งหมด
-let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
-let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
+        //ผลรวมงานทั้งหมด
+        let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
+        let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
         let myChart2 = new Chart(ctx2, {
             type: 'pie',
             data: {
-                labels: ['งานที่ยังไม่เสร็จ','งานที่เสร็จแล้ว'],
+                labels: ['งานที่ยังไม่เสร็จ', 'งานที่เสร็จแล้ว'],
                 datasets: [{
-                    data:[jsnotcompleted,jscompleted] ,
-                    backgroundColor:jsData.datasets2.backgroundColor ,
+                    data: [jsnotcompleted, jscompleted],
+                    backgroundColor: jsData.datasets2.backgroundColor,
                     hoverOffset: 4,
                     borderWidth: 1,
                 }]
@@ -189,6 +247,26 @@ let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
         });
     </script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const exampleModal = document.getElementById('exampleModal')
+            exampleModal.addEventListener('show.bs.modal', event => {
+                // Button that triggered the modal
+                const button = event.relatedTarget
+                // Extract info from data-bs-* attributes
+                const recipient = button.getAttribute('data-bs-whatever')
+                // If necessary, you could initiate an AJAX request here
+                // and then do the updating in a callback.
+                //
+                // Update the modal's content.
+                console.log(recipient);
+                // const modalTitle = exampleModal.querySelector('.modal-title')
+                const modalBodyInput = exampleModal.querySelector('#edit-repair-id')
+
+                // modalTitle.textContent = `New message to ${recipient}`
+                modalBodyInput.value = recipient;
+            })
+        });
+
         function entries() {
             let pPage = document.getElementById('per-page').value;
             console.log(pPage);
@@ -210,9 +288,72 @@ let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
             let i = document.getElementById('inpufil').value;
             let queryParam = encodeURIComponent(s);
             let inpuParam = encodeURIComponent(i);
-            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q="+inpuParam;
+            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q=" + inpuParam;
             console.log(url);
             window.location.href = url;
+        }
+
+        let current_page_items = {!! json_encode($repairs) !!};
+        let branchDepartment = {!! json_encode($branch_department) !!};
+
+        function openmodal1(rows) {
+            let data = current_page_items.data[rows];
+            console.log(branchDepartment);
+
+            document.getElementById('name-repair').innerHTML = "ชื่อ " + data.name;
+            document.getElementById('tool-repair').innerHTML = "อุปกรณ์ " + data.equipment;
+            document.getElementById('room-repair').innerHTML = "ห้อง " + data.site;
+            document.getElementById('tag-repair').innerHTML = "รหัสแจ้งซ่อม " + data.tag_repair;
+
+
+            const departmentSelectElement = document.getElementById('department-select');
+
+            departmentSelectElement.innerHTML = '';
+
+            for (const row of branchDepartment) {
+                const optionElement = document.createElement('option');
+                optionElement.value = row.department_id;
+                optionElement.textContent = row.department_name;
+
+                // Set 'selected' attribute based on condition
+                if (row.department_id == data.type) {
+                    optionElement.selected = true;
+                    optionElement.disabled = true;
+                }
+                departmentSelectElement.appendChild(optionElement);
+            }
+        }
+
+        function formSubmit() {
+            const formWorkRepairSubmit = document.getElementById('edit-work-repair');
+            let formData = new FormData(formWorkRepairSubmit);
+            const Routing = "{{ route('update.repair') }}";
+
+            formWorkRepairSubmit.onsubmit = function(e) {
+                e.preventDefault();
+
+                console.log('123');
+                /* Display the key/value pairs*/
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+                // return false;
+
+                axios.post(Routing, formData).then((res) => {
+                    // console.log(res);
+                    if (res.status = 200) {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: res.data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        }
+                });
+            }
         }
     </script>
 @endsection

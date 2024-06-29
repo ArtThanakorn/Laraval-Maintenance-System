@@ -102,6 +102,25 @@
                                 </div>
                             </div>
 
+                            <div class="col-xl-3 col-sm-6 p2">
+                                <div class="card card-common">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <i class="fa fa-users fa-3x " style="color: C738BD"></i>
+                                            <div class="text-right text-secondary">
+                                                <h5>ห้อง</h5>
+                                                <h3>{{$rooms}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-secondary">
+                                        <a class="small text-white stretched-link" href="{{ route('R.index') }}"></a>
+                                        <i class="fa fa-arrow-circle-right mr-3"></i>
+                                        <span>ข้อมูลเพิ่มเติม</span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

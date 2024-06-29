@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\ConfirmRepairController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\TechnicianUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardTechnicianController;
@@ -57,8 +58,17 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::post('department/update/{id}', [DepartmentController::class, 'updateDepartment'])->name('D.update');
     Route::delete('department/destroy/{id}', [DepartmentController::class, 'destroy_department']);
 
+    //ห้อง
+    Route::get('room/index', [RoomController::class, 'IndexRoom'])->name('R.index');
+    Route::post('room/create', [RoomController::class, 'Roomstore'])->name('R.create');
+    Route::post('room/tool/create', [RoomController::class, 'RoomStoreEquipment'])->name('R.create.tool');
+    Route::post('room/tool/remove', [RoomController::class, 'EquipmentUpdata'])->name('R.remove.tool');
+    Route::post('room/update', [RoomController::class, 'EditNameRoom'])->name('R.updata');
+    Route::delete('room/destroy/{id}',[RoomController::class, 'DeleteRoom'])->name('R.deleta');
+
     //แจ้งซ่อม
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
+    Route::post('repair/update', [DashboardController::class, 'setdepart'])->name('update.repair');
     Route::get('handle/repair', [RepairController::class, 'handle_repaair'])->name('handle.repair');
 });
 
@@ -72,7 +82,7 @@ Route::resource('/employee', EmployeeCRUDController::class);
 
 // rounte users
 Route::prefix('user')->group(function () {
-    Route::get('repair', [RepairController::class, 'index'])->name('index.repair');
+    Route::get('repair/{id}', [RepairController::class, 'index'])->name('index.repair');
     Route::post('addrepair', [RepairController::class, 'store'])->name('add.repair');
     Route::get('confirm/repair/{id}', [RepairController::class, 'confirm_repair'])->name('user.confirmRepair');
     Route::get('followup/repair', [RepairController::class, 'followUp'])->name('repair.followUp');

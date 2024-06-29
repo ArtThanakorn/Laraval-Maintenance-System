@@ -366,7 +366,7 @@
                                 `<option value="${item.department_id}">${item.department_name}</option>`);
                         });
                         $('#edit-level-select').html('');
-                        if (data.Technician.level) {
+                        if (data.Technician.level == 1) {
                             $('#edit-level-select').append(
                                 `<option value="1">หัวหน้า</option>
                                 <option value="2">พนักงาน</option>`);
@@ -389,7 +389,7 @@
             let isValid = true;
             const formeditUt = document.querySelector('#editTechnician');
 
-            formeditUt.addEventListener("submit", (e) => {
+            formeditUt.onsubmit = function(e) {
                 e.preventDefault();
                 let formData = new FormData(formeditUt);
                 const Name = formData.get('name');
@@ -435,7 +435,7 @@
                             console.error(error);
                         });
                 }
-            })
+            };
         }
 
         function resetUt(id) {
@@ -450,8 +450,9 @@
             let isValid = true;
             const formResetUt = document.querySelector('#resetTechnician');
 
-            formResetUt.addEventListener("submit", (e) => {
+            formResetUt.onsubmit = function(e) {
                 e.preventDefault();
+
                 let formData = new FormData(formResetUt);
 
                 const ResetPassword = formData.get('password');
@@ -503,7 +504,7 @@
                             console.error(error);
                         });
                 }
-            });
+            };
         }
 
         document.querySelector('#UtTable').addEventListener('click', (e) => {

@@ -19,6 +19,8 @@ class UserSeeder extends Seeder
             'email' =>'admin1@rmuti.ac.th',
             'password'=> Hash::make('a123456789'),
             'role'=> 1,
+            'department'=> 0,
+            'level'=> 0,
         ]);
 
         User::create([
@@ -26,6 +28,8 @@ class UserSeeder extends Seeder
             'email' =>'tradesman1@rmuti.ac.th',
             'password'=> Hash::make('t123456789'),
             'role'=> 2,
+            'department'=> 1,
+            'level'=> 1,
         ]);
     }
 }

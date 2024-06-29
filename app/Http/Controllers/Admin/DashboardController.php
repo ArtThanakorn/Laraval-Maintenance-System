@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Repair;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Phattarachai\Thaidate\Thaidate;
+use Phattarachai\LineNotify\Facade\Line;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -22,7 +24,8 @@ class DashboardController extends Controller
         $countAdmin = User::where('role', 1)->count();
         $countTechnician = User::where('role', 2)->count();
         $department = Department::all()->count();
-        return view('admin.dashboard', compact('countRepair', 'countAdmin', 'countTechnician', 'department'));
+        $rooms = Room::all()->count();
+        return view('admin.dashboard', compact('rooms', 'countRepair', 'countAdmin', 'countTechnician', 'department'));
     }
 
     public function repair_show(Request $request, $p)
@@ -49,7 +52,7 @@ class DashboardController extends Controller
                 ->get();
             //countWork
             $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
-// dd( $departments);
+
             if ($select_param == "ดำเนินการเสร็จสิ้น" && $inupfilter) {
                 $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)
                     ->where(function ($query) use ($inupfilter) {
@@ -248,9 +251,28 @@ class DashboardController extends Controller
                 'backgroundColor' => ["#dc3545", "#198754"]
             ]
         ]);
-        // dd($data);
-
+        // dd($currentPageItems);
+        $branch_department = Department::where('status_display', 0)->get();
         // dd( $ChartWorkcompleted,$ChartWorknotcompleted);
-        return view('admin.list-repair', ['jChart' => $data], compact('repairs', 'inupfilter', 'perPage', 'ChartWorkcompleted', 'ChartWorknotcompleted'));
+        return view('admin.list-repair', ['jChart' => $data], compact('branch_department', 'repairs', 'inupfilter', 'perPage', 'ChartWorkcompleted', 'ChartWorknotcompleted'));
+    }
+
+    public function setdepart(Request $request)
+    {
+        $repairs = Repair::where('id_repair', $request->id_repair)->update(['type' => $request->depart_id]);
+
+        // $url = url('/') . "/technician/dashboard/10";
+        $url = url('/') . "/technician/dashboard/10";
+        $department = Department::find($request->depart_id);
+        $message = " มีการส่งงานไปยัง {$department->department_name}\n";
+        $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
+        if ($repairs) {
+            Line::send($message . $message2);
+        };
+
+        return response()->json([
+            'status' => '200',
+            'message' => 'มอบหมายงานเส็ดสื้น'
+        ], 200);
     }
 }
