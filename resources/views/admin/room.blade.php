@@ -104,8 +104,7 @@
                 <div class="modal-body">
                     <div class="col-md-2">
                         {{-- <p class="mb-0">Simple</p> --}}
-                        <a id="roomLink" href=""
-                            id="container">{{ QrCode::size(200)->generate('https://minhazulmin.github.io/') }}</a><br />
+                        <a href="" id="container">{{ QrCode::size(200)->generate('https://minhazulmin.github.io/') }}</a><br />
                         <button id="download" class="mt-2 btn btn-info text-light" onclick="downloadSVG()">Download
                             SVG</button>
                     </div>
