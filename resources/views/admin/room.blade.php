@@ -4,13 +4,13 @@
     @php
         use SimpleSoftwareIO\QrCode\Facades\QrCode;
     @endphp
-    <div class="row justify-content-center align-items-center g-2 border border-info">
+    <div class="row justify-content-center align-items-center g-2 ">
         <div class="col">
             <div class="card">
                 <div class="card-header ">
                     <div class="row justify-between">
                         <div class="col">
-                            {{ 'Header' }}
+                            {{ 'ห้อง' }}
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button type="button" onclick="openModal()" class="btn btn-success" data-bs-toggle="modal"
@@ -88,7 +88,7 @@
                     </table>
 
                 </div>
-                <div class="card-footer text-muted">Footer</div>
+                {{-- <div class="card-footer text-muted">Footer</div> --}}
             </div>
         </div>
     </div>
@@ -98,21 +98,21 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'QRcode ห้อง' }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-md-2">
-                        {{-- <p class="mb-0">Simple</p> --}}
-                        <a id="roomLink" href=""
+                    <div class="row justify-content-center align-items-center g-2">
+                        <div class="col text-center">
+                            <a id="roomLink" href=""
                             id="container">{{ QrCode::size(200)->generate('https://minhazulmin.github.io/') }}</a><br />
-                        <button id="download" class="mt-2 btn btn-info text-light" onclick="downloadSVG()">Download
-                            SVG</button>
+                        <button id="download" class="mt-2 btn btn-info text-light" onclick="downloadSVG()">Download SVG</button>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    {{-- <button type="button" class="btn btn-primary"></button> --}}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                 </div>
             </div>
         </div>
@@ -173,7 +173,8 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"
                             onclick="srtDataEquipment()">{{ 'บันทึก' }}</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                     </div>
                 </form>
             </div>
@@ -204,11 +205,12 @@
                             {{-- <div class="col">Column</div>
                         <div class="col">Column</div> --}}
                         </div>
-
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" onclick="setededitroom()">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary"
+                            onclick="setededitroom()">{{ 'บันทึก' }}</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                     </div>
                 </form>
             </div>
@@ -229,8 +231,6 @@
 
                         </ul>
                     </div>
-
-
                 </div>
                 {{-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -527,7 +527,7 @@
 
             row.forEach((item, index) => {
                 myDiv.innerHTML += `<div class="col-md-4 d-flex d-2">
-                    <input type="text" class="form-control"  placeholder="" value="${item.name_equipment}" >
+                    <input type="text" class="form-control"  placeholder="" value="${item.name_equipment}" disabled readonly>
                     <button id="${item.id}" type="button" class="btn btn-danger btn-sm remove_item_btnedittool" data-tool_name="${item.name_equipment}">{{ 'ลบ' }}</button>
                     </div>`;
                 const btnEdit = myDiv.querySelectorAll('#btnEdit');

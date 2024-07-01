@@ -147,7 +147,7 @@
                     <form id="form-technician">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="editModalLabel">Modal title</h1>
+                                <h1 class="modal-title fs-5" id="editModalLabel">{{'ส่งงานไปยังแผนกอื่นๆ'}}</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -296,9 +296,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save
-                                    changes</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">{{'บันทึก'}}</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{'ปิด'}}</button>
                             </div>
                         </form>
                     </div>
