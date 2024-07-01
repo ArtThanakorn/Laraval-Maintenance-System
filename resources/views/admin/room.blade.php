@@ -101,13 +101,18 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'QRcode ห้อง' }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="col-md-2">
-                        {{-- <p class="mb-0">Simple</p> --}}
-                        <a href="" id="container">{{ QrCode::size(200)->generate('https://minhazulmin.github.io/') }}</a><br />
-                        <button id="download" class="mt-2 btn btn-info text-light" onclick="downloadSVG()">Download
-                            SVG</button>
+                <div class="modal-body ">
+
+                    <div class="row justify-content-center align-items-center g-2">
+                        <div class="col-md-auto ">
+                            <a href=""
+                                id="container">{{ QrCode::size(200)->generate(route('index.repair', ['id' => 1])) }}</a>
+                            <br />
+                            <button id="download" class="mt-2 btn btn-info text-light"
+                                onclick="downloadSVG()">{{ 'Download SVG' }}</button>
+                        </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     {{-- <button type="button" class="btn btn-primary"></button> --}}
@@ -407,7 +412,7 @@
                 // Extract info from data-bs-* attributes
                 const recipient = button.getAttribute('data-bs-idroom');
 
-                const myLink = document.getElementById("roomLink");
+                const myLink = document.getElementById("container");
 
                 myLink.setAttribute("href", "{{ route('index.repair', '') }}" + '/' + recipient);
             });

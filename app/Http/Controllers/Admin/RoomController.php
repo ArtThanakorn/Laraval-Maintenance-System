@@ -15,13 +15,11 @@ class RoomController extends Controller
     {
         $rooms = Room::with('detail')->orderBy('updated_at', 'desc')->get();
 
-
         return view('admin.room', compact('rooms'));
     }
 
     public function Roomstore(Request $request)
     {
-
         // dd($request);
 
         $validator = Validator::make($request->all(), [
