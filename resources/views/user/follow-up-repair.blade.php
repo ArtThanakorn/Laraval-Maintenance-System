@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">ติดตามสถานะการแจ้งซ่อม</h5>
-                        <p class="card-text text-primary">กรอกหมายเลขเเท็ก 13 หลัก [ตัวอย่าง : EF582568151TH]</p>
+                        <p class="card-text text-primary">กรอกหมายเลขเเท็ก 5 หลัก [ตัวอย่าง : 6c335]</p>
                         <div class="row justify-content-center align-items-center">
                             <input type="text" class="form-control w-75" id="search"
                                 placeholder="กรองหมายเลขเเท็กเพื่อค้นหา">
@@ -83,27 +83,26 @@
             const resultRepairs = document.getElementById("search");
 
             const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
-          
+
             if (filterData) {
                 const dateObject = new Date(filterData.updated_at);
-                
+
                 const options =  { year: 'numeric', month: 'long', day: 'numeric' };
                 const formattedDate = dateObject.toLocaleDateString('th-TH', options);
                 document.getElementById("list").style.display = 'block';
-                
+
                 if (filterData.status_repair == "รอดำเนินการ") {
                     document.getElementById("radio2").checked = true;
+                    document.getElementById("radio3").checked = false;
                     document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
                     document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                        .department_name;
+                    document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department.department_name;
                     document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
-                } else if (filterData.status_repair == "เนินการเสร็จสิ้น") {
+                } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
                     document.getElementById("radio3").checked = true;
                     document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
                     document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                        .department_name;
+                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
                     document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 }
             } else {

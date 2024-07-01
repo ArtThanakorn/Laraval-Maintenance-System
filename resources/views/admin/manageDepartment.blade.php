@@ -160,7 +160,7 @@
 
                 let isValid = true;
 
-                
+
                     // Get form data
                     let formData = new FormData(formaddDt);
 
@@ -202,7 +202,7 @@
                                 console.log(error);
                             });
                     }
-                
+
             }
 
             function editDepartment(id) {
@@ -339,7 +339,7 @@
                         console.log('123');
                         console.log(e.target.dataset.deparTable_id);
                         let DepaId = e.target.dataset.deparTable_id;
-                     
+
                     }
                 });*/
         </script>

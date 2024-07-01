@@ -32,7 +32,6 @@
             {{-- <div class="p-2">
                 <div class="flex" style="width: 2.5cm; margin-left: 14px;">
                     <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
-
                         <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
                         <option value="25"{{ $perPage == 25 ? 'selected' : '' }}>25</option>
                         <option value="50"{{ $perPage == 50 ? 'selected' : '' }}>50</option>
@@ -44,7 +43,6 @@
                 <div class="p-2">
                     <div class="flex" style="width: 2.5cm; margin-left: 14px;">
                         <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
-
                             <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
                             <option value="25"{{ $perPage == 25 ? 'selected' : '' }}>25</option>
                             <option value="50"{{ $perPage == 50 ? 'selected' : '' }}>50</option>
@@ -75,7 +73,6 @@
                     </div>
                 </div>
                 <div class="p-2">
-
                     <div class="col-auto">
                         <div class="flex">
                             <input type="text" name="q" placeholder="Search" id="inpufil"
@@ -83,7 +80,6 @@
                                 value="{{ $inupfilter }}" onchange="filterRepair()" />{{-- value="{{ $search_param }}" --}}
                             {{-- <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button> --}}
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -181,17 +177,16 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <p>{{ 'จำนวนงานแยกตามประเภท' }}</p>
+                    <p>{{ 'จำนวนงานแยกตามแผนก' }}</p>
                     <canvas id="graphCanvas"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <p>{{ 'จำนวนงานแยกตามประเภทที่ไม่รู้' }}</p>
-                    <canvas id="graphCanvas2"></canvas>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <p>{{ 'จำนวนงานแยกตามสถานะ' }}</p>
+                <canvas id="graphCanvas2"></canvas>
             </div>
         </div>
     </div>

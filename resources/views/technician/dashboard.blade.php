@@ -141,7 +141,7 @@
                     {{--  จบตาราง  --}}
                 </div>
             </div>
-            <!-- Modal โบ้ยงาน -->
+            <!-- Modal โยนงาน -->
             <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <form id="form-technician">
@@ -466,8 +466,8 @@
                             // Handle the success response if needed
                             console.log(response.data);
                             Swal.fire({
-                                title: "Success!",
-                                text: "You clicked the button!",
+                                title: "ส่งต่องานสำเร็จ",
+                                text: "กรุณาคลิกที่ปุ่ม OK",
                                 icon: "success"
                             }).then((result) => {
                                 location.href = $url + "/technician/dashboard/10";

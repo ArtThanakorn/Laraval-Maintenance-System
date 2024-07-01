@@ -8,11 +8,12 @@ use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\TechnicianUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardTechnicianController;
-use App\Http\Controllers\ListTechnicianController;
+use App\Http\Controllers\PersonalInformationTechnicianController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Htpp\Controllers\ListTechnicianController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -89,7 +90,7 @@ Route::prefix('user')->group(function () {
 // rount Technician
 Route::prefix('technician')->middleware('istradesmanrepair')->group(function () {
     Route::get('/dashboard/{p}', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
-    Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
+    // Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
     Route::post('/workmoves', [DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
     Route::post('/update/work/{id}', [DashboardTechnicianController::class, 'work_updata']);
     Route::post('/recipient/work', [DashboardTechnicianController::class, 'workRecipient'])->name('T.recipient');
