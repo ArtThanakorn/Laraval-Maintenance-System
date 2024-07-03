@@ -109,7 +109,6 @@
                     </div>
                 </footer>  --}}
         </div>
-
     </div>
     @yield('script')
     @stack('scripts')

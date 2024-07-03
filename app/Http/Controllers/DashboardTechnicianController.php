@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Repair;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class DashboardTechnicianController extends Controller
@@ -93,7 +94,6 @@ class DashboardTechnicianController extends Controller
             ]);
         }
 
-
         return response()->json([
             'success' => 1,
             'message' => 'การอัพเดทงานเสร็จสมบูรณ์'
@@ -113,6 +113,17 @@ class DashboardTechnicianController extends Controller
 
     public function Indexinformation()
     {
-        return view('technician.personal-information');
+        $Utechnician = User::find(Auth::user()->id);
+        $Uinfo = DB::table('users')->join('departments', 'users.department', '=', 'departments.department_id')
+        ->where('id',$Utechnician->id)
+        ->first();
+        // dd($Uinfo);
+
+        return view('technician.personal-information',compact('Uinfo'));
+    }
+
+    public function edit_personal_info(Request $request)
+    {
+        dd($request);
     }
 }
