@@ -10,7 +10,7 @@
                 <div class="card-header ">
                     <div class="row justify-between">
                         <div class="col">
-                            {{ 'Header' }}
+                            {{ 'ห้องทั่งหด' }}
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button type="button" onclick="openModal()" class="btn btn-success" data-bs-toggle="modal"
@@ -25,7 +25,7 @@
                                 <th scope="col">{{ 'ลำดับ' }}</th>
                                 <th scope="col">{{ 'ห้อง' }}</th>
                                 <th scope="col">{{ 'รายละเอียด' }}</th>
-                                <th scope="col">{{ 'Qr ห้อง' }}</th>
+                                <th scope="col">{{ 'QR ห้อง' }}</th>
                                 <th scope="col">{{ 'เพิ่มอุปกรณ์' }}</th>
                                 <th scope="col">{{ 'ลบอุปกรณ์' }}</th>
                                 <th scope="col">{{ 'แก้ไขห้อง' }}</th>
@@ -88,7 +88,7 @@
                     </table>
 
                 </div>
-                <div class="card-footer text-muted">Footer</div>
+                {{--  <div class="card-footer text-muted">Footer</div>  --}}
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">QR Code ห้อง</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
