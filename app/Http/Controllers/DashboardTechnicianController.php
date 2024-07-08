@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Mail\EmailTechnician;
+use Illuminate\Support\Facades\Mail;
 
 class DashboardTechnicianController extends Controller
 {
@@ -84,6 +86,7 @@ class DashboardTechnicianController extends Controller
 
         $Urepai = Repair::find($id);
         Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
+        // dd($Urepai);
 
         foreach ($files as $images) {
             $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // ชื่อรูป
@@ -94,10 +97,23 @@ class DashboardTechnicianController extends Controller
             ]);
         }
 
+        $this->sendEmail($Urepai);
+
         return response()->json([
             'success' => 1,
             'message' => 'การอัพเดทงานเสร็จสมบูรณ์'
         ]);
+    }
+
+    public function sendEmail($Urepai) 
+    {
+        try {
+            Mail::to('nattapol.su@rmuti.ac.th')->send(new EmailTechnician($Urepai));
+            return "success";
+        } catch (\Exception $e) {
+            // Return error message
+            return response()->json(['message' => 'Failed to send email', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function workRecipient(Request $request)
