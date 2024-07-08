@@ -105,10 +105,10 @@ class DashboardTechnicianController extends Controller
         ]);
     }
 
-    public function sendEmail($Urepai) 
+    public function sendEmail($Urepai)
     {
         try {
-            Mail::to('nattapol.su@rmuti.ac.th')->send(new EmailTechnician($Urepai));
+            Mail::to($Urepai->email)->send(new EmailTechnician($Urepai));
             return "success";
         } catch (\Exception $e) {
             // Return error message

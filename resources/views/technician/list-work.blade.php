@@ -367,7 +367,7 @@
                         const index2 = button.getAttribute('data-bs-idIndex2')
 
                         let selectedDataWork = workData.data[index2];
-                        // console.log(selectedDataWork);
+                        console.log(selectedDataWork);
                         const imagePreviewContainer = document.getElementById('image-preview');
                         imagePreviewContainer.innerHTML = "";
 
@@ -518,7 +518,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then((result) => {
-                                    location.href = $url + `/technician/dashboard/10`;
+                                    location.href = $url + `/technician/listwork/10`;
                                 });
                             }
                         ).catch(function(error) {
