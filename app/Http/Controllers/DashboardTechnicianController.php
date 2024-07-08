@@ -115,15 +115,45 @@ class DashboardTechnicianController extends Controller
     {
         $Utechnician = User::find(Auth::user()->id);
         $Uinfo = DB::table('users')->join('departments', 'users.department', '=', 'departments.department_id')
-        ->where('id',$Utechnician->id)
-        ->first();
+            ->where('id', $Utechnician->id)
+            ->first();
         // dd($Uinfo);
 
-        return view('technician.personal-information',compact('Uinfo'));
+        return view('technician.personal-information', compact('Uinfo'));
     }
 
     public function edit_personal_info(Request $request)
     {
-        dd($request);
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+            'username' => 'required'
+        ], [
+            'email.required' => 'อีเมลต้องไม่เป็นค่าว่าง',
+            'password.required' => 'รหัสผ่านต้องไม่เป็นค่าว่าง',
+            'username.required' => 'ชื่อ - นามสกุลต้องไม่เป็นค่าว่าง',
+        ]);
+        // dd($request);
+        $user = User::find($request->iduser);
+
+        $user->name = $request->username;
+
+        $user->email = $request->email;
+        if ($user->password != $request->password) {
+            // dd('123');
+            $user->password = $request->password;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('successeditactivity', 'แก้ไขข้อมูลเสร็จสิ้น');
+    }
+
+    public function IndexTechnicianStaff()
+    {
+        $Utechnician = User::find(Auth::user()->id);
+        $Departmentstaff = User::where('department',$Utechnician->department)->where('level',2)->get();
+        // dd($Departmentstaff);
+        return view('technician.technician-staff',compact('Departmentstaff'));
     }
 }

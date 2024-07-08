@@ -40,157 +40,50 @@ class DashboardController extends Controller
         $ChartWorkcompleted = 0;
         $ChartWorknotcompleted = 0;
         // dd($select_param);
-        if ($select_param == "ดำเนินการเสร็จสิ้น") {
-            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)->orderBy('repairs.updated_at', 'desc')->get();
-            //jChart
-            $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                ->where('status_repair', $select_param)
-                ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
-                ->groupBy('repairs.type', 'departments.department_name')
-                ->orderBy('repairs.updated_at', 'desc')
-                // ->selectRaw('repairs.*')
-                ->get();
-            //countWork
-            $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
+        $status = $select_param;
+        $repairsQuery = Repair::query();
+        $repairsQuery->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
+            ->select('repairs.*', 'departments.department_id', 'departments.department_name', 'departments.status_display')
+            ->orderBy('repairs.updated_at', 'desc')
+            ->with('imageRepair');
 
-            if ($select_param == "ดำเนินการเสร็จสิ้น" && $inupfilter) {
-                $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)
-                    ->where(function ($query) use ($inupfilter) {
-                        $query
-                            ->orWhere('status', 'like', "%$inupfilter%")
-                            ->orWhere('site', 'like', "%$inupfilter%")
-                            ->orWhere('tag_repair', 'like', "%$inupfilter%")
-                            ->orWhere('department_name', 'like', "%$inupfilter%")
-                            ->orWhere('status_repair', 'like', "%$inupfilter%");
-                    })->orderBy('repairs.updated_at', 'desc')
-                    // ->selectRaw('repairs.*')
-                    ->get();
-                //jChart
-                $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                    ->where('status_repair', $select_param)
-                    ->where(function ($query) use ($inupfilter) {
-                        $query
-                            ->orWhere('status', 'like', "%$inupfilter%")
-                            ->orWhere('site', 'like', "%$inupfilter%")
-                            ->orWhere('tag_repair', 'like', "%$inupfilter%")
-                            ->orWhere('department_name', 'like', "%$inupfilter%")
-                            ->orWhere('status_repair', 'like', "%$inupfilter%");
-                    })
-                    ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
-                    ->groupBy('repairs.type', 'departments.department_name')
-                    ->get();
-
-                //Number of jobs (จำนวนงาน)
-                $ChartWorkcompleted = $liRepair->filter(function ($item) {
-                    return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
-                })->count();
-                $ChartWorknotcompleted = $liRepair->filter(function ($item) {
-                    return $item->status_repair === 'รอดำเนินการ';
-                })->count();
-            }
-        } elseif ($select_param == "รอดำเนินการ") {
-            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)->orderBy('repairs.updated_at', 'desc')/*->selectRaw('repairs.*')*/->get();
-            //jChart
-            $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                ->where('status_repair', $select_param)
-                ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
-                ->groupBy('repairs.type', 'departments.department_name')
-                ->get();
-            //countWork
-
-            $ChartWorknotcompleted = Repair::where('status_repair', "รอดำเนินการ")->count();
-            if ($select_param == "รอดำเนินการ" && $inupfilter) {
-                $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')->where('status_repair', $select_param)
-                    ->where(function ($query) use ($inupfilter) {
-                        $query
-                            ->orWhere('status', 'like', "%$inupfilter%")
-                            ->orWhere('site', 'like', "%$inupfilter%")
-                            ->orWhere('tag_repair', 'like', "%$inupfilter%")
-                            ->orWhere('department_name', 'like', "%$inupfilter%")
-                            ->orWhere('status_repair', 'like', "%$inupfilter%");
-                    })->orderBy('repairs.updated_at', 'desc')
-                    // ->selectRaw('repairs.*')
-                    ->get();
-                //jChart
-                $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                    ->where('status_repair', $select_param)
-                    ->where(function ($query) use ($inupfilter) {
-                        $query
-                            ->orWhere('status', 'like', "%$inupfilter%")
-                            ->orWhere('site', 'like', "%$inupfilter%")
-                            ->orWhere('tag_repair', 'like', "%$inupfilter%")
-                            ->orWhere('department_name', 'like', "%$inupfilter%")
-                            ->orWhere('status_repair', 'like', "%$inupfilter%");
-                    })
-                    ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
-                    ->groupBy('repairs.type', 'departments.department_name')
-                    ->get();
-                //Number of jobs (จำนวนงาน)
-                $ChartWorkcompleted = $liRepair->filter(function ($item) {
-                    return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
-                })->count();
-                $ChartWorknotcompleted = $liRepair->filter(function ($item) {
-                    return $item->status_repair === 'รอดำเนินการ';
-                })->count();
-            }
-        } elseif ($select_param == "ทั้งหมด" && $inupfilter) {
-            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                ->where(function ($query) use ($inupfilter) {
-                    $query
-                        ->orWhere('status', 'like', "%$inupfilter%")
-                        ->orWhere('site', 'like', "%$inupfilter%")
-                        ->orWhere('tag_repair', 'like', "%$inupfilter%")
-                        ->orWhere('department_name', 'like', "%$inupfilter%")
-                        ->orWhere('status_repair', 'like', "%$inupfilter%");
-                })->orderBy('repairs.updated_at', 'desc')
-                // ->selectRaw('repairs.*')
-                ->get();
-            //jChart
-            $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                ->where(function ($query) use ($inupfilter) {
-                    $query
-                        ->orWhere('status', 'like', "%$inupfilter%")
-                        ->orWhere('site', 'like', "%$inupfilter%")
-                        ->orWhere('tag_repair', 'like', "%$inupfilter%")
-                        ->orWhere('department_name', 'like', "%$inupfilter%")
-                        ->orWhere('status_repair', 'like', "%$inupfilter%");
-                })
-                ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
-                ->groupBy('repairs.type', 'departments.department_name')
-                ->get();
-
-            //Number of jobs (จำนวนงาน)
-            $ChartWorkcompleted = $liRepair->filter(function ($item) {
-                return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
-            })->count();
-
-            $ChartWorknotcompleted = $liRepair->filter(function ($item) {
-                return $item->status_repair === 'รอดำเนินการ';
-            })->count();
-        } else {
-            // $liRepair = Repair::with('department')->select('departments.department_name','name')->orderBy('updated_at', 'desc')->get();
-            $liRepair = DB::table('repairs')->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                ->orderBy('repairs.updated_at', 'desc')
-                ->selectRaw('repairs.*,departments.department_name')
-                ->get();
-
-            $departments = Repair::leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-                ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
-                ->groupBy('repairs.type', 'departments.department_name')
-                ->get();
-
-            $ChartWorkcompleted = Repair::where('status_repair', "ดำเนินการเสร็จสิ้น")->count();
-            $ChartWorknotcompleted = Repair::where('status_repair', "รอดำเนินการ")->count();
+        if ($inupfilter) {
+            $repairsQuery->where(function ($query) use ($inupfilter) {
+                $query->orWhere('status', 'like', "%$inupfilter%")
+                    ->orWhere('site', 'like', "%$inupfilter%")
+                    ->orWhere('tag_repair', 'like', "%$inupfilter%")
+                    ->orWhere('department_name', 'like', "%$inupfilter%")
+                    ->orWhere('status_repair', 'like', "%$inupfilter%");
+            });
         }
+
+        if ($status === "ทั้งหมด") {
+            $liRepair = $repairsQuery->get();
+        } else {
+            $liRepair = $repairsQuery->where('status_repair', $status)->get();
+        }
+        // dd($liRepair->all());
+        $departments = $repairsQuery
+            ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
+            ->groupBy('repairs.type', 'departments.department_name')
+            ->get();
+
+        $ChartWorkcompleted = $liRepair->filter(function ($item) {
+            return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
+        })->count();
+
+        $ChartWorknotcompleted = $liRepair->filter(function ($item) {
+            return $item->status_repair === 'รอดำเนินการ';
+        })->count();
+
         // dd( $liRepair);
 
-
-        $liRepairthaiDate = $liRepair->map(function ($item) {
-            $thaiDate = Carbon::parse($item->created_at)->thaidate('j M y');
-            $updatedItem = (array) $item; //->toArray() Convert the item to an array
-            $updatedItem['created_at'] = $thaiDate; // Replace the 'created_at' value
-            return $updatedItem; // Return the modified item array
-        });
+        // $liRepairthaiDate = $liRepair->map(function ($item) {
+        //     $thaiDate = Carbon::parse($item->created_at)->thaidate('j M y');
+        //     $updatedItem = (array) $item; //->toArray() Convert the item to an array
+        //     $updatedItem['created_at'] = $thaiDate; // Replace the 'created_at' value
+        //     return $updatedItem; // Return the modified item array
+        // });
         // dd($liRepairthaiDate);
 
         // หาหน้าที่ถูกเรียก
@@ -202,10 +95,10 @@ class DashboardController extends Controller
         $take = $perPage;
 
         // แบ่งส่วนคอลเลกชันเพื่อดึงข้อมูลรายการของหน้าปัจจุบัน
-        $repairconut =  $liRepairthaiDate->count();
+        $repairconut =  $liRepair->count();
 
         //การแบ่งส่วน Collection
-        $currentPageItems =  $liRepairthaiDate->slice($skip, $take);
+        $currentPageItems =  $liRepair->slice($skip, $take);
         // dd($currentPageItems);
         // สร้างรายการข้อมูลที่แบ่งหน้า
         $repairs = new LengthAwarePaginator(
@@ -262,7 +155,7 @@ class DashboardController extends Controller
         $repairs = Repair::where('id_repair', $request->id_repair)->update(['type' => $request->depart_id]);
 
         // $url = url('/') . "/technician/dashboard/10";
-        $url = route('technician.dashboard',['p'=>10]);
+        $url = route('technician.dashboard', ['p' => 10]);
         $department = Department::find($request->depart_id);
         $message = " มีการส่งงานไปยัง {$department->department_name}\n";
         $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
