@@ -127,7 +127,7 @@
     </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <form id="edit-work-repair">
                     <div class="modal-header">
@@ -137,16 +137,18 @@
                     <div class="modal-body">
                         <div class="row justify-content-center align-items-center g-2">
                             <div class="col-md-6">
-                                <p id="name-repair"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <p id="tool-repair"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <p id="room-repair"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <p id="tag-repair"></p>
+                                <div class="mb-3">
+                                    <p id="name-repair"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <p id="tool-repair"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <p id="room-repair"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <p id="tag-repair"></p>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -161,6 +163,9 @@
                                 </div>
                                 <input type="hidden" name="id_repair" id="edit-repair-id">
                             </div>
+                        </div>
+                        <div id="updateimg" class="row  g-2">
+
                         </div>
 
                     </div>
@@ -183,166 +188,182 @@
             </div>
         </div>
         <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <p>{{ 'จำนวนงานแยกตามสถานะ' }}</p>
-                <canvas id="graphCanvas2"></canvas>
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ 'จำนวนงานแยกตามสถานะ' }}</p>
+                    <canvas id="graphCanvas2"></canvas>
+                </div>
             </div>
         </div>
-    </div>
-@endsection
-@section('script')
-    <script type="module">
-        let jsData = {!! json_encode($jChart) !!};
-        console.log(jsData.datasets1.data.work);
+    @endsection
+    @section('script')
+        <script type="module">
+            let jsData = {!! json_encode($jChart) !!};
+            console.log(jsData.datasets1.data.work);
 
-        // เก็บค่า department_name ใน array ใหม่
-        const labels = [];
-        const Numberofjobs = [];
-        for (const item of jsData.datasets1.data) {
-            labels.push(item.department_name);
-            Numberofjobs.push(item.work);
-        }
-        console.log(Numberofjobs);
-        let ctx = document.getElementById('graphCanvas').getContext('2d');
-        let ctx2 = document.getElementById('graphCanvas2').getContext('2d');
-        let myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: Numberofjobs,
-                    backgroundColor: jsData.datasets1.backgroundColor,
-                    hoverOffset: 4,
-                    borderWidth: 1,
-                }]
-            },
-            options: {
-                legend: {
-                    display: true,
-                    position: "right"
+            // เก็บค่า department_name ใน array ใหม่
+            const labels = [];
+            const Numberofjobs = [];
+            for (const item of jsData.datasets1.data) {
+                labels.push(item.department_name);
+                Numberofjobs.push(item.work);
+            }
+            console.log(Numberofjobs);
+            let ctx = document.getElementById('graphCanvas').getContext('2d');
+            let ctx2 = document.getElementById('graphCanvas2').getContext('2d');
+            let myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: Numberofjobs,
+                        backgroundColor: jsData.datasets1.backgroundColor,
+                        hoverOffset: 4,
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: true,
+                        position: "right"
+                    }
+                }
+            });
+
+            //ผลรวมงานทั้งหมด
+            let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
+            let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
+            let myChart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['งานที่ยังไม่เสร็จ', 'งานที่เสร็จแล้ว'],
+                    datasets: [{
+                        data: [jsnotcompleted, jscompleted],
+                        backgroundColor: jsData.datasets2.backgroundColor,
+                        hoverOffset: 4,
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: true,
+                        position: "right"
+                    }
+                }
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const exampleModal = document.getElementById('exampleModal')
+                exampleModal.addEventListener('show.bs.modal', event => {
+                    // Button that triggered the modal
+                    const button = event.relatedTarget
+                    // Extract info from data-bs-* attributes
+                    const recipient = button.getAttribute('data-bs-whatever')
+                    // If necessary, you could initiate an AJAX request here
+                    // and then do the updating in a callback.
+                    //
+                    // Update the modal's content.
+                    console.log(recipient);
+                    // const modalTitle = exampleModal.querySelector('.modal-title')
+                    const modalBodyInput = exampleModal.querySelector('#edit-repair-id')
+
+                    // modalTitle.textContent = `New message to ${recipient}`
+                    modalBodyInput.value = recipient;
+                })
+            });
+
+            function entries() {
+                let pPage = document.getElementById('per-page').value;
+                console.log(pPage);
+                window.location.replace($url + `/admin/show/repair/${pPage}`);
+            }
+
+            function statusRepair() {
+                let s = document.getElementById('status-repair').value;
+                console.log(s);
+                let p = document.getElementById('per-page').value;
+                let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
+                let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam;
+                window.location.href = url;
+            }
+
+            function filterRepair() {
+                let s = document.getElementById('status-repair').value;
+                let p = document.getElementById('per-page').value;
+                let i = document.getElementById('inpufil').value;
+                let queryParam = encodeURIComponent(s);
+                let inpuParam = encodeURIComponent(i);
+                let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q=" + inpuParam;
+                console.log(url);
+                window.location.href = url;
+            }
+
+            let current_page_items = {!! json_encode($repairs) !!};
+            let branchDepartment = {!! json_encode($branch_department) !!};
+
+            function openmodal1(rows) {
+                let data = current_page_items.data[rows];
+                console.log(data.image_repair);
+                const updateImg = document.getElementById('updateimg');
+                updateImg.innerHTML = '';
+                document.getElementById('name-repair').innerHTML = "ชื่อ " + data.name;
+                document.getElementById('tool-repair').innerHTML = "อุปกรณ์ " + data.equipment;
+                document.getElementById('room-repair').innerHTML = "ห้อง " + data.site;
+                document.getElementById('tag-repair').innerHTML = "รหัสแจ้งซ่อม " + data.tag_repair;
+                //โชรูป
+                for (const image of data.image_repair) {
+                    // สร้าง div ใหม่
+                    const colDiv = document.createElement('div');
+                    colDiv.classList.add('col-3', 'text-center');
+
+                    // สร้าง img ใหม่
+                    const imageElement = document.createElement('img');
+                    imageElement.classList.add('img-thumbnail', 'mb-2');
+                    imageElement.src = `/uploads/repair/${image.nameImage}`;
+
+                    // เพิ่ม img เข้าไปใน div
+                    colDiv.appendChild(imageElement);
+
+                    // เพิ่ม div เข้าไปใน updateImg
+                    updateImg.appendChild(colDiv);
+                }
+                const departmentSelectElement = document.getElementById('department-select');
+
+                departmentSelectElement.innerHTML = '';
+
+                for (const row of branchDepartment) {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = row.department_id;
+                    optionElement.textContent = row.department_name;
+
+                    // Set 'selected' attribute based on condition
+                    if (row.department_id == data.type) {
+                        optionElement.selected = true;
+                        optionElement.disabled = true;
+                    }
+                    departmentSelectElement.appendChild(optionElement);
                 }
             }
-        });
 
-        //ผลรวมงานทั้งหมด
-        let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
-        let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
-        let myChart2 = new Chart(ctx2, {
-            type: 'pie',
-            data: {
-                labels: ['งานที่ยังไม่เสร็จ', 'งานที่เสร็จแล้ว'],
-                datasets: [{
-                    data: [jsnotcompleted, jscompleted],
-                    backgroundColor: jsData.datasets2.backgroundColor,
-                    hoverOffset: 4,
-                    borderWidth: 1,
-                }]
-            },
-            options: {
-                legend: {
-                    display: true,
-                    position: "right"
-                }
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const exampleModal = document.getElementById('exampleModal')
-            exampleModal.addEventListener('show.bs.modal', event => {
-                // Button that triggered the modal
-                const button = event.relatedTarget
-                // Extract info from data-bs-* attributes
-                const recipient = button.getAttribute('data-bs-whatever')
-                // If necessary, you could initiate an AJAX request here
-                // and then do the updating in a callback.
-                //
-                // Update the modal's content.
-                console.log(recipient);
-                // const modalTitle = exampleModal.querySelector('.modal-title')
-                const modalBodyInput = exampleModal.querySelector('#edit-repair-id')
+            function formSubmit() {
+                const formWorkRepairSubmit = document.getElementById('edit-work-repair');
+                let formData = new FormData(formWorkRepairSubmit);
+                const Routing = "{{ route('update.repair') }}";
 
-                // modalTitle.textContent = `New message to ${recipient}`
-                modalBodyInput.value = recipient;
-            })
-        });
+                formWorkRepairSubmit.onsubmit = function(e) {
+                    e.preventDefault();
 
-        function entries() {
-            let pPage = document.getElementById('per-page').value;
-            console.log(pPage);
-            window.location.replace($url + `/admin/show/repair/${pPage}`);
-        }
+                    // console.log('123');
+                    /* Display the key/value pairs*/
+                    for (var pair of formData.entries()) {
+                        console.log(pair[0] + ', ' + pair[1]);
+                    }
+                    // return false;
 
-        function statusRepair() {
-            let s = document.getElementById('status-repair').value;
-            console.log(s);
-            let p = document.getElementById('per-page').value;
-            let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
-            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam;
-            window.location.href = url;
-        }
-
-        function filterRepair() {
-            let s = document.getElementById('status-repair').value;
-            let p = document.getElementById('per-page').value;
-            let i = document.getElementById('inpufil').value;
-            let queryParam = encodeURIComponent(s);
-            let inpuParam = encodeURIComponent(i);
-            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q=" + inpuParam;
-            console.log(url);
-            window.location.href = url;
-        }
-
-        let current_page_items = {!! json_encode($repairs) !!};
-        let branchDepartment = {!! json_encode($branch_department) !!};
-
-        function openmodal1(rows) {
-            let data = current_page_items.data[rows];
-            console.log(branchDepartment);
-
-            document.getElementById('name-repair').innerHTML = "ชื่อ " + data.name;
-            document.getElementById('tool-repair').innerHTML = "อุปกรณ์ " + data.equipment;
-            document.getElementById('room-repair').innerHTML = "ห้อง " + data.site;
-            document.getElementById('tag-repair').innerHTML = "รหัสแจ้งซ่อม " + data.tag_repair;
-
-
-            const departmentSelectElement = document.getElementById('department-select');
-
-            departmentSelectElement.innerHTML = '';
-
-            for (const row of branchDepartment) {
-                const optionElement = document.createElement('option');
-                optionElement.value = row.department_id;
-                optionElement.textContent = row.department_name;
-
-                // Set 'selected' attribute based on condition
-                if (row.department_id == data.type) {
-                    optionElement.selected = true;
-                    optionElement.disabled = true;
-                }
-                departmentSelectElement.appendChild(optionElement);
-            }
-        }
-
-        function formSubmit() {
-            const formWorkRepairSubmit = document.getElementById('edit-work-repair');
-            let formData = new FormData(formWorkRepairSubmit);
-            const Routing = "{{ route('update.repair') }}";
-
-            formWorkRepairSubmit.onsubmit = function(e) {
-                e.preventDefault();
-
-                // console.log('123');
-                /* Display the key/value pairs*/
-                for (var pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
-                // return false;
-
-                axios.post(Routing, formData).then((res) => {
-                    // console.log(res);
-                    if (res.status = 200) {
+                    axios.post(Routing, formData).then((res) => {
+                        // console.log(res);
+                        if (res.status = 200) {
                             Swal.fire({
                                 position: "top-end",
                                 icon: "success",
@@ -353,8 +374,8 @@
                                 location.reload();
                             });
                         }
-                });
+                    });
+                }
             }
-        }
-    </script>
-@endsection
+        </script>
+    @endsection

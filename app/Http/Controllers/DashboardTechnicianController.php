@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Mail\EmailTechnician;
+use Illuminate\Support\Facades\Mail;
 
 class DashboardTechnicianController extends Controller
 {
@@ -84,6 +86,7 @@ class DashboardTechnicianController extends Controller
 
         $Urepai = Repair::find($id);
         Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
+        // dd($Urepai);
 
         foreach ($files as $images) {
             $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // ชื่อรูป
@@ -94,10 +97,23 @@ class DashboardTechnicianController extends Controller
             ]);
         }
 
+        $this->sendEmail($Urepai);
+
         return response()->json([
             'success' => 1,
             'message' => 'การอัพเดทงานเสร็จสมบูรณ์'
         ]);
+    }
+
+    public function sendEmail($Urepai)
+    {
+        try {
+            Mail::to($Urepai->email)->send(new EmailTechnician($Urepai));
+            return "success";
+        } catch (\Exception $e) {
+            // Return error message
+            return response()->json(['message' => 'Failed to send email', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function workRecipient(Request $request)
@@ -115,15 +131,45 @@ class DashboardTechnicianController extends Controller
     {
         $Utechnician = User::find(Auth::user()->id);
         $Uinfo = DB::table('users')->join('departments', 'users.department', '=', 'departments.department_id')
-        ->where('id',$Utechnician->id)
-        ->first();
+            ->where('id', $Utechnician->id)
+            ->first();
         // dd($Uinfo);
 
-        return view('technician.personal-information',compact('Uinfo'));
+        return view('technician.personal-information', compact('Uinfo'));
     }
 
     public function edit_personal_info(Request $request)
     {
-        dd($request);
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+            'username' => 'required'
+        ], [
+            'email.required' => 'อีเมลต้องไม่เป็นค่าว่าง',
+            'password.required' => 'รหัสผ่านต้องไม่เป็นค่าว่าง',
+            'username.required' => 'ชื่อ - นามสกุลต้องไม่เป็นค่าว่าง',
+        ]);
+        // dd($request);
+        $user = User::find($request->iduser);
+
+        $user->name = $request->username;
+
+        $user->email = $request->email;
+        if ($user->password != $request->password) {
+            // dd('123');
+            $user->password = $request->password;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('successeditactivity', 'แก้ไขข้อมูลเสร็จสิ้น');
+    }
+
+    public function IndexTechnicianStaff()
+    {
+        $Utechnician = User::find(Auth::user()->id);
+        $Departmentstaff = User::where('department',$Utechnician->department)->where('level',2)->get();
+        // dd($Departmentstaff);
+        return view('technician.technician-staff',compact('Departmentstaff'));
     }
 }

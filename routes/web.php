@@ -97,6 +97,7 @@ Route::prefix('technician')->middleware('istradesmanrepair')->group(function () 
     Route::post('/update/work/{id}', [DashboardTechnicianController::class, 'work_updata']);
     Route::post('/recipient/work', [DashboardTechnicianController::class, 'workRecipient'])->name('T.recipient');
     Route::post('/edit/personalInformation',[DashboardTechnicianController::class, 'edit_personal_info'])->name('T.edit.info');
+    Route::get('/technicianStaff',[DashboardTechnicianController::class, 'IndexTechnicianStaff'])->name('T.Staff');
 });
 
 Auth::routes();

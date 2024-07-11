@@ -51,10 +51,10 @@
                                 <select id="per-page" class="form-select" aria-label="Default select example"
                                     onchange="entries()">
 
-                                    <option value="10" {{ $p == 10 ? 'selected' : '' }}>10</option>
-                                    <option value="25"{{ $p == 25 ? 'selected' : '' }}>25</option>
-                                    <option value="50"{{ $p == 50 ? 'selected' : '' }}>50</option>
-                                    <option value="100"{{ $p == 100 ? 'selected' : '' }}>100</option>
+                                    <option value="10" {{ $p == 10 ? 'selected' : '' }}>{{'10'}}</option>
+                                    <option value="25"{{ $p == 25 ? 'selected' : '' }}>{{'25'}}</option>
+                                    <option value="50"{{ $p == 50 ? 'selected' : '' }}>{{'50'}}</option>
+                                    <option value="100"{{ $p == 100 ? 'selected' : '' }}>{{'100'}}</option>
                                 </select>
                             </div>
                         </div>
@@ -79,7 +79,6 @@
                             </div>
                         </div>
                         <div class="p-2">
-
                             <div class="col-auto">
                                 <div class="flex">
                                     <input type="text" id="inpufil" name="q" placeholder="Search"
@@ -185,7 +184,7 @@
                                             <select class="form-select" id="department-select"
                                                 aria-label="Default select example" name="newdepartment">
                                                 @foreach ($department as $row)
-                                                    <option value="{{ $row->department_id }} ">
+                                                    <option value="{{ $row->department_id }}">
                                                         {{ $row->department_name }}</option>
                                                 @endforeach
                                             </select>
@@ -368,7 +367,7 @@
                         const index2 = button.getAttribute('data-bs-idIndex2')
 
                         let selectedDataWork = workData.data[index2];
-                        // console.log(selectedDataWork);
+                        console.log(selectedDataWork);
                         const imagePreviewContainer = document.getElementById('image-preview');
                         imagePreviewContainer.innerHTML = "";
 
@@ -519,7 +518,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then((result) => {
-                                    location.href = $url + `/technician/dashboard/10`;
+                                    location.href = $url + `/technician/listwork/10`;
                                 });
                             }
                         ).catch(function(error) {
