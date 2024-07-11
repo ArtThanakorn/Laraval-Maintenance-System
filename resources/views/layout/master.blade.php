@@ -47,7 +47,7 @@
         <a class="navbar-brand ps-3"
             @if (Auth::user()->role === 1) href="{{ route('admin.dashdoard') }}"
            @elseif (Auth::user()->role === 2)
-           href="{{ route('technician.dashboard',['p'=>10]) }}"
+           href="{{ route('technician.dashboard') }}"
            @else
            href="{{ route('index.repair') }}" @endif>Maintenance
             System</a>
@@ -109,7 +109,6 @@
                     </div>
                 </footer>  --}}
         </div>
-
     </div>
     @yield('script')
     @stack('scripts')

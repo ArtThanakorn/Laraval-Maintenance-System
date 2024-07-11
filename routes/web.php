@@ -89,11 +89,14 @@ Route::prefix('user')->group(function () {
 
 // rount Technician
 Route::prefix('technician')->middleware('istradesmanrepair')->group(function () {
-    Route::get('/dashboard/{p}', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
+    Route::get('/dashboard', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
+    Route::get('/listwork/{p}',[DashboardTechnicianController::class, 'all_work'])->name('technician.listwork');
+    Route::get('/personalinformation', [DashboardTechnicianController::class, 'Indexinformation'])->name('technician.info');
     // Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
     Route::post('/workmoves', [DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
     Route::post('/update/work/{id}', [DashboardTechnicianController::class, 'work_updata']);
     Route::post('/recipient/work', [DashboardTechnicianController::class, 'workRecipient'])->name('T.recipient');
+    Route::post('/edit/personalInformation',[DashboardTechnicianController::class, 'edit_personal_info'])->name('T.edit.info');
 });
 
 Auth::routes();

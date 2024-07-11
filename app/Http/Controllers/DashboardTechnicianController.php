@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Repair;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class DashboardTechnicianController extends Controller
 {
-    public function index(Request $request, $p)
+    public function index(Request $request)
+    {
+        return view('technician.dashboard');
+    }
+
+    public function all_work(Request $request, $p)
     {
         // $workData = Repair::where('type', Auth::user()->department)->paginate($p);//
         $workData_query = Repair::query();
@@ -50,10 +56,10 @@ class DashboardTechnicianController extends Controller
 
         $imgrepairs = ImageRepair::all();
 
-        $work_recipient = User::where('department',$use_department)->where('level',2)->get();
+        $work_recipient = User::where('department', $use_department)->where('level', 2)->get();
 
         // dd($work_recipient);
-        return view('technician.dashboard', compact('work_recipient', 'workData', 'p', 'search_param', 'department', 'imgrepairs'));
+        return view('technician.list-work', compact('work_recipient', 'workData', 'p', 'search_param', 'department', 'imgrepairs'));
     }
 
     public function work_moves(Request $request)
@@ -88,7 +94,6 @@ class DashboardTechnicianController extends Controller
             ]);
         }
 
-
         return response()->json([
             'success' => 1,
             'message' => 'การอัพเดทงานเสร็จสมบูรณ์'
@@ -98,11 +103,27 @@ class DashboardTechnicianController extends Controller
     public function workRecipient(Request $request)
     {
         // dd($request->all());
-        Repair::where('id_repair',$request->repair_id)->update(['user_responsible'=>$request->recipient]);
+        Repair::where('id_repair', $request->repair_id)->update(['user_responsible' => $request->recipient]);
 
         return response()->json([
             'success' => 1,
             'message' => 'การมอบหมายงานเสร็จสมบูรณ์'
         ]);
+    }
+
+    public function Indexinformation()
+    {
+        $Utechnician = User::find(Auth::user()->id);
+        $Uinfo = DB::table('users')->join('departments', 'users.department', '=', 'departments.department_id')
+        ->where('id',$Utechnician->id)
+        ->first();
+        // dd($Uinfo);
+
+        return view('technician.personal-information',compact('Uinfo'));
+    }
+
+    public function edit_personal_info(Request $request)
+    {
+        dd($request);
     }
 }
