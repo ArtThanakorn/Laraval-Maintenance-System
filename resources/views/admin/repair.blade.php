@@ -11,7 +11,6 @@
         </div>
     @endif
 
-    {{-- <div class="row justify-content-center align-items-center g-1 mt-2"> --}}
     <form method="POST" action="{{ route('add.repair') }}" enctype="multipart/form-data">
         @csrf
         <div class="card mb-4">
@@ -118,7 +117,6 @@
                             </span>
                             <input class="form-control" id="exampleFormControlTextarea1" value="{{ old('detail') }}"
                                 placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail">
-                            {{--  <textarea class="form-control" id="exampleFormControlTextarea1" cols="30" rows="10" placeholder="กรุณาระบุรายละเอียดปัญหา" name="detail"></textarea>  --}}
                         </div>
                         <span role="alert" class="text-danger">
                             @error('detail')
@@ -178,7 +176,6 @@
                                 <strong> {{ $message }}</strong>
                             @enderror
                         </span>
-
                     </div>
                 </div>
             </div>
@@ -192,8 +189,6 @@
             </div>
         </div>
     </form>
-    {{-- </div> --}}
-
 
     <!-- Modal -->
     {{-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -205,18 +200,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ,
-                        หรือการแก้ไขปัญหาทั่วไป.
-                    </p>
+                    <p><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ, หรือการแก้ไขปัญหาทั่วไป.</p>
                     <p><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</p>
-                    <p><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า
-                    </p>
+                    <p><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า</p>
                     <p><b>งานภูมิทัศน์</b> เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</p>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                    <button type="button" class="btn btn-primary">เข้าใจแล้ว</button>
                 </div>
             </div>
         </div>

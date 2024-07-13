@@ -120,7 +120,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{-- <input type="hidden" name="id" id="editId"> --}}
                         <div class="form-group my-2">
                             <input id="nameEdit" class="form-control" type="text" name="nameEdit"
                                 placeholder="ชื่อ - นามสกุล">
@@ -145,14 +144,13 @@
     <!-- Modal-reset -->
     <div class="modal fade" id="ModalReset" tabindex="-1" aria-labelledby="ModalResetLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="resetUserAdmin">{{-- data-parsley-validate onsubmit="return submitFormResetPassword(event)" --}}
+            <form id="resetUserAdmin">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="ModalResetLabel">{{ 'รีเซ็ตรหัสผ่าน' }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{-- <input type="hidden" name="id" id="resetId"> --}}
                         <div class="form-group my-2">
                             <input id="reset-password" class="form-control" type="password" name="password_reset"
                                 placeholder="รหัสผ่าน">

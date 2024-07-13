@@ -8,11 +8,12 @@ use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\TechnicianUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardTechnicianController;
-use App\Http\Controllers\ListTechnicianController;
+use App\Http\Controllers\PersonalInformationTechnicianController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Htpp\Controllers\ListTechnicianController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -63,7 +64,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::post('room/tool/create', [RoomController::class, 'RoomStoreEquipment'])->name('R.create.tool');
     Route::post('room/tool/remove', [RoomController::class, 'EquipmentUpdata'])->name('R.remove.tool');
     Route::post('room/update', [RoomController::class, 'EditNameRoom'])->name('R.updata');
-    Route::delete('room/destroy/{id}',[RoomController::class, 'DeleteRoom'])->name('R.deleta');
+    Route::delete('room/destroy/{id}', [RoomController::class, 'DeleteRoom'])->name('R.deleta');
 
     //แจ้งซ่อม
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
@@ -78,7 +79,6 @@ Route::get('/login/register', [RegisterController::class, 'index']);
 // rounte Employee
 Route::resource('/employee', EmployeeCRUDController::class);
 
-
 // rounte users
 Route::prefix('user')->group(function () {
     Route::get('repair/{id}', [RepairController::class, 'index'])->name('index.repair');
@@ -89,13 +89,16 @@ Route::prefix('user')->group(function () {
 
 // rount Technician
 Route::prefix('technician')->middleware('istradesmanrepair')->group(function () {
-    Route::get('/dashboard/{p}', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
-    Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
+    Route::get('/dashboard', [DashboardTechnicianController::class, 'index'])->name('technician.dashboard');
+    Route::get('/listwork/{p}',[DashboardTechnicianController::class, 'all_work'])->name('technician.listwork');
+    Route::get('/personalinformation', [DashboardTechnicianController::class, 'Indexinformation'])->name('technician.info');
+    // Route::get('/listRepair', [ListTechnicianController::class, 'index'])->name('technician.listRepair');
     Route::post('/workmoves', [DashboardTechnicianController::class, 'work_moves'])->name('moveswork');
     Route::post('/update/work/{id}', [DashboardTechnicianController::class, 'work_updata']);
-    Route::post('/recipient/work', [DashboardTechnicianController::class, 'workRecipient']);
+    Route::post('/recipient/work', [DashboardTechnicianController::class, 'workRecipient'])->name('T.recipient');
+    Route::post('/edit/personalInformation',[DashboardTechnicianController::class, 'edit_personal_info'])->name('T.edit.info');
+    Route::get('/technicianStaff',[DashboardTechnicianController::class, 'IndexTechnicianStaff'])->name('T.Staff');
 });
-
 
 Auth::routes();
 

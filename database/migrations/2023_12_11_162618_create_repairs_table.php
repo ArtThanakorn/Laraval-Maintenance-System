@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('email')->comment('Email ผู้เเจ้งซ่อม')->nullable();
             $table->string('number',10)->comment('เบอร์โทรผู้แจ้งซ่อม')->nullable();
             $table->string('tag_repair',20)->comment('รหัสงานซ่อม');
-            $table->string('status_repair',20)->comment('สถานะงานเเจ้งซ่อม')->default('รอซ่อม')->nullable();
+            $table->string('status_repair',20)->comment('สถานะงานเเจ้งซ่อม')->default('รอดำเนินการ')->nullable();
             $table->tinyInteger('user_responsible')->comment('ผู้รับผิดชอบ')->default(0)->nullable();
             $table->timestamps();
         });

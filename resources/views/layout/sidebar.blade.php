@@ -34,18 +34,6 @@
                             <div class="sb-nav-link-icon"><i class="fa fa-user text-warning"></i></div>
                             จัดการข้อมูลแผนก
                         </a>
-                        {{--  <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-calendar-check text-info"></i></div>
-                            จัดการข้อมูลสถาณะ
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
-                            ข้อมูลส่วนตัว
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fa fa-database text-info"></i></div>
-                            รายงาน
-                        </a>  --}}
                         <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
                         <a class="nav-link" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
@@ -63,15 +51,7 @@
                             <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
                             ดูรายการเเจ้งซ่อม
                         </a>
-                        <a class="nav-link" href="{{ url('/technician/listRepair') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                            จัดการงานเเจ้งซ่อม
-                        </a>
-                        <a class="nav-link" href="">
-                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                            เเจ้งซ่อมเสร็จเเล้ว
-                        </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{ url('/technician/personal') }} ">
                             <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
                             ข้อมูลส่วนตัว
                         </a>
@@ -87,29 +67,32 @@
 
                     {{--  เริ่มเมนู พนักงาน  --}}
                     {{-- <div class="sb-sidenav-menu-heading">เมนู พนักงาน</div>
-                <a class="nav-link" href="">
-                    <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
-                    ดูงานเเจ้งซ่อม
-                </a>
-                <a class="nav-link" href="">
-                    <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
-                    เเจ้งปัญหางาน
-                </a>
-                <a class="nav-link" href="">
-                    <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
-                    รายงานเเจ้งซ่อม
-                </a>
-                <a class="nav-link" href="">
-                    <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
-                    ข้อมูลส่วนตัว
-                </a>
-                <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
-                <a class="nav-link" href="">
-                    <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
-                    ออกจากระบบ
-                </a> --}}
+                        <a class="nav-link" href="">
+                            <div class="sb-nav-link-icon"><i class="fa fa-tachometer text-info"></i></div>
+                            ดูงานเเจ้งซ่อม
+                        </a>
+                        <a class="nav-link" href="">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bullhorn text-info"></i></div>
+                            เเจ้งปัญหางาน
+                        </a>
+                        <a class="nav-link" href="">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bars-staggered text-info"></i></div>
+                            รายงานเเจ้งซ่อม
+                        </a>
+                        <a class="nav-link" href="">
+                            <div class="sb-nav-link-icon"><i class="fa fa-address-book text-info"></i></div>
+                            ข้อมูลส่วนตัว
+                        </a>
+                        <div class="sb-sidenav-menu-heading">ออกจากระบบ</div>
+                        <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">
+                            <div class="sb-nav-link-icon"><i class="fa fa-sign-out text-danger"></i></div>
+                            ออกจากระบบ
+                        </a> --}}
                     {{--  สิ้นสุดเมนูพนักงาน  --}}
                 @endauth
+
             </div>
         </div>
         {{--  <div class="sb-sidenav-footer">
