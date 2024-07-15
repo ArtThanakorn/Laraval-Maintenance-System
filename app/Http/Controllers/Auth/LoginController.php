@@ -52,7 +52,7 @@ class LoginController extends Controller
             if(auth()->user()->role === 1){
                 return redirect()->route('admin.dashdoard');
             }elseif(auth()->user()->role === 2){
-                return redirect()->route('technician.dashboard',['p'=>10]);
+                return redirect()->route('technician.dashboard');
             }else{
                 return redirect()->route('home');
             }
