@@ -85,24 +85,35 @@ class DashboardTechnicianController extends Controller
         $files = $request->file('imfupdate');
 
         $Urepai = Repair::find($id);
-        Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
-        // dd($Urepai);
-
-        foreach ($files as $images) {
-            $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // ชื่อรูป
-            $images->move(public_path('uploads/repair/'), $imageName); // path ที่ต้องการเก็บรูป
-            ImageRepair::create([
-                'id_repair' =>  $Urepai->id_repair,
-                'nameImage' => $imageName
-            ]);
+        DB::beginTransaction();
+        try {
+            Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
+            // dd($Urepai);
+            if (isset($files['imfupdate'])) {
+                foreach ($files as $images) {
+                    $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // ชื่อรูป
+                    $images->move(public_path('uploads/repair/'), $imageName); // path ที่ต้องการเก็บรูป
+                    ImageRepair::create([
+                        'id_repair' =>  $Urepai->id_repair,
+                        'nameImage' => $imageName
+                    ]);
+                }
+            }
+            $this->sendEmail($Urepai);
+            DB::commit();
+            return response()->json([
+                'success' => 1,
+                'message' => 'การอัพเดทงานเสร็จสมบูรณ์'
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response([
+                'status' => false,
+                'message' => 'server error',
+                'description' => 'Something went wrong.',
+                'errorsMessage' => $e->getMessage()
+            ], 501);
         }
-
-        $this->sendEmail($Urepai);
-
-        return response()->json([
-            'success' => 1,
-            'message' => 'การอัพเดทงานเสร็จสมบูรณ์'
-        ]);
     }
 
     public function sendEmail($Urepai)
@@ -168,8 +179,8 @@ class DashboardTechnicianController extends Controller
     public function IndexTechnicianStaff()
     {
         $Utechnician = User::find(Auth::user()->id);
-        $Departmentstaff = User::where('department',$Utechnician->department)->where('level',2)->get();
+        $Departmentstaff = User::where('department', $Utechnician->department)->where('level', 2)->get();
         // dd($Departmentstaff);
-        return view('technician.technician-staff',compact('Departmentstaff'));
+        return view('technician.technician-staff', compact('Departmentstaff'));
     }
 }
