@@ -1,6 +1,15 @@
 @extends('layout.master')
 
+@section('style')
+    <style>
+        .container-fluid {
+            margin-top: 10rem !important;
+          }
+    </style>
+@endsection
+
 @section('content')
+<div class="container-fluid">
     <div class="card">
         <div class="card-body">
             <h3>{{ 'แก้ไขข้อมูลส่วนตัว' }}</h3>
@@ -61,6 +70,7 @@
             </form>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')

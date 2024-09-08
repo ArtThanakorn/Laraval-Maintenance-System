@@ -1,11 +1,14 @@
 @extends('layout.master')
 
+@section('style')
+    <style>
+        .container-fluid {
+            margin-top: 10rem !important;
+          }
+    </style>
+@endsection
+
 @section('content')
-    <div class="container-fluid px-4">
-        <h1 class="mt-4">หน้าหลัก</h1>
-        {{-- <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">ข้อมูลต่างๆ</li>
-    </ol> --}}
         <section>
             <!-- cards -->
             <div class="container-fluid">
@@ -78,7 +81,7 @@
                 </div>
             </div>
         </section>
-    </div>
+
 @endsection
 
 @section('script')
