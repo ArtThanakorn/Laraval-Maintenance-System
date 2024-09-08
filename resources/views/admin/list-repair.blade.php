@@ -209,40 +209,40 @@
 </div>
     @endsection
     @section('script')
-    <script type="module">
-        let jsData = {!! json_encode($jChart) !!};
-        let allwork ={!! json_encode($worlALL) !!};
-        // console.log(jsData.datasets1.data.work);
-        console.log(allwork);
+        <script type="module">
+            let jsData = {!! json_encode($jChart) !!};
+            let allwork ={!! json_encode($worlALL) !!};
+            // console.log(jsData.datasets1.data.work);
+            console.log(allwork);
 
-        // เก็บค่า department_name ใน array ใหม่
-        const labels = [];
-        const Numberofjobs = [];
-        for (const item of jsData.datasets1.data) {
-            labels.push(item.department_name +" "+ Math.floor((item.work/allwork)*100)+'%');
-            Numberofjobs.push( Math.floor((item.work/allwork)*100));
-        }
-        console.log(Numberofjobs);
-        let ctx = document.getElementById('graphCanvas').getContext('2d');
-        let ctx2 = document.getElementById('graphCanvas2').getContext('2d');
-        let myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: Numberofjobs,
-                    backgroundColor: jsData.datasets1.backgroundColor,
-                    hoverOffset: 4,
-                    borderWidth: 1,
-                }]
-            },
-            options: {
-                legend: {
-                    display: true,
-                    position: "bottom"
-                }
+            // เก็บค่า department_name ใน array ใหม่
+            const labels = [];
+            const Numberofjobs = [];
+            for (const item of jsData.datasets1.data) {
+                labels.push(item.department_name +" "+ Math.floor((item.work/allwork)*100)+'%');
+                Numberofjobs.push( Math.floor((item.work/allwork)*100));
             }
-        });
+            console.log(Numberofjobs);
+            let ctx = document.getElementById('graphCanvas').getContext('2d');
+            let ctx2 = document.getElementById('graphCanvas2').getContext('2d');
+            let myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: Numberofjobs,
+                        backgroundColor: jsData.datasets1.backgroundColor,
+                        hoverOffset: 4,
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: true,
+                        position: "bottom"
+                    }
+                }
+            });
 
         //ผลรวมงานทั้งหมด
         let jscompleted = {!! json_encode($ChartWorkcompleted) !!};

@@ -76,6 +76,8 @@ class DashboardController extends Controller
             $liRepair = $repairsQuery->where('status_repair', $status)->get();
         }
         // dd($liRepair->all());
+        $worlALL = Repair::count();
+
         $departments = $repairsQuery
             ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
             ->groupBy('repairs.type', 'departments.department_name')
@@ -99,7 +101,7 @@ class DashboardController extends Controller
         //     $updatedItem['created_at'] = $thaiDate; // Replace the 'created_at' value
         //     return $updatedItem; // Return the modified item array
         // });
-        // dd($liRepairthaiDate);
+        // dd($worlALL);
 
         // หาหน้าที่ถูกเรียก
         $page = Paginator::resolveCurrentPage('page');
@@ -162,7 +164,7 @@ class DashboardController extends Controller
         // dd($currentPageItems);
         $branch_department = Department::where('status_display', 0)->get();
         // dd( $ChartWorkcompleted,$ChartWorknotcompleted);
-        return view('admin.list-repair', ['jChart' => $data], compact('branch_department', 'repairs', 'inupfilter', 'perPage', 'ChartWorkcompleted', 'ChartWorknotcompleted','worlALL'));
+        return view('admin.list-repair', ['jChart' => $data], compact('worlALL','branch_department', 'repairs', 'inupfilter', 'perPage', 'ChartWorkcompleted', 'ChartWorknotcompleted'));
     }
 
     public function setdepart(Request $request)

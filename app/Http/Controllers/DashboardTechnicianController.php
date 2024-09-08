@@ -179,8 +179,8 @@ class DashboardTechnicianController extends Controller
     public function IndexTechnicianStaff()
     {
         $Utechnician = User::find(Auth::user()->id);
-        $Departmentstaff = User::where('department',$Utechnician->department)->where('level',2)->get();
+        $Departmentstaff = User::where('department', $Utechnician->department)->where('level', 2)->get();
         // dd($Departmentstaff);
-        return view('technician.technician-staff',compact('Departmentstaff'));
+        return view('technician.technician-staff', compact('Departmentstaff'));
     }
 }
