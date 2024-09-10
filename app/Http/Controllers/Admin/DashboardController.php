@@ -14,10 +14,23 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function logout(Request $request)
+    {
+        // Get the current user's information
+        $user = Auth::user();
+
+        // Log the user out
+        Auth::logout();
+
+        // Optionally, you can perform a redirect after logging out
+        return redirect('/')->with('status', 'You have been successfully logged out.');
+    }
+
     public function index()
     {
         $countRepair = Repair::where('status_repair', 'รอดำเนินการ')->count();
@@ -78,6 +91,8 @@ class DashboardController extends Controller
             return $item->status_repair === 'รอดำเนินการ';
         })->count();
 
+        $worlALL = Repair::count();
+
         // dd( $liRepair);
 
         // $liRepairthaiDate = $liRepair->map(function ($item) {
@@ -121,7 +136,7 @@ class DashboardController extends Controller
 
         $departmentsArray = $departments->toArray();
 
-
+// dd( $departmentsArray);
 
         function random_color()
         {

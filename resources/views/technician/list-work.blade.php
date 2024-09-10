@@ -34,12 +34,15 @@
         .senWorkContent {
             max-width: 90%;
         }
+        .container-fluid {
+            margin-top: 15rem !important;
+          }
     </style>
 @endsection
 
 @section('content')
     {{--  เริ่มตาราง  --}}
-    <div class="container">
+    <div class="container-fluid">
         <h3 class="mt-4">{{ 'ตารางข้อมูลรายการเเจ้งซ่อม' }}</h3>
         <div class="row justify-content-center align-items-center g-2 mb-3">
             <div class="card">
@@ -398,10 +401,10 @@
                         if (selectedDataWork.status_repair == "รอดำเนินการ") {
                             $('#updateWork-level-select').append(
                                 `<option value="รอดำเนินการ">รอดำเนินการ</option>
-                            <option value="เนินการเสร็จสิ้น">เนินการเสร็จสิ้น</option>`);
+                            <option value="ดำเนินการเสร็จสิ้น">ดำเนินการเสร็จสิ้น</option>`);
                         } else {
                             $('#updateWork-level-select').append(
-                                `<option value="เนินการเสร็จสิ้น" selected>เนินการเสร็จสิ้น</option>`);
+                                `<option value="ดำเนินการเสร็จสิ้น" selected>ดำเนินการเสร็จสิ้น</option>`);
                         }
                         //โชรูป
                         for (const image of selectedDataWork.image_repair) {

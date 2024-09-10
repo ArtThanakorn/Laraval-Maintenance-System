@@ -1,6 +1,15 @@
 @extends('layout.master')
 
+@section('style')
+    <style>
+        .container-fluid {
+            margin-top: 8rem !important;
+          }
+    </style>
+@endsection
+
 @section('content')
+<div class="container-fluid">
     <div class="card" >
         <div class="card-header">{{ 'พนักงานในแผนก' }}</div>
         <div class="card-body">
@@ -28,4 +37,5 @@
         </div>
         {{-- <div class="card-footer text-muted">Footer</div> --}}
     </div>
+</div>
 @endsection

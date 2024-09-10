@@ -24,9 +24,14 @@
             border-color: #000;
             color: #fff;
         }
+        .container-fluid {
+            margin-top: 42rem !important;
+          }
     </style>
 @endsection
 @section('content')
+<div class="container-fluid">
+
     <div class="row justify-content-center align-items-center g-2 mb-3 ">
         <div class="card">
             {{-- <div class="p-2">
@@ -114,7 +119,11 @@
                                 <td>{{ $data['details'] }}</td>
                                 <td>{{ $data['site'] }}</td>
                                 <td>{{ $data['tag_repair'] }}</td>
-                                <td>{{ $data['status_repair'] }}</td>
+                                <td @if ($data['status_repair'] == 'รอดำเนินการ')
+                                    style="color:#e04523"
+                                    @else
+                                    style="color: #5c9409"
+                                @endif>{{ $data['status_repair'] }}</td>
                                 <td>{{ $data['created_at'] }}</td>
                                 <td>
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
@@ -176,8 +185,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" onclick="formSubmit()">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" onclick="formSubmit()">หมอบหมายงาน</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
                     </div>
                 </form>
             </div>
@@ -201,6 +210,9 @@
                 </div>
             </div>
         </div>
+
+    </div>
+</div>
     @endsection
     @section('script')
         <script type="module">
@@ -238,28 +250,28 @@
                 }
             });
 
-            //ผลรวมงานทั้งหมด
-            let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
-            let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
-            let myChart2 = new Chart(ctx2, {
-                type: 'pie',
-                data: {
-                    labels: ['งานที่ยังไม่เสร็จ', 'งานที่เสร็จแล้ว'],
-                    datasets: [{
-                        data: [jsnotcompleted, jscompleted],
-                        backgroundColor: jsData.datasets2.backgroundColor,
-                        hoverOffset: 4,
-                        borderWidth: 1,
-                    }]
-                },
-                options: {
-                    legend: {
-                        display: true,
-                        position: "right"
-                    }
+        //ผลรวมงานทั้งหมด
+        let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
+        let jsnotcompleted = {!! json_encode($ChartWorknotcompleted) !!};
+        let myChart2 = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ['งานที่ยังไม่เสร็จ', 'งานที่เสร็จแล้ว'],
+                datasets: [{
+                    data: [jsnotcompleted, jscompleted],
+                    backgroundColor: jsData.datasets2.backgroundColor,
+                    hoverOffset: 4,
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    position: "right"
                 }
-            });
-        </script>
+            }
+        });
+    </script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const exampleModal = document.getElementById('exampleModal')

@@ -1,9 +1,18 @@
 @extends('layout.master')
 
+@section('style')
+    <style>
+        .container-fluid {
+            margin-top: 15rem !important;
+          }
+    </style>
+@endsection
+
 @section('content')
     @php
         use SimpleSoftwareIO\QrCode\Facades\QrCode;
     @endphp
+<div class="container-fluid">
     <div class="row justify-content-center align-items-center g-2 ">
         <div class="col">
             <div class="card">
@@ -25,7 +34,7 @@
                                 <th scope="col">{{ 'ลำดับ' }}</th>
                                 <th scope="col">{{ 'ห้อง' }}</th>
                                 <th scope="col">{{ 'รายละเอียด' }}</th>
-                                <th scope="col">{{ 'Qr ห้อง' }}</th>
+                                <th scope="col">{{ 'QR ห้อง' }}</th>
                                 <th scope="col">{{ 'เพิ่มอุปกรณ์' }}</th>
                                 <th scope="col">{{ 'ลบอุปกรณ์' }}</th>
                                 <th scope="col">{{ 'แก้ไขห้อง' }}</th>
@@ -274,6 +283,7 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
