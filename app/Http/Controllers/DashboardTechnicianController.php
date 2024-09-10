@@ -52,7 +52,7 @@ class DashboardTechnicianController extends Controller
             });
         }
 
-        $workData = $workData_query->with('imageRepair')->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->paginate($p);
+        $workData = $workData_query->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->paginate($p);
 
         $department = Department::where('status_display', 0)->get();
 
@@ -60,8 +60,9 @@ class DashboardTechnicianController extends Controller
 
         $work_recipient = User::where('department', $use_department)->where('level', 2)->get();
 
-        // dd($work_recipient);
-        return view('technician.list-work', compact('work_recipient', 'workData', 'p', 'search_param', 'department', 'imgrepairs'));
+        $PDFdate = $workData_query->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->get();
+
+        return view('technician.list-work', compact('work_recipient', 'workData', 'p', 'search_param', 'department', 'imgrepairs', 'PDFdate'));
     }
 
     public function work_moves(Request $request)

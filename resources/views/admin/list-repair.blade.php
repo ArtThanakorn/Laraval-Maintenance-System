@@ -84,6 +84,12 @@
                 </div>
             </div>
             <div class="card-body">
+                <div>
+                    <a class="btn btn-primary" href="{{route('R.PDF')}}" role="button" target="_blank">
+                        repair pdf
+                    </a>
+
+                </div>
                 <table class="table table-bordered mb-5">
                     <thead>
                         <tr class="table-success">
