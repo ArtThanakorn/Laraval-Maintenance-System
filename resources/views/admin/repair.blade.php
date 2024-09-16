@@ -11,6 +11,7 @@
         </div>
     @endif
 
+<div class="container-fluid">
     <form method="POST" action="{{ route('add.repair') }}" enctype="multipart/form-data">
         @csrf
         <div class="card mb-4">
@@ -189,25 +190,7 @@
             </div>
         </div>
     </form>
-
-    <!-- Modal -->
-    {{-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title" id="staticBackdropLabel">หมายเหตุ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><b>งานบริการทั่วไป</b> ดูเเลเกี่ยวกับ การให้ข้อมูล, การช่วยเหลือ, หรือการแก้ไขปัญหาทั่วไป.</p>
-                    <p><b>งานประปาเเละงานท่อ</b> ดูเเลเกี่ยวกับ การออกแบบ, ติดตั้ง, และบำรุงรักษาระบบท่อ</p>
-                    <p><b>งานระบบไฟฟ้า</b> ดูเเลเกี่ยวกับ การออกเเบบ, ติดตั้ง, การทดสอบ, และบำรุงรักษาระบบไฟฟ้า</p>
-                    <p><b>งานภูมิทัศน์</b> เน้นการออกแบบและการจัดการทิวทัศน์ทางธรรมชาติ เพื่อให้สวยงาม</p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+</div>
 @endsection
 
 @section('script')

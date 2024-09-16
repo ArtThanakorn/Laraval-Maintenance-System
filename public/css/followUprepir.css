@@ -10,7 +10,9 @@
  .container {
     margin: 50px auto;
     width: 80vw;
+    margin-top: 20rem !important;
  }
+
  input {
     display: none;
     /* position: absolute; */
@@ -232,3 +234,6 @@
         transform: translateY(0px);
     }
  }
+ .container-fluid {
+    margin-top: 20rem !important;
+  }

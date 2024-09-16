@@ -34,12 +34,15 @@
         .senWorkContent {
             max-width: 90%;
         }
+        .container-fluid {
+            margin-top: 15rem !important;
+          }
     </style>
 @endsection
 
 @section('content')
     {{--  เริ่มตาราง  --}}
-    <div class="container">
+    <div class="container-fluid">
         <h3 class="mt-4">{{ 'ตารางข้อมูลรายการเเจ้งซ่อม' }}</h3>
         <div class="row justify-content-center align-items-center g-2 mb-3">
             <div class="card">
@@ -51,10 +54,10 @@
                                 <select id="per-page" class="form-select" aria-label="Default select example"
                                     onchange="entries()">
 
-                                    <option value="10" {{ $p == 10 ? 'selected' : '' }}>{{'10'}}</option>
-                                    <option value="25"{{ $p == 25 ? 'selected' : '' }}>{{'25'}}</option>
-                                    <option value="50"{{ $p == 50 ? 'selected' : '' }}>{{'50'}}</option>
-                                    <option value="100"{{ $p == 100 ? 'selected' : '' }}>{{'100'}}</option>
+                                    <option value="10" {{ $p == 10 ? 'selected' : '' }}>{{ '10' }}</option>
+                                    <option value="25"{{ $p == 25 ? 'selected' : '' }}>{{ '25' }}</option>
+                                    <option value="50"{{ $p == 50 ? 'selected' : '' }}>{{ '50' }}</option>
+                                    <option value="100"{{ $p == 100 ? 'selected' : '' }}>{{ '100' }}</option>
                                 </select>
                             </div>
                         </div>
@@ -94,6 +97,17 @@
                 {{-- @dd($users) --}}
 
                 <div class="card-body">
+                    <div>
+                        <a class="btn btn-primary" href="{{route('T.PDF')}}" role="button" target="_blank">
+                            Button pdf
+                        </a>
+                        {{-- <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-primary" onclick="showPDF()">
+                                Button PDF
+                            </button>
+                        </div> --}}
+
+                    </div>
                     <table class="table table-bordered mb-5">
                         <thead>
                             <tr class="table-success">
@@ -146,7 +160,7 @@
                     <form id="form-technician">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="editModalLabel">{{'ส่งงานไปยังแผนกอื่นๆ'}}</h1>
+                                <h1 class="modal-title fs-5" id="editModalLabel">{{ 'ส่งงานไปยังแผนกอื่นๆ' }}</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -295,8 +309,9 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">{{'บันทึก'}}</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{'ปิด'}}</button>
+                                <button type="submit" class="btn btn-primary">{{ 'บันทึก' }}</button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                             </div>
                         </form>
                     </div>
@@ -309,6 +324,7 @@
                 let department = {!! json_encode($department) !!};
                 // ดึงข้อมูลจากตัวแปร $workData ที่ได้รับมาจาก Laravel
                 let workData = {!! json_encode($workData) !!};
+                let pdfData = {!! json_encode($PDFdate) !!};
 
                 document.addEventListener('DOMContentLoaded', function() {
                     const openEditModal = document.getElementById('editModal');
@@ -385,10 +401,10 @@
                         if (selectedDataWork.status_repair == "รอดำเนินการ") {
                             $('#updateWork-level-select').append(
                                 `<option value="รอดำเนินการ">รอดำเนินการ</option>
-                            <option value="เนินการเสร็จสิ้น">เนินการเสร็จสิ้น</option>`);
+                            <option value="ดำเนินการเสร็จสิ้น">ดำเนินการเสร็จสิ้น</option>`);
                         } else {
                             $('#updateWork-level-select').append(
-                                `<option value="เนินการเสร็จสิ้น" selected>เนินการเสร็จสิ้น</option>`);
+                                `<option value="ดำเนินการเสร็จสิ้น" selected>ดำเนินการเสร็จสิ้น</option>`);
                         }
                         //โชรูป
                         for (const image of selectedDataWork.image_repair) {
@@ -437,7 +453,7 @@
                     console.log(s);
                     let p = document.getElementById('per-page').value;
                     let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
-                    let url = "{{ url('technician/dashboard') }}/" + p + "?status=" + queryParam;
+                    let url = "{{ url('technician/listwork') }}/" + p + "?status=" + queryParam;
                     window.location.href = url;
                 }
 
@@ -528,12 +544,12 @@
                     }
                 }
 
-                function sendRecipient(id){
+                function sendRecipient(id) {
                     console.log(id);
-                   const routing = "{{ route('T.recipient') }}";
+                    const routing = "{{ route('T.recipient') }}";
                     let formData = new FormData(document.querySelector('#form-recipient'));
                     // console.log(formData);
-                    formData.append('repair_id',id);
+                    formData.append('repair_id', id);
                     /* Display the key/value pairs*/
                     for (var pair of formData.entries()) {
                         console.log(pair[0] + ', ' + pair[1]);
@@ -559,6 +575,11 @@
                             console.error(error);
                         });
                     }
+                }
+
+                function showPDF() {
+                    console.log(pdfData);
+
                 }
             </script>
         @endsection

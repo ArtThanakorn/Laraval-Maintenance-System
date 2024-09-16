@@ -1,18 +1,17 @@
 @extends('layout.master')
 
-@vite('resources\css\followUprepir.css')
+@vite('public\css\followUprepir.css')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-sm-8">
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">ติดตามสถานะการแจ้งซ่อม</h5>
-                        <p class="card-text text-primary">กรอกหมายเลขเเท็ก 5 หลัก [ตัวอย่าง : 6c335]</p>
-                        <div class="row justify-content-center align-items-center">
-                            <input type="text" class="form-control w-75" id="search"
-                                placeholder="กรองหมายเลขเเท็กเพื่อค้นหา">
+                        <h5 class="card-title text-center">ติดตามสถานะการแจ้งซ่อม</h5>
+                        <p class="card-text text-center text-primary">กรอกหมายเลขเเท็ก 5 หลัก [ตัวอย่าง : 6c335] เพื่อค้นหา</p>
+                        <div class="row justify-content-center align-items-center mt-3">
+                            <input type="text" class="form-control w-75" id="search" placeholder="กรองหมายเลขเเท็กเพื่อค้นหา">
                             <div class="col-auto">
                                 <button class="btn btn-primary" onclick="filterRepairs()">ค้นหา</button>
                             </div>
@@ -23,22 +22,22 @@
         </div>
         <br>
 
-        <div class="row justify-content-center" style="display: none" id="list">
+        <div class="row justify-content-center pt-5" style="display: none" id="list">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">รายการค้นหา</h5>
+                        {{--  <h5 class="card-title text-primary">รายการค้นหา</h5>  --}}
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 ">
+                                <h5 class="text-primary">รายการค้นหา</h5>
                                 <h6 id="departmentName"></h6>
                             </div>
                             <div class="col-sm-4 text-center">
-
                                 <h5 class="text-success" id="demo"></h5>
                                 <h6 id="nameRepair"></h6>
                             </div>
                             <div class="col-sm-4 text-end">
-                                <h6 class="text-danger">
+                                <h6 class="text-primary">
                                     <p id="timeCreatedAt"></p>
                                 </h6>
                             </div>
@@ -65,6 +64,7 @@
                                         <span></span>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

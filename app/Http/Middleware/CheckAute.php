@@ -20,7 +20,7 @@ class CheckAute
             if (auth()->user()->role === 1) {
                 return redirect(route('admin.dashdoard'));
             } else {
-                return redirect(route('technician.dashboard',['p'=>10]));
+                return redirect(route('technician.dashboard'));
             }
         }else{
             return $next($request);
