@@ -70,3 +70,6 @@ _ ** ข้อมูลผู้ใช้อยู่ใน database\seeders\Use
 git pull
 php artisan migrate:refresh
 php artisan db:seed --class='UserSeeder'
+
+ php artisan serve
+ npm run dev

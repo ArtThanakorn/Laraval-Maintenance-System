@@ -14,6 +14,8 @@ use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Htpp\Controllers\ListTechnicianController;
+use App\Http\Controllers\Admin\AdminPdfController;
+use App\Http\Controllers\technician\TechnicianPdfController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -72,6 +74,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
     Route::post('repair/update', [DashboardController::class, 'setdepart'])->name('update.repair');
     Route::get('handle/repair', [RepairController::class, 'handle_repaair'])->name('handle.repair');
+    Route::get('show/repair/pdf',[AdminPdfController::class, 'repairAll'])->name('R.PDF');
 });
 
 // rounte Login && register
@@ -100,6 +103,7 @@ Route::prefix('technician')->middleware('istradesmanrepair')->group(function () 
     Route::post('/recipient/work', [DashboardTechnicianController::class, 'workRecipient'])->name('T.recipient');
     Route::post('/edit/personalInformation',[DashboardTechnicianController::class, 'edit_personal_info'])->name('T.edit.info');
     Route::get('/technicianStaff',[DashboardTechnicianController::class, 'IndexTechnicianStaff'])->name('T.Staff');
+    Route::get('/workschedule/pdf',[TechnicianPdfController::class, 'generatePdf'])->name('T.PDF');
 });
 
 Auth::routes();
