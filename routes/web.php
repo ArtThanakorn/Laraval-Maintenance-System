@@ -74,7 +74,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::get('show/repair/{p}', [DashboardController::class, 'repair_show'])->name('show.repair');
     Route::post('repair/update', [DashboardController::class, 'setdepart'])->name('update.repair');
     Route::get('handle/repair', [RepairController::class, 'handle_repaair'])->name('handle.repair');
-    Route::get('show/repair/pdf',[AdminPdfController::class, 'repairAll'])->name('R.PDF');
+    Route::get('pdf/repair',[AdminPdfController::class, 'repair_all_pdf'])->name('R.PDF');
 });
 
 // rounte Login && register

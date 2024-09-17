@@ -112,57 +112,55 @@
     <script>
         let repairData = {!! $repairsData !!}
         console.log(repairData);
+        let status1 = document.getElementById("status1");
+        let status2 = document.getElementById("status2");
+        let status3 = document.getElementById("status3");
         function filterRepairs() {
             const resultRepairs = document.getElementById("search");
-
             const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
-            let status1 = document.getElementById("status1");
-            let status2 = document.getElementById("status2");
-            let status3 = document.getElementById("status3");
 
-            if (filterData) {
+            console.log(filterData);
+            if (filterData !== null) {
                 const dateObject = new Date(filterData.updated_at);
-
                 const options =  { year: 'numeric', month: 'long', day: 'numeric' };
                 const formattedDate = dateObject.toLocaleDateString('th-TH', options);
                 document.getElementById("list").style.display = 'block';
+                console.log("123");
+                    if (filterData.status_repair == "รอดำเนินการ") {
 
-                if (filterData.status_repair == "รอดำเนินการ") {
-                    status2.classList.add("current-item");
-                    status1.classList.remove("current-item");
-                    status3.classList.remove("current-item");
-                    /* document.getElementById("radio2").checked = true;
-                    document.getElementById("radio3").checked = false;*/
-                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department.department_name;
-                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
-                } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
-                    /*document.getElementById("radio3").checked = true;*/
-                    status3.classList.add("current-item");
-                    status1.classList.remove("current-item");
-                    status2.classList.remove("current-item");
+                        status2.classList.add("current-item");
+                        status1.classList.remove("current-item");
+                        status3.classList.remove("current-item");
+                        /* document.getElementById("radio2").checked = true;
+                        document.getElementById("radio3").checked = false;*/
+                        document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
+                        document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
+                        document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department.department_name;
+                        document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+                    } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
+                        /*document.getElementById("radio3").checked = true;*/
+                        status3.classList.add("current-item");
+                        status1.classList.remove("current-item");
+                        status2.classList.remove("current-item");
 
-                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
-                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+                        document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
+                        document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
+                        document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
+                        document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+                    } else if (filterData.status_repair == "เเจ้งซ่อม") {
+                        status1.classList.add("current-item");
+                        status2.classList.remove("current-item")
+                        status3.classList.remove("current-item");
+
+                        document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
+                        document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
+                        document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
+                        document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+                    }
+                } else {
+                    document.getElementById("list").style.display = 'none';
+                    Swal.fire("ไม่พบหมายเลขเเท็ก");
                 }
-            }
-            else if(filterData.status_repair == "เเจ้งซ่อม"){
-                status1.classList.add("current-item");
-                status2.classList.remove("current-item")
-                status3.classList.remove("current-item");
-
-                document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
-                document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
-            }
-             else {
-                document.getElementById("list").style.display = 'none';
-                Swal.fire("ไม่พบหมายเลขเเท็ก");
-            }
             // let repairsfilterData;
         }
     </script>

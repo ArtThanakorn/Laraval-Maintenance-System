@@ -65,6 +65,7 @@ class RepairController extends Controller
             'site' => $request->location,
             'email' => $request->email,
             'number' => $request->number,
+            'status_repair' => 'แจ้งซ่อม',
             // Gets a prefix unique
             'tag_repair' => substr(uniqid(), -5)
         ]);

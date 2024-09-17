@@ -169,7 +169,7 @@ class DashboardController extends Controller
 
     public function setdepart(Request $request)
     {
-        $repairs = Repair::where('id_repair', $request->id_repair)->update(['type' => $request->depart_id]);
+        $repairs = Repair::where('id_repair', $request->id_repair)->update(['type' => $request->depart_id ,'status_repair' => 'แจ้งซ่อม']);
 
         // $url = url('/') . "/technician/dashboard/10";
         $url = route('technician.dashboard', ['p' => 10]);

@@ -1,8 +1,8 @@
 {
     "thsarabun": {
-        "normal": "D:\\Laraval-Maintenance-System\\storage\\fonts\/thsarabun_normal_bb776d4a0f340801813418f2251a4c03",
-        "bold": "D:\\Laraval-Maintenance-System\\storage\\fonts\/thsarabun_bold_0a71eafee0a3fe4cce17babf95610736",
-        "italic": "D:\\Laraval-Maintenance-System\\storage\\fonts\/thsarabun_italic_a824f7ab6103c9468ff8ac4b317af505",
-        "bold_italic": "thsarabun_bold_italic_00e9734c8f5d0f6b8159f910b067ce38"
+        "normal": "C:\\xampp\\htdocs\\projectLaravel\\laravelProject\\storage\\fonts\/thsarabun_normal_5d77da2eb54d2a23ed2f0fe76b372532",
+        "bold": "C:\\xampp\\htdocs\\projectLaravel\\laravelProject\\storage\\fonts\/thsarabun_bold_a47b2fac5557dd288aef90e34c693667",
+        "italic": "C:\\xampp\\htdocs\\projectLaravel\\laravelProject\\storage\\fonts\/thsarabun_italic_4483f310e511f2bc2a5c045460645500",
+        "bold_italic": "thsarabun_bold_italic_a264d5d3f3b1af7b569b8f7a94486e85"
     }
 }
