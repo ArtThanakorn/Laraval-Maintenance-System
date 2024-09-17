@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\technician;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Repair;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -19,6 +20,8 @@ class TechnicianPdfController extends Controller
         $pdfDataPending = Repair::where('type', Auth::user()->department)->where('status_repair','รอดำเนินการ')->orderBy('updated_at', 'desc')->count();
 
         $pdfDataCompleted = Repair::where('type', Auth::user()->department)->where('status_repair','ดำเนินการเสร็จสิ้น')->orderBy('updated_at', 'desc')->count();
+        $department = Department::select('department_name')->where('department_id',Auth::user()->department)->first();
+        // dd($department);
         $data = [
             'title' => 'Welcome to ItSolutionStuff.com',
             'date' => date('m/d/Y'),
@@ -26,7 +29,8 @@ class TechnicianPdfController extends Controller
             'tableHead' => $table_head,
             'pdfData' => $pdfData,
             'Pending' => $pdfDataPending,
-            'Completed' => $pdfDataCompleted
+            'Completed' => $pdfDataCompleted,
+            'Department' => $department
         ];
         // dd($data);
         $pdf = Pdf::loadView('technician.work-schedule',$data);

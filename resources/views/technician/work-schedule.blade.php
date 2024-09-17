@@ -60,7 +60,7 @@
 </head>
 
 <body>
-    <h2>{{ 'ตาราง Static' }}</h2>
+    <h2>{{ $Department->department_name . 'รางาน จำนวนแจ้งซ่อม' }}</h2>
     {{-- <p>{{ $users }}</p> --}}
     {{-- @dd($pdfData) --}}
     <table>

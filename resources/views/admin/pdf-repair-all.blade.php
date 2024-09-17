@@ -60,24 +60,29 @@
 </head>
 
 <body>
-    <h2>{{ 'ตาราง Static' }}</h2>
-    <p>{{ $users }}</p>
+    <h2>{{ 'รายงาน จำนวนแจ้งซ่อม' }}</h2>
     {{-- @dd($pdfData) --}}
-    {{-- <table>
+    <table>
         <tr>
-            <th>{{ $tableHead['TH5'] }}</th>
-            <th>{{ $tableHead['TH2'] }}</th>
-            <th>{{ $tableHead['TH3'] }}</th>
-            <th>{{ $tableHead['TH6'] }}</th>
-            <th>{{ $tableHead['TH4'] }}</th>
+            <th>{{ 'ลำดับ' }}</th>
+            <th>{{ 'ประเภทงานซ่อม' }}</th>
+            <th>{{ 'ชื่อผู้แจ้งซ่อม' }}</th>
+            <th>{{ 'รายละเอียดงานซ่อม' }}</th>
+            <th>{{ 'สถานที่' }}</th>
+            <th>{{ 'รหัสแจ้งซ่อม' }}</th>
+            <th>{{ 'สถานะงานเเจ้งซ่อม' }}</th>
+            <th>{{ 'วันที่แจ้งซ่อม' }}</th>
         </tr>
-        @foreach ($pdfData as $rows)
+        @foreach ($repair as $key =>$rows)
             <tr>
-                <td>{{ $rows->id_repair }}</td>
-                <td>{{ $rows->status }}</td>
+                <td>{{ $key + 1 }}</td>
+                <td>{{ $rows->department_name }}</td>
+                <td>{{ $rows->name }}</td>
                 <td>{{ $rows->details }}</td>
-                <td>{{ $rows->status_repair }}</td>
                 <td>{{ $rows->site }}</td>
+                <td>{{ $rows->tag_repair }}</td>
+                <td>{{ $rows->status_repair }}</td>
+                <td>{{ $rows->created_at }}</td>
             </tr>
         @endforeach
 
@@ -87,15 +92,17 @@
         <p>{{'สรุปรายงานผล'}}</p>
         <table>
             <tr>
+                <th>{{ 'งานทั้งหมด' }}</th>
                 <th>{{ 'ดำเนินการเสร็จสิ้น' }}</th>
                 <th>{{ 'รอดำเนินการ' }}</th>
             </tr>
             <tr>
-                <td>{{ $Completed.' '.'งาน' }}</td>
-                <td>{{ $Pending.' '.'งาน' }}</td>
+                <td>{{ $all.' '.'งาน' }}</td>
+                <td>{{ $finished.' '.'งาน' }}</td>
+                <td>{{ $NotFinished.' '.'งาน' }}</td>
             </tr>
         </table>
-    </div> --}}
+    </div>
 </body>
 
 </html>
