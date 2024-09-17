@@ -9,10 +9,15 @@
         ul.list-group.list-group-striped li:nth-of-type(even) {
             background: #fff;
         }
+
+        .container-fluid {
+            margin-top: 25rem !important;
+        }
     </style>
 @endsection
 
 @section('content')
+<div class="container-fluid">
     <div class="card my-5">
         <div class="card-body">
             <div class="row justify-content-center align-items-center g-2 mb-2">
@@ -95,4 +100,6 @@
             </div> --}}
         </div>
     </div>
+</div>
+
 @endsection

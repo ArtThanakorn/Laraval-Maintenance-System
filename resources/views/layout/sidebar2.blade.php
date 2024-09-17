@@ -5,6 +5,18 @@
                     <i class='bx bx-cog'></i>
                     <span class="logo_name">Maintenance System</span>
                 </div>
+
+                {{--  <div class="image-text">
+                    <spa class="image">
+                        <img src="https://drive.google.com/file/d/19tDLGr5dMev_1YbOvJeCosjzgxaO3K5y/view" alt="logo">
+                    </spa>
+
+                    <div class="text header-text">
+                        <span class="name">Maintenance</span>
+                        <span class="profession">System</span>
+                    </div>
+                </div>  --}}
+
             <ul class="nav-links">
                 <li>
                     <a href="{{ route('admin.dashdoard') }}">

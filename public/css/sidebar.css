@@ -263,6 +263,12 @@
 
 
 .container-fluid {
-        margin-top: 30rem !important;
-      }
+    margin-top: 30rem !important;
+}
 
+.header-text .name{
+    font-weight: 600;
+}
+.header-text .profession{
+    margin-top: -2px;
+}
