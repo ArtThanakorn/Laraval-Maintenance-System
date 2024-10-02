@@ -76,13 +76,14 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-sm-6">
-                    <p class="card-text text-center text-primary">กรอกหมายเลขเเท็ก 5 หลัก [ตัวอย่าง : 6c335] เพื่อค้นหา</p>
-                    <div class="row justify-content-center align-items-center mt-3">
-                        <input type="text" class="form-control w-75" id="search" placeholder="กรองหมายเลขเเท็กเพื่อค้นหา">
-                        <div class="col-auto">
-                                <button class="btn btn-outline-success" onclick="filterRepairs()"><i class='bx bx-search' style="font-size: 25px"></i></button>
-                        </div>
+                <p class="card-text text-center text-primary">กรอกหมายเลขเเท็ก 5 หลัก [ตัวอย่าง : 6c335] เพื่อค้นหา</p>
+                <div class="row justify-content-center align-items-center mt-3">
+                    <input type="text" class="form-control w-75" id="search" placeholder="กรองหมายเลขเเท็กเพื่อค้นหา">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-success" onclick="filterRepairs()"><i class='bx bx-search'
+                                style="font-size: 25px"></i></button>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -158,7 +159,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('script')
@@ -200,29 +200,13 @@
                         status1.classList.remove("current-item");
                         status2.classList.remove("current-item");
 
-                        document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                        document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                        document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
-                        document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
-                    } else if (filterData.status_repair == "เเจ้งซ่อม") {
-                        status1.classList.add("current-item");
-                        status2.classList.remove("current-item")
-                        status3.classList.remove("current-item");
-
-                        document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                        document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                        document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
-                        document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
-                    }
-                } else {
-                    document.getElementById("list").style.display = 'none';
-                    Swal.fire("ไม่พบหมายเลขเเท็ก");
+                    // document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
+                    // document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
+                    // document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
+                    //     .department_name;
+                    // document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 }
                 // let repairsfilterData;
             }
     </script>
-
-
-
-
 @endsection
