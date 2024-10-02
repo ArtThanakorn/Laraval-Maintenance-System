@@ -25,11 +25,11 @@
                         <i class="fa-solid fa-gears custom-icon"></i>
                     </div>
                     <h1 class="my-2">ระบบเเจ้งซ่อมออนไลน์</h1>
-                    <h2>Sign in</h2>
+                    <h3>ลงชื่อเข้าใช้งาน</h3>
                     <input type="email" placeholder="Email" name="email"/>
                     <input type="password" placeholder="Password" name="password"/>
-                    <a href="{{ route('password.request') }}">Forgot your password?</a>
-                   <button type="submit" >Sign Up</button>
+                    <a href="{{ route('password.request') }}">ลืมรหัสผ่านใช่ไหม?</a>
+                    <button type="submit" style="font-size: 15px">เข้าสู่ระบบ</button>
                 </form>
         </div>
     </div>

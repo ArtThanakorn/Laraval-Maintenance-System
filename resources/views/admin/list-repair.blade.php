@@ -34,31 +34,28 @@
 
     <div class="row justify-content-center align-items-center g-2 mb-3 ">
         <div class="card">
-            {{-- <div class="p-2">
-                <div class="flex" style="width: 2.5cm; margin-left: 14px;">
-                    <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
-                        <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
-                        <option value="25"{{ $perPage == 25 ? 'selected' : '' }}>25</option>
-                        <option value="50"{{ $perPage == 50 ? 'selected' : '' }}>50</option>
-                        <option value="100"{{ $perPage== 100 ? 'selected' : '' }}>100</option>
-                    </select>
-                </div>
-            </div> --}}
+
             <div class="d-flex justify-content-center mb-3">
                 <div class="p-2">
                     <div class="flex" style="width: 2.5cm; margin-left: 14px;">
                         <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
-                            <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
+                            <option value="10"{{ $perPage == 10 ? 'selected' : '' }}>10</option>
                             <option value="25"{{ $perPage == 25 ? 'selected' : '' }}>25</option>
                             <option value="50"{{ $perPage == 50 ? 'selected' : '' }}>50</option>
                             <option value="100"{{ $perPage == 100 ? 'selected' : '' }}>100</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="me-auto p-2">
                     <div class="flex" style="padding-block: inherit;">
                         {{ __('รายการต่อหน้า') }}
                     </div>
+                </div>
+                <div class="p-2">
+                    <a class="btn btn-outline-danger" href="{{route('R.PDF')}}" role="button" target="_blank">
+                        <i class="fas fa-file-pdf"></i> ดาวน์โหลดไฟล์ PDF
+                    </a>
                 </div>
                 <div class="p-2">
                     <div class="flex" style="width:5cm">
@@ -82,19 +79,15 @@
                         <div class="flex">
                             <input type="text" name="q" placeholder="Search" id="inpufil"
                                 class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
-                                value="{{ $inupfilter }}" onchange="filterRepair()" />{{-- value="{{ $search_param }}" --}}
+                                value="{{ $inupfilter }}" onchange="filterRepair()" />
+                                {{-- value="{{ $search_param }}" --}}
                             {{-- <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button> --}}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <div>
-                    <a class="btn btn-primary" href="{{route('R.PDF')}}" role="button" target="_blank">
-                        repair pdf
-                    </a>
 
-                </div>
                 <table class="table table-bordered mb-5">
                     <thead>
                         <tr class="table-success">
@@ -295,8 +288,10 @@
 
             function entries() {
                 let pPage = document.getElementById('per-page').value;
+                let s = document.getElementById('status-repair').value;
+                let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
                 console.log(pPage);
-                window.location.replace($url + `/admin/show/repair/${pPage}`);
+                window.location.replace($url + `/admin/show/repair/${pPage}` + "?status=" + queryParam);
             }
 
             function statusRepair() {

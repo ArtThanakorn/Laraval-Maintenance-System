@@ -43,7 +43,7 @@
 @section('content')
     {{--  เริ่มตาราง  --}}
     <div class="container-fluid">
-        <h3 class="mt-4">{{ 'ตารางข้อมูลรายการเเจ้งซ่อม' }}</h3>
+        {{--  <h3 class="mt-4">{{ 'ตารางข้อมูลรายการเเจ้งซ่อม' }}</h3>  --}}
         <div class="row justify-content-center align-items-center g-2 mb-3">
             <div class="card">
                 <div class="row justify-content-between align-items-center g-2 mt-2 ">
@@ -51,9 +51,7 @@
                     <div class="d-flex justify-content-center mb-3">
                         <div class="p-2">
                             <div class="flex" style="width: 2.5cm; margin-left: 14px;">
-                                <select id="per-page" class="form-select" aria-label="Default select example"
-                                    onchange="entries()">
-
+                                <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
                                     <option value="10" {{ $p == 10 ? 'selected' : '' }}>{{ '10' }}</option>
                                     <option value="25"{{ $p == 25 ? 'selected' : '' }}>{{ '25' }}</option>
                                     <option value="50"{{ $p == 50 ? 'selected' : '' }}>{{ '50' }}</option>
@@ -65,6 +63,11 @@
                             <div class="flex" style="padding-block: inherit;">
                                 {{ __('รายการต่อหน้า') }}
                             </div>
+                        </div>
+                        <div class="p-2">
+                            <a class="btn btn-outline-danger" href="{{route('T.PDF')}}" role="button" target="_blank">
+                                <i class="fas fa-file-pdf"></i> ดาวน์โหลดไฟล์ PDF
+                            </a>
                         </div>
                         <div class="p-2">
                             <div class="flex" style="width:5cm">
@@ -97,17 +100,6 @@
                 {{-- @dd($users) --}}
 
                 <div class="card-body">
-                    <div>
-                        <a class="btn btn-primary" href="{{route('T.PDF')}}" role="button" target="_blank">
-                            Button pdf
-                        </a>
-                        {{-- <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-primary" onclick="showPDF()">
-                                Button PDF
-                            </button>
-                        </div> --}}
-
-                    </div>
                     <table class="table table-bordered mb-5">
                         <thead>
                             <tr class="table-success">
@@ -444,8 +436,10 @@
 
                 function entries() {
                     let p = document.getElementById('per-page').value;
+                    let s = document.getElementById('status-repair').value;
+                    let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
                     console.log(p);
-                    window.location.replace($url + `/technician/dashboard/${p}`);
+                    window.location.replace($url + `/technician/listwork/${p}`+ "?status=" + queryParam);
                 }
 
                 function statusRepair() {

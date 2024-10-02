@@ -87,47 +87,104 @@
         </div>
     </div>
 
-    <div class="col-sm-12">
-        <section class="step-wizard">
-            <ul class="step-wizard-list">
-                <li class="step-wizard-item">
-                    <span id="status1" class="progress-count">1</span>
-                    <span class="progress-label">เเจ้งซ่อม</span>
-                </li>
-                <li class="step-wizard-item ">
-                    <span id="status2" class="progress-count">2</span>
-                    <span class="progress-label">รอดำเนินการ</span>
-                </li>
-                <li class="step-wizard-item">
-                    <span id="status3" class="progress-count">3</span>
-                    <span class="progress-label">เสร็จสิ้น</span>
-                </li>
-            </ul>
-        </section>
+    {{--  <div class="col-sm-12" style="display: none" id="list">
+        <div class="row">
+            <section class="step-wizard">
+                <ul class="step-wizard-list">
+                    <li id="status1" class="step-wizard-item ">
+                        <span class="progress-count">1</span>
+                        <span class="progress-label">เเจ้งซ่อม</span>
+                    </li>
+                    <li id="status2" class="step-wizard-item ">
+                        <span class="progress-count ">2</span>
+                        <span class="progress-label">รอดำเนินการ</span>
+                    </li>
+                    <li id="status3"class="step-wizard-item">
+                        <span class="progress-count">3</span>
+                        <span class="progress-label">เสร็จสิ้น</span>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="container text-center col-sm-12">
+            <div class="row">
+              <div class="col-lg">
+                <h6 id="departmentName"></h6>
+              </div>
+              <div class="col-lg">
+                <h5 class="text-success" id="demo"></h5>
+                <h6 id="nameRepair"></h6>
+              </div>
+              <div class="col-lg">
+                <p id="timeCreatedAt"></p>
+              </div>
+            </div>
+        </div>
+    </div>  --}}
+
+    <div class="col-sm-12" style="display: none" id="list">
+        <div class="row">
+            <section class="step-wizard">
+                <ul class="step-wizard-list">
+                    <li id="status1" class="step-wizard-item">
+                        <span class="progress-count">1</span>
+                        <span class="progress-label">เเจ้งซ่อม</span>
+                    </li>
+                    <li id="status2" class="step-wizard-item">
+                        <span class="progress-count ">2</span>
+                        <span class="progress-label">รอดำเนินการ</span>
+                    </li>
+                    <li id="status3" class="step-wizard-item">
+                        <span class="progress-count">3</span>
+                        <span class="progress-label">เสร็จสิ้น</span>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="container text-center col-sm-12">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg">
+                    <h6 id="departmentName"></h6>
+                </div>
+                <div class="col-lg">
+                    <h5 class="text-success" id="demo"></h5>
+                    <h6 id="nameRepair"></h6>
+                </div>
+                <div class="col-lg">
+                    <p id="timeCreatedAt"></p>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
 
 @section('script')
     <script>
-        let repairData = {!! $repairsData !!}
-        console.log(repairData);
-        let status1 = document.getElementById("status1");
-        let status2 = document.getElementById("status2");
-        let status3 = document.getElementById("status3");
-        function filterRepairs() {
-            const resultRepairs = document.getElementById("search");
-            const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
+            let repairData = {!! $repairsData !!}
+            console.log(repairData);
 
-            console.log(filterData);
-            if (filterData !== null) {
-                const dateObject = new Date(filterData.updated_at);
-                const options =  { year: 'numeric', month: 'long', day: 'numeric' };
-                const formattedDate = dateObject.toLocaleDateString('th-TH', options);
-                document.getElementById("list").style.display = 'block';
-                console.log("123");
+            function filterRepairs() {
+                let status1 = document.getElementById("status1");
+                let status2 = document.getElementById("status2");
+                let status3 = document.getElementById("status3");
+                const resultRepairs = document.getElementById("search");
+                const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
+
+                // console.log(filterData);
+                if (filterData) {
+                    const dateObject = new Date(filterData.updated_at);
+                    const options = {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    };
+                    const formattedDate = dateObject.toLocaleDateString('th-TH', options);
+                    document.getElementById("list").style.display = 'block';
                     if (filterData.status_repair == "รอดำเนินการ") {
-
+                        console.log("123");
                         status2.classList.add("current-item");
                         status1.classList.remove("current-item");
                         status3.classList.remove("current-item");
@@ -161,8 +218,8 @@
                     document.getElementById("list").style.display = 'none';
                     Swal.fire("ไม่พบหมายเลขเเท็ก");
                 }
-            // let repairsfilterData;
-        }
+                // let repairsfilterData;
+            }
     </script>
 
 
