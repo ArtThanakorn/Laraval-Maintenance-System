@@ -33,82 +33,97 @@
 @section('content')
     <div class="container-fluid">
 
-        <div class="row justify-content-center align-items-center g-2 mb-3 ">
-            <div class="card">
-                {{-- <div class="p-2">
-                <div class="flex" style="width: 2.5cm; margin-left: 14px;">
-                    <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
-                        <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
-                        <option value="25"{{ $perPage == 25 ? 'selected' : '' }}>25</option>
-                        <option value="50"{{ $perPage == 50 ? 'selected' : '' }}>50</option>
-                        <option value="100"{{ $perPage== 100 ? 'selected' : '' }}>100</option>
-                    </select>
-                </div>
-            </div> --}}
-                <div class="d-flex justify-content-center mb-3">
-                    <div class="p-2">
-                        <div class="flex" style="width: 2.5cm; margin-left: 14px;">
-                            <select id="per-page" class="form-select" aria-label="Default select example"
-                                onchange="entries()">
-                                <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
-                                <option value="25"{{ $perPage == 25 ? 'selected' : '' }}>25</option>
-                                <option value="50"{{ $perPage == 50 ? 'selected' : '' }}>50</option>
-                                <option value="100"{{ $perPage == 100 ? 'selected' : '' }}>100</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="me-auto p-2">
-                        <div class="flex" style="padding-block: inherit;">
-                            {{ __('รายการต่อหน้า') }}
-                        </div>
-                    </div>
-                    <div class="p-2">
-                        <div class="flex" style="width:5cm">
-                            <select class="form-select" id="status-repair" aria-label="Default select example"
-                                onchange="statusRepair()">
-                                {{-- <option value="สถานะงานเเจ้งซ่อม" selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option> --}}
-                                <option value="ทั้งหมด" selected
-                                    {{ isset($_GET['status']) && $_GET['status'] == 'ทั้งหมด' ? 'selected' : '' }}>
-                                    {{ __('ทั้งหมด') }}</option>
-                                <option
-                                    value="ดำเนินการเสร็จสิ้น"{{ isset($_GET['status']) && $_GET['status'] == 'ดำเนินการเสร็จสิ้น' ? 'selected' : '' }}>
-                                    {{ __('ดำเนินการเสร็จสิ้น') }}</option>
-                                <option
-                                    value="รอดำเนินการ"{{ isset($_GET['status']) && $_GET['status'] == 'รอดำเนินการ' ? 'selected' : '' }}>
-                                    {{ __('รอดำเนินการ') }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="p-2">
-                        <div class="col-auto">
-                            <div class="flex">
-                                <input type="text" name="q" placeholder="Search" id="inpufil"
-                                    class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
-                                    value="{{ $inupfilter }}" onchange="filterRepair()" />{{-- value="{{ $search_param }}" --}}
-                                {{-- <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div>
-                        <a class="btn btn-primary" href="{{ route('R.PDF') }}" role="button" target="_blank">
-                            repair pdf
-                        </a>
+    <div class="row justify-content-center align-items-center g-2 mb-3 ">
+        <div class="card">
 
+            <div class="d-flex justify-content-center mb-3">
+                <div class="p-2">
+                    <div class="flex" style="width: 2.5cm; margin-left: 14px;">
+                        <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
+                            <option value="10"{{ $perPage == 10 ? 'selected' : '' }}>10</option>
+                            <option value="25"{{ $perPage == 25 ? 'selected' : '' }}>25</option>
+                            <option value="50"{{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                            <option value="100"{{ $perPage == 100 ? 'selected' : '' }}>100</option>
+                        </select>
                     </div>
-                    <table class="table table-bordered mb-5">
-                        <thead>
-                            <tr class="table-success">
-                                <th scope="col">{{ 'ลำดับ' }}</th>
-                                <th scope="col">{{ 'ประเภทงานซ่อม' }}</th>
-                                <th scope="col">{{ 'ชื่อผู้แจ้งซ่อม' }}</th>
-                                <th scope="col">{{ 'รายละเอียดงานซ่อม' }}</th>
-                                <th scope="col">{{ 'สถานที่' }}</th>
-                                <th scope="col">{{ 'รหัสแจ้งซ่อม' }}</th>
-                                <th scope="col">{{ 'สถานะงานเเจ้งซ่อม' }}</th>
-                                <th scope="col">{{ 'วันที่แจ้งซ่อม' }}</th>
-                                <th scope="col">{{ 'จัดการงานซ่อม' }}</th>
+                </div>
+
+                <div class="me-auto p-2">
+                    <div class="flex" style="padding-block: inherit;">
+                        {{ __('รายการต่อหน้า') }}
+                    </div>
+                </div>
+                <div class="p-2">
+                    <a class="btn btn-outline-danger" href="{{route('R.PDF')}}" role="button" target="_blank">
+                        <i class="fas fa-file-pdf"></i> ดาวน์โหลดไฟล์ PDF
+                    </a>
+                </div>
+                <div class="p-2">
+                    <div class="flex" style="width:5cm">
+                        <select class="form-select" id="status-repair" aria-label="Default select example"
+                            onchange="statusRepair()">
+                            {{-- <option value="สถานะงานเเจ้งซ่อม" selected disabled>{{ 'สถานะงานเเจ้งซ่อม' }}</option> --}}
+                            <option value="ทั้งหมด" selected
+                                {{ isset($_GET['status']) && $_GET['status'] == 'ทั้งหมด' ? 'selected' : '' }}>
+                                {{ __('ทั้งหมด') }}</option>
+                            <option
+                                value="ดำเนินการเสร็จสิ้น"{{ isset($_GET['status']) && $_GET['status'] == 'ดำเนินการเสร็จสิ้น' ? 'selected' : '' }}>
+                                {{ __('ดำเนินการเสร็จสิ้น') }}</option>
+                            <option
+                                value="รอดำเนินการ"{{ isset($_GET['status']) && $_GET['status'] == 'รอดำเนินการ' ? 'selected' : '' }}>
+                                {{ __('รอดำเนินการ') }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="col-auto">
+                        <div class="flex">
+                            <input type="text" name="q" placeholder="Search" id="inpufil"
+                                class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
+                                value="{{ $inupfilter }}" onchange="filterRepair()" />
+                                {{-- value="{{ $search_param }}" --}}
+                            {{-- <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <table class="table table-bordered mb-5">
+                    <thead>
+                        <tr class="table-success">
+                            <th scope="col">{{ 'ลำดับ' }}</th>
+                            <th scope="col">{{ 'ประเภทงานซ่อม' }}</th>
+                            <th scope="col">{{ 'ชื่อผู้แจ้งซ่อม' }}</th>
+                            <th scope="col">{{ 'รายละเอียดงานซ่อม' }}</th>
+                            <th scope="col">{{ 'สถานที่' }}</th>
+                            <th scope="col">{{ 'รหัสแจ้งซ่อม' }}</th>
+                            <th scope="col">{{ 'สถานะงานเเจ้งซ่อม' }}</th>
+                            <th scope="col">{{ 'วันที่แจ้งซ่อม' }}</th>
+                            <th scope="col">{{ 'จัดการงานซ่อม' }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{-- @dd($repairs[0]) --}}
+                        @foreach ($repairs as $key => $data)
+                            <tr>
+                                <th scope="row">{{ $key + 1 }}</th>
+                                <td>{{ $data['department_name'] }}</td>
+                                <td>{{ $data['name'] }}</td>
+                                <td>{{ $data['details'] }}</td>
+                                <td>{{ $data['site'] }}</td>
+                                <td>{{ $data['tag_repair'] }}</td>
+                                <td @if ($data['status_repair'] == 'รอดำเนินการ')
+                                    style="color:#e04523"
+                                    @else
+                                    style="color: #5c9409"
+                                @endif>{{ $data['status_repair'] }}</td>
+                                <td>{{ $data['created_at'] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-whatever="{{ $data['id_repair'] }}"
+                                        onclick="openmodal1({{ $key }})">{{ 'แก้ไข' }}</button>
+                                </td>
                             </tr>
                         </thead>
                         <tbody>
@@ -296,62 +311,12 @@
             })
         });
 
-        function entries() {
-            let pPage = document.getElementById('per-page').value;
-            let s = document.getElementById('status-repair').value;
-            let queryParam = encodeURIComponent(s);
-            console.log(pPage);
-            window.location.replace($url + `/admin/show/repair/${pPage}`+ "?status=" + queryParam);
-        }
-
-        function statusRepair() {
-            let s = document.getElementById('status-repair').value;
-            console.log(s);
-            let p = document.getElementById('per-page').value;
-            let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
-            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam;
-            window.location.href = url;
-        }
-
-        function filterRepair() {
-            let s = document.getElementById('status-repair').value;
-            let p = document.getElementById('per-page').value;
-            let i = document.getElementById('inpufil').value;
-            let queryParam = encodeURIComponent(s);
-            let inpuParam = encodeURIComponent(i);
-            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q=" + inpuParam;
-            console.log(url);
-            window.location.href = url;
-        }
-
-        let current_page_items = {!! json_encode($repairs) !!};
-        let branchDepartment = {!! json_encode($branch_department) !!};
-
-        function openmodal1(rows) {
-            let data = current_page_items.data[rows];
-            console.log(data.image_repair);
-            const updateImg = document.getElementById('updateimg');
-            updateImg.innerHTML = '';
-            document.getElementById('name-repair').innerHTML = "ชื่อ " + data.name;
-            document.getElementById('tool-repair').innerHTML = "อุปกรณ์ " + data.equipment;
-            document.getElementById('room-repair').innerHTML = "ห้อง " + data.site;
-            document.getElementById('tag-repair').innerHTML = "รหัสแจ้งซ่อม " + data.tag_repair;
-            //โชรูป
-            for (const image of data.image_repair) {
-                // สร้าง div ใหม่
-                const colDiv = document.createElement('div');
-                colDiv.classList.add('col-3', 'text-center');
-
-                // สร้าง img ใหม่
-                const imageElement = document.createElement('img');
-                imageElement.classList.add('img-thumbnail', 'mb-2');
-                imageElement.src = `/uploads/repair/${image.nameImage}`;
-
-                // เพิ่ม img เข้าไปใน div
-                colDiv.appendChild(imageElement);
-
-                // เพิ่ม div เข้าไปใน updateImg
-                updateImg.appendChild(colDiv);
+            function entries() {
+                let pPage = document.getElementById('per-page').value;
+                let s = document.getElementById('status-repair').value;
+                let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
+                console.log(pPage);
+                window.location.replace($url + `/admin/show/repair/${pPage}` + "?status=" + queryParam);
             }
             const departmentSelectElement = document.getElementById('department-select');
 

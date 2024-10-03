@@ -639,21 +639,22 @@
             const Routing = "{{ route('R.deleta', '') }}" + '/' + id;
             console.log(id);
             Swal.fire({
-                title: "Are you remove?",
-                text: "You won't be able to revert this!",
+                title: "คุณต้องการลบห้องนี้หรือไม่?",
+                text: "คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้อีก",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "ตกลง",
+                cancelButtonText: "ยกเลิก",
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.delete(Routing).then((res) => {
                         console.log(res);
                         Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
+                            title: "ลบแล้ว!",
+                            text: "ไฟล์ของคุณถูกลบไปแล้ว.",
+                            icon: "เสร็จสิ้น"
                         });
                     }).then(() => {
                         location.reload();
