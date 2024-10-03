@@ -38,6 +38,7 @@ class DashboardController extends Controller
         $countTechnician = User::where('role', 2)->count();
         $department = Department::all()->count();
         $rooms = Room::all()->count();
+        // dd( $countRepair);
         return view('admin.dashboard', compact('rooms', 'countRepair', 'countAdmin', 'countTechnician', 'department'));
     }
 

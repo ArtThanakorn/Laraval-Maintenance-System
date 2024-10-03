@@ -1,7 +1,9 @@
 @extends('layout.master')
 
-@vite('public\css\followUprepir.css')
-
+{{-- @vite('public\css\followUprepir.css') --}}
+@section('style')
+<link href="/css/followUprepir.css" rel="stylesheet" />
+@endsection
 @section('content')
     {{--  <div class="container-fluid">
         <div class="row justify-content-center">
@@ -22,24 +24,17 @@
         </div>
         <br>
 
-        <div class="row justify-content-center pt-5" style="display: none" id="list">
+        <div class="row justify-content-center pt-5" >
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-4 ">
-                                <h5 class="text-primary">รายการค้นหา</h5>
-                                <h6 id="departmentName"></h6>
-                            </div>
+                          
                             <div class="col-sm-4 text-center">
                                 <h5 class="text-success" id="demo"></h5>
                                 <h6 id="nameRepair"></h6>
                             </div>
-                            <div class="col-sm-4 text-end">
-                                <h6 class="text-primary">
-                                    <p id="timeCreatedAt"></p>
-                                </h6>
-                            </div>
+                           
                         </div>
 
                         <div class="col-sm-12">
@@ -88,23 +83,35 @@
         </div>
     </div>
 
-    <div class="col-sm-12">
+    <div class="col-sm-12" style="display: none" id="list">
         <section class="step-wizard">
             <ul class="step-wizard-list">
-                <li class="step-wizard-item">
-                    <span id="status1" class="progress-count current-item">1</span>
+                <li id="status1" class="step-wizard-item ">
+                    <span class="progress-count">1</span>
                     <span class="progress-label">เเจ้งซ่อม</span>
                 </li>
-                <li class="step-wizard-item ">
-                    <span id="status2" class="progress-count ">2</span>
+                <li id="status2" class="step-wizard-item ">
+                    <span class="progress-count ">2</span>
                     <span class="progress-label">รอดำเนินการ</span>
                 </li>
-                <li class="step-wizard-item">
-                    <span id="status3" class="progress-count">3</span>
+                <li id="status3"class="step-wizard-item">
+                    <span class="progress-count">3</span>
                     <span class="progress-label">เสร็จสิ้น</span>
                 </li>
             </ul>
         </section>
+        <div class="col-sm-4 text-center">
+            <h5 class="text-success" id="demo"></h5>
+            <h6 id="nameRepair"></h6>
+        </div>
+        <div class="col-sm-4 text-end">
+            <h6 class="text-primary">
+                <p id="timeCreatedAt"></p>
+            </h6>
+        </div>
+        <div class="col-sm-4 ">
+            <h6 id="departmentName"></h6>
+        </div>
     </div>
 @endsection
 
@@ -121,7 +128,7 @@
             const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
 
             // console.log(filterData);
-            if (filterData !== null) {
+            if (filterData) {
                 const dateObject = new Date(filterData.updated_at);
                 const options = {
                     year: 'numeric',
@@ -129,7 +136,7 @@
                     day: 'numeric'
                 };
                 const formattedDate = dateObject.toLocaleDateString('th-TH', options);
-                // document.getElementById("list").style.display = 'block';
+                document.getElementById("list").style.display = 'block';
                 if (filterData.status_repair == "รอดำเนินการ") {
                     console.log("123");
                     status2.classList.add("current-item");
@@ -137,31 +144,29 @@
                     status3.classList.remove("current-item");
                     /* document.getElementById("radio2").checked = true;
                     document.getElementById("radio3").checked = false;*/
-                    // document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    // document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    // document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department
-                    //     .department_name;
-                    // document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
+                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
+                    document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department.department_name;
+                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
                     /*document.getElementById("radio3").checked = true;*/
                     status3.classList.add("current-item");
                     status1.classList.remove("current-item");
                     status2.classList.remove("current-item");
 
-                    // document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    // document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    // document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
-                    // document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
+                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
+                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
+                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 } else if (filterData.status_repair == "เเจ้งซ่อม") {
                     status1.classList.add("current-item");
                     status2.classList.remove("current-item")
                     status3.classList.remove("current-item");
 
-                    // document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    // document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
-                    // document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                    //     .department_name;
-                    // document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
+                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + formattedDate;
+                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department.department_name;
+                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 }
             } else {
                 document.getElementById("list").style.display = 'none';

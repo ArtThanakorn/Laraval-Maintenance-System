@@ -298,8 +298,10 @@
 
         function entries() {
             let pPage = document.getElementById('per-page').value;
+            let s = document.getElementById('status-repair').value;
+            let queryParam = encodeURIComponent(s);
             console.log(pPage);
-            window.location.replace($url + `/admin/show/repair/${pPage}`);
+            window.location.replace($url + `/admin/show/repair/${pPage}`+ "?status=" + queryParam);
         }
 
         function statusRepair() {

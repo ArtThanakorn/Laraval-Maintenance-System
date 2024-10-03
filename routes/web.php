@@ -33,11 +33,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('login.page')->middleware('caut');
 
-Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
+// Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
 
 Route::get('/page/success', function () {
     return view('admin.confirmRepair');
 });
+Auth::routes();
 // rounte Admin
 Route::prefix('admin')->middleware('isadmin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashdoard');
@@ -106,6 +107,6 @@ Route::prefix('technician')->middleware('istradesmanrepair')->group(function () 
     Route::get('/workschedule/pdf',[TechnicianPdfController::class, 'generatePdf'])->name('T.PDF');
 });
 
-Auth::routes();
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
