@@ -26,7 +26,7 @@ class DashboardTechnicianController extends Controller
     {
         // $workData = Repair::where('type', Auth::user()->department)->paginate($p);//
         $workData_query = Repair::query();
-
+        $workData_query->leftJoin('users', 'repairs.user_responsible', '=', 'users.id');
         $search_param = $request->query('q');
         $inupfilter = $request->query('status');
         $use_department = Auth::user()->department;
@@ -52,7 +52,7 @@ class DashboardTechnicianController extends Controller
             });
         }
 
-        $workData = $workData_query->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->paginate($p);
+        $workData = $workData_query->orderBy('repairs.updated_at', 'desc')->paginate($p);
 
         $department = Department::where('status_display', 0)->get();
 
@@ -60,7 +60,7 @@ class DashboardTechnicianController extends Controller
 
         $work_recipient = User::where('department', $use_department)->where('level', 2)->get();
 
-        $PDFdate = $workData_query->where('type', Auth::user()->department)->orderBy('updated_at', 'desc')->get();
+        $PDFdate = $workData_query->orderBy('repairs.updated_at', 'desc')->get();
 
         return view('technician.list-work', compact('work_recipient', 'workData', 'p', 'search_param', 'department', 'imgrepairs', 'PDFdate'));
     }
@@ -82,7 +82,7 @@ class DashboardTechnicianController extends Controller
 
     public function work_updata(Request $request, $id)
     {
-
+        // dd($request);
         $files = $request->file('imfupdate');
 
         $Urepai = Repair::find($id);
@@ -100,7 +100,10 @@ class DashboardTechnicianController extends Controller
                     ]);
                 }
             }
-            $this->sendEmail($Urepai);
+            if ($request->updateWork_select === "ดำเนินการเสร็จสิ้น") {
+                $this->sendEmail($Urepai);
+            }
+
             DB::commit();
             return response()->json([
                 'success' => 1,
@@ -131,7 +134,11 @@ class DashboardTechnicianController extends Controller
     public function workRecipient(Request $request)
     {
         // dd($request->all());
-        Repair::where('id_repair', $request->repair_id)->update(['user_responsible' => $request->recipient]);
+        Repair::where('id_repair', $request->repair_id)
+            ->update([
+                'user_responsible' => $request->recipient,
+                'status_repair' => 'กำลังดำเนินการ',
+            ]);
 
         return response()->json([
             'success' => 1,

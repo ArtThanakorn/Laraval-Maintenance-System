@@ -4,286 +4,294 @@
     <style>
         .container-fluid {
             margin-top: 20rem !important;
-          }
+        }
     </style>
 @endsection
 
 @section('content')
-    @php
-        use SimpleSoftwareIO\QrCode\Facades\QrCode;
-    @endphp
-<div class="container-fluid">
-    <div class="row justify-content-center align-items-center g-2 ">
-        <div class="col">
-            <div class="card">
-                <div class="card-header ">
-                    <div class="row justify-between">
-                        <div class="col">
-                            {{ 'ห้อง' }}
-                        </div>
-                        <div class="col d-flex justify-content-end">
-                            <button type="button" onclick="openModal()" class="btn btn-success" data-bs-toggle="modal"
-                                data-bs-target="#roomAddModal">{{ '+ห้อง' }}</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <table class="table" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
-                        <thead>
-                            <tr>
-                                <th scope="col">{{ 'ลำดับ' }}</th>
-                                <th scope="col">{{ 'ห้อง' }}</th>
-                                <th scope="col">{{ 'รายละเอียด' }}</th>
-                                <th scope="col">{{ 'QR ห้อง' }}</th>
-                                <th scope="col">{{ 'เพิ่มอุปกรณ์' }}</th>
-                                <th scope="col">{{ 'ลบอุปกรณ์' }}</th>
-                                <th scope="col">{{ 'แก้ไขห้อง' }}</th>
-                                <th scope="col">{{ 'ลบห้อง' }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($rooms as $key => $row)
-                                <tr>
-                                    <th scope="row">{{ $key + 1 }}</th>
-                                    <td>{{ $row->name_room }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="openDetail({{ $row->detail }})" data-bs-toggle="modal"
-                                            data-bs-target="#detailModal" data-bs-whatever="{{ $row->name_room }}">
-                                            {{ 'รายละเอียด' }}
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#ModalQr" data-bs-idroom="{{ $row->id }}">
-                                            {{-- {{ 'QR' }} --}}
-                                            <i class="bi bi-qr-code"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#addEquipmentModal" data-bs-whatever="{{ $row->name_room }}"
-                                            data-bs-whatever2="{{ $row->id }}">
-                                            {{-- {{ 'เพิ่ม' }} --}}
-                                            <i class="bi bi-tools"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="openEditEquipment({{ $row->detail }})" data-bs-toggle="modal"
-                                            data-bs-target="#openEditModal">
-                                            {{-- {{ 'ลบ' }} --}}
-                                            <i class="bi bi-tools"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#editRoomModal" data-bs-whatever="{{ $row->name_room }}"
-                                            data-bs-whatever2="{{ $row->id }}">
-                                            {{-- {{ 'แก้ไข' }} --}}
-                                            <i class="bi bi-house-gear"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="destroyRoom({{ $row->id }})">
-                                            {{-- {{ ' destroy ห้อง' }} --}}
-                                            <i class="bi bi-house-dash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
-                {{-- <div class="card-footer text-muted">Footer</div> --}}
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal qrcode room -->
-    <div class="modal fade" id="ModalQr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'QRcode ห้อง' }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body ">
-
-                    <div class="row justify-content-center align-items-center g-2">
-                        <div class="col-md-auto ">
-                            <a href=""
-                                id="container">{{ QrCode::size(200)->generate(route('index.repair', ['id' => 1])) }}</a>
-                            <br />
-                            <button id="download" class="mt-2 btn btn-info text-light"
-                                onclick="downloadSVG()">{{ 'Download SVG' }}</button>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-primary"></button> --}}
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'ปิด' }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal add equipment -->
-    <div class="modal fade" id="addEquipmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header ">
-                    <h1 class="modal-title fs-5 " id="exampleModalLabel">{{ 'เพิ่มอุปกรณ์ห้อง' }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="addFormEquipment">
-                    <div class="modal-body">
-                        <div class="row justify-content-center align-items-center g-2">
-                            <div class="col ">
-                                <label for="exampleFormControlInput1" class="form-label">{{ 'อุปกรณ์' }}</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="equipment[]" id=""
-                                        placeholder="">
-                                    <button id="add_item_btn" type="button" class="btn btn-success ">
-                                        {{-- <i class="bi bi-trash"></i> --}}
-                                        <i class="bi bi-plus-square"></i>
-                                    </button>
-                                </div>
-                                <small id="error-add-equipment" class="form-text text-danger"></small>
-                            </div>
-                        </div>
-                        <input type="hidden" id="room-id" name="id_room">
-                        <div id="show_item"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" onclick="addeTool()">{{ 'บันทึก' }}</button>
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ 'ปิด' }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Edit equipment -->
-    <div class="modal fade" id="openEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'ลบอุปกรณ์' }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="edit-tool">
-                    <div class="modal-body">
-                        <div id="divEdit" class="row justify-content-center align-items-center g-2">
-
-                        </div>
-                        <input type="hidden" id="room-remove-id" name="id_room_remove[]">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"
-                            onclick="srtDataEquipment()">{{ 'บันทึก' }}</button>
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ 'ปิด' }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal edit rooms -->
-    <div class="modal fade" id="editRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'แก้ไขข้อมูลห้อง' }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="form-edit-room">
-                    <div class="modal-body">
-                        <div class="row justify-content-center align-items-center g-2">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center g-2 ">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header ">
+                        <div class="row justify-between">
                             <div class="col">
-                                <div class="mb-3">
-                                    <input type="hidden" id="e-room-name" name="eRoomId">
-                                    {{-- <label for="" class="form-label">Name</label> --}}
-                                    <input type="text" class="form-control" name="EroomName" id="nameroom"
-                                        aria-describedby="helpId" placeholder="NameRoom" />
-                                    <small id="editName" class="form-text text-danger"></small>
-                                </div>
-
+                                {{ 'ห้อง' }}
                             </div>
-                            {{-- <div class="col">Column</div>
-                        <div class="col">Column</div> --}}
+                            <div class="col d-flex justify-content-end">
+                                <button type="button" onclick="openModal()" class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#roomAddModal">{{ '+ห้อง' }}</button>
+                            </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <table class="table" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{{ 'ลำดับ' }}</th>
+                                    <th scope="col">{{ 'ห้อง' }}</th>
+                                    <th scope="col">{{ 'รายละเอียด' }}</th>
+                                    <th scope="col">{{ 'QR ห้อง' }}</th>
+                                    <th scope="col">{{ 'เพิ่มอุปกรณ์' }}</th>
+                                    <th scope="col">{{ 'ลบอุปกรณ์' }}</th>
+                                    <th scope="col">{{ 'แก้ไขห้อง' }}</th>
+                                    <th scope="col">{{ 'ลบห้อง' }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($rooms as $key => $row)
+                                    <tr>
+                                        <th scope="row">{{ $key + 1 }}</th>
+                                        <td>{{ $row->name_room }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="openDetail({{ $row->detail }})" data-bs-toggle="modal"
+                                                data-bs-target="#detailModal" data-bs-whatever="{{ $row->name_room }}">
+                                                {{ 'รายละเอียด' }}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#ModalQr" data-bs-idroom="{{ $row->id }}">
+                                                {{-- {{ 'QR' }} --}}
+                                                <i class="bi bi-qr-code"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#addEquipmentModal"
+                                                data-bs-whatever="{{ $row->name_room }}"
+                                                data-bs-whatever2="{{ $row->id }}">
+                                                {{-- {{ 'เพิ่ม' }} --}}
+                                                <i class="bi bi-tools"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="openEditEquipment({{ $row->detail }})" data-bs-toggle="modal"
+                                                data-bs-target="#openEditModal">
+                                                {{-- {{ 'ลบ' }} --}}
+                                                <i class="bi bi-tools"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#editRoomModal" data-bs-whatever="{{ $row->name_room }}"
+                                                data-bs-whatever2="{{ $row->id }}">
+                                                {{-- {{ 'แก้ไข' }} --}}
+                                                <i class="bi bi-house-gear"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="destroyRoom({{ $row->id }})">
+                                                {{-- {{ ' destroy ห้อง' }} --}}
+                                                <i class="bi bi-house-dash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                    </div>
+                    {{-- <div class="card-footer text-muted">Footer</div> --}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal qrcode room -->
+        <div class="modal fade" id="ModalQr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'QRcode ห้อง' }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ">
+
+                        <div class="row justify-content-center align-items-center g-2">
+                            <div class="col-md-auto ">
+
+                                <a href=""
+                                    id="container">{{ QrCode::size(200)->generate(route('index.repair', ['id' => 1])) }}</a>
+                                <br />
+                                {{-- <button id="download" class="mt-2 btn btn-info text-light">{{ 'Download SVG' }}</button> --}}
+                                <a name="" id="download" class="btn btn-primary" href="#" target="_black"
+                                    role="button">{{ 'Download SVG' }}</a>
+
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"
-                            onclick="setededitroom()">{{ 'บันทึก' }}</button>
+                        {{-- <button type="button" class="btn btn-primary"></button> --}}
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal Details rooms-->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card" style="width: 18rem;">
-                        <ul id="myDiv" class="list-group list-group-flush">
-
-                        </ul>
+        <!-- Modal add equipment -->
+        <div class="modal fade" id="addEquipmentModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header ">
+                        <h1 class="modal-title fs-5 " id="exampleModalLabel">{{ 'เพิ่มอุปกรณ์ห้อง' }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <form id="addFormEquipment">
+                        <div class="modal-body">
+                            <div class="row justify-content-center align-items-center g-2">
+                                <div class="col ">
+                                    <label for="exampleFormControlInput1" class="form-label">{{ 'อุปกรณ์' }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="equipment[]" id=""
+                                            placeholder="">
+                                        <button id="add_item_btn" type="button" class="btn btn-success ">
+                                            {{-- <i class="bi bi-trash"></i> --}}
+                                            <i class="bi bi-plus-square"></i>
+                                        </button>
+                                    </div>
+                                    <small id="error-add-equipment" class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                            <input type="hidden" id="room-id" name="id_room">
+                            <div id="show_item"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary"
+                                onclick="addeTool()">{{ 'บันทึก' }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ 'ปิด' }}</button>
+                        </div>
+                    </form>
                 </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div> --}}
             </div>
         </div>
-    </div>
 
-    {{-- modal Add --}}
-    <div class="modal fade" id="roomAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="add_form">
+        <!-- Modal Edit equipment -->
+        <div class="modal fade" id="openEditModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'เพิ่มห้อง' }}</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'ลบอุปกรณ์' }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="edit-tool">
+                        <div class="modal-body">
+                            <div id="divEdit" class="row justify-content-center align-items-center g-2">
+
+                            </div>
+                            <input type="hidden" id="room-remove-id" name="id_room_remove[]">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary"
+                                onclick="srtDataEquipment()">{{ 'บันทึก' }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ 'ปิด' }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal edit rooms -->
+        <div class="modal fade" id="editRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'แก้ไขข้อมูลห้อง' }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="form-edit-room">
+                        <div class="modal-body">
+                            <div class="row justify-content-center align-items-center g-2">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <input type="hidden" id="e-room-name" name="eRoomId">
+                                        {{-- <label for="" class="form-label">Name</label> --}}
+                                        <input type="text" class="form-control" name="EroomName" id="nameroom"
+                                            aria-describedby="helpId" placeholder="NameRoom" />
+                                        <small id="editName" class="form-text text-danger"></small>
+                                    </div>
+
+                                </div>
+                                {{-- <div class="col">Column</div>
+                        <div class="col">Column</div> --}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary"
+                                onclick="setededitroom()">{{ 'บันทึก' }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ 'ปิด' }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Details rooms-->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row justify-content-center align-items-center g-2">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="station" class="form-label">{{ 'ห้อง' }}</label>
-                                    <input type="text" name="nameRoom" class="form-control" id="station"
-                                        placeholder="">
+                        <div class="card" style="width: 18rem;">
+                            <ul id="myDiv" class="list-group list-group-flush">
+
+                            </ul>
+                        </div>
+                    </div>
+                    {{-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> --}}
+                </div>
+            </div>
+        </div>
+
+        {{-- modal Add --}}
+        <div class="modal fade" id="roomAddModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="add_form">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ 'เพิ่มห้อง' }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center align-items-center g-2">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="station" class="form-label">{{ 'ห้อง' }}</label>
+                                        <input type="text" name="nameRoom" class="form-control" id="station"
+                                            placeholder="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"
-                            onclick="submitForm()">{{ 'บันทึก' }}</button>
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ 'ปิด' }}</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary"
+                                onclick="submitForm()">{{ 'บันทึก' }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ 'ปิด' }}</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')
@@ -397,6 +405,7 @@
 
                 modalTitle.textContent = `ห้อง ${recipient}`;
             });
+
             editModalRoom.addEventListener('show.bs.modal', (event) => {
                 // console.log('123');
                 document.getElementById('editName').innerHTML = "";
@@ -416,15 +425,22 @@
                 modalInput.value = recipient;
                 eromId.value = roomid;
             });
+
             roomQr.addEventListener('show.bs.modal', (event) => {
                 // Button that triggered the modal
                 const button = event.relatedTarget;
                 // Extract info from data-bs-* attributes
                 const recipient = button.getAttribute('data-bs-idroom');
+                const route = button.getAttribute('data-bs-route');
 
                 const myLink = document.getElementById("container");
-
                 myLink.setAttribute("href", "{{ route('index.repair', '') }}" + '/' + recipient);
+
+                let downloadQR = document.getElementById("download");
+                downloadQR.addEventListener("click", function() {
+                    // console.log(downloadQR);
+                    downloadQR.setAttribute("href", "{{ route('R.qr', '') }}" + '/' + recipient);
+                });
             });
         });
 
@@ -661,17 +677,6 @@
                     });
                 }
             });
-
-        }
-
-        function downloadSVG() {
-            const svg = document.getElementById('container').innerHTML;
-            const blob = new Blob([svg.toString()]);
-            const element = document.createElement("a");
-            element.download = "w3c.svg";
-            element.href = window.URL.createObjectURL(blob);
-            element.click();
-            element.remove();
         }
     </script>
 @endsection

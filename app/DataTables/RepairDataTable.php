@@ -29,7 +29,7 @@ class RepairDataTable extends DataTable
             ->setRowId('id')
             ->addColumn('created_at', function ($repair) {
                 // Format the created_at date using Carbon (replace with desired format)
-                return Carbon::parse($repair->created_at)->format('d/m/Y');  // Example: DD/MM/YYYY
+                return Carbon::parse($repair->created_at,$repair->updated_at)->format('d/m/Y');  // Example: DD/MM/YYYY
             })
             ->addColumn('index', function ($repair) {
                     return  $this->i++;

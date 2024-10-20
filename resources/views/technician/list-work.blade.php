@@ -34,9 +34,10 @@
         .senWorkContent {
             max-width: 90%;
         }
+
         .container-fluid {
             margin-top: 15rem !important;
-          }
+        }
     </style>
 @endsection
 
@@ -51,7 +52,8 @@
                     <div class="d-flex justify-content-center mb-3">
                         <div class="p-2">
                             <div class="flex" style="width: 2.5cm; margin-left: 14px;">
-                                <select id="per-page" class="form-select" aria-label="Default select example" onchange="entries()">
+                                <select id="per-page" class="form-select" aria-label="Default select example"
+                                    onchange="entries()">
                                     <option value="10" {{ $p == 10 ? 'selected' : '' }}>{{ '10' }}</option>
                                     <option value="25"{{ $p == 25 ? 'selected' : '' }}>{{ '25' }}</option>
                                     <option value="50"{{ $p == 50 ? 'selected' : '' }}>{{ '50' }}</option>
@@ -65,7 +67,7 @@
                             </div>
                         </div>
                         <div class="p-2">
-                            <a class="btn btn-outline-danger" href="{{route('T.PDF')}}" role="button" target="_blank">
+                            <a class="btn btn-outline-danger" href="{{ route('T.PDF') }}" role="button" target="_blank">
                                 <i class="fas fa-file-pdf"></i> ดาวน์โหลดไฟล์ PDF
                             </a>
                         </div>
@@ -108,6 +110,7 @@
                                 <th scope="col">{{ 'รายละเอียด' }}</th>
                                 <th scope="col">{{ 'สถานที่' }}</th>
                                 <th scope="col">{{ 'สถานะ' }}</th>
+                                <th scope="col">{{ 'ผู้รับงาน' }}</th>
                                 <th scope="col">{{ 'จัดการ' }}</th>
                             </tr>
                         </thead>
@@ -119,17 +122,21 @@
                                     <td>{{ $data->details }}</td>
                                     <td>{{ $data->site }}</td>
                                     <td>{{ $data->status_repair }}</td>
+                                    <td>{{ $data->name }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning" data-mdb-ripple-init
-                                            data-bs-toggle="modal" data-bs-target="#editModal"
-                                            data-bs-idIndex="{{ $key }}">{{ 'แก้ไข' }}</button>
 
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#senWork" data-bs-idIndex2="{{ $key }}">
-                                            {{ 'ส่งงาน' }}
-                                        </button>
-                                        {{-- onclick="openSendWork({{ $key }})" --}}
-                                        @if ($data->user_responsible == 0)
+                                        @if ($data->status_repair != 'ดำเนินการเสร็จสิ้น')
+                                            <button type="button" class="btn btn-warning" data-mdb-ripple-init
+                                                data-bs-toggle="modal" data-bs-target="#editModal"
+                                                data-bs-idIndex="{{ $key }}">
+                                                {{ 'แก้ไข' }}
+                                            </button>
+
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#senWork" data-bs-idIndex2="{{ $key }}">
+                                                {{ 'ส่งงาน' }}
+                                            </button>
+
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#delegate_work" data-bs-idIndex3="{{ $key }}">
                                                 {{ 'มอบหมายงาน' }}
@@ -215,7 +222,7 @@
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable modal-lg senWorkContent">
                     <div class="modal-content">
-                        <form id="upDateWork" class="contentimg">
+                        <form id="form-updatework" class="contentimg">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ 'ส่งงาน' }}</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -262,10 +269,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 text-center ">
+                                    {{-- <div class="col-6 text-center ">
                                         <div id="updateimg">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -368,6 +375,7 @@
                             submitForm()
                         }
                     });
+
                     openSendWork.addEventListener('show.bs.modal', event => {
                         // Button that triggered the modal
                         const button = event.relatedTarget
@@ -386,30 +394,31 @@
                         document.getElementById('updateSite').value = selectedDataWork.site;
                         document.getElementById('updateDetails').value = selectedDataWork.details;
 
-                        const updateImg = document.getElementById('updateimg');
-                        updateImg.innerHTML = '';
+                        // const updateImg = document.getElementById('updateimg');
+                        // updateImg.innerHTML = '';
 
                         //select สฐานนะ
-                        if (selectedDataWork.status_repair == "รอดำเนินการ") {
+                        if (selectedDataWork.status_repair == "กำลังดำเนินการ") {
                             $('#updateWork-level-select').append(
-                                `<option value="รอดำเนินการ">รอดำเนินการ</option>
-                            <option value="ดำเนินการเสร็จสิ้น">ดำเนินการเสร็จสิ้น</option>`);
+                                `<option value="รออะไหล่">รออะไหล่</option>
+                        <option value="ดำเนินการเสร็จสิ้น">ดำเนินการเสร็จสิ้น</option>`);
                         } else {
                             $('#updateWork-level-select').append(
                                 `<option value="ดำเนินการเสร็จสิ้น" selected>ดำเนินการเสร็จสิ้น</option>`);
                         }
+                        console.log('123');
                         //โชรูป
-                        for (const image of selectedDataWork.image_repair) {
-                            // console.log(image.nameImage); (Optional for debugging)
-                            const imageElement = document.createElement('img');
-                            imageElement.classList.add("img-thumbnail",
-                                "mb-2"); // Add classes for styling (optional)
-                            imageElement.src =
-                                `/uploads/repair/${image.nameImage}`; // Assuming image data is in base64 format
-                            updateImg.appendChild(imageElement);
-                        }
-                        //submit
-                        const formSendWork = document.querySelector('#upDateWork');
+                        // for (const image of selectedDataWork.image_repair) {
+                        //     // console.log(image.nameImage); (Optional for debugging)
+                        //     const imageElement = document.createElement('img');
+                        //     imageElement.classList.add("img-thumbnail",
+                        //         "mb-2"); // Add classes for styling (optional)
+                        //     imageElement.src =
+                        //         `/uploads/repair/${image.nameImage}`; // Assuming image data is in base64 format
+                        //     updateImg.appendChild(imageElement);
+                        // }
+                        const formSendWork = document.querySelector('#form-updatework');
+
                         formSendWork.onsubmit = function(e) {
                             e.preventDefault();
 
@@ -439,7 +448,7 @@
                     let s = document.getElementById('status-repair').value;
                     let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
                     console.log(p);
-                    window.location.replace($url + `/technician/listwork/${p}`+ "?status=" + queryParam);
+                    window.location.replace($url + `/technician/listwork/${p}` + "?status=" + queryParam);
                 }
 
                 function statusRepair() {
@@ -511,7 +520,7 @@
                     // let selectedData = workData.data[index];
                     // console.log(id);
                     // return false;
-                    let formData = new FormData(document.getElementById('upDateWork'));
+                    let formData = new FormData(document.getElementById('form-updatework'));
                     /* Display the key/value pairs*/
                     for (var pair of formData.entries()) {
                         console.log(pair[0] + ', ' + pair[1]);
@@ -561,7 +570,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then((result) => {
-                                    location.href = $url + `/technician/dashboard/10`;
+                                    location.href = $url + `/technician/listwork/10`;
                                 });
                             }
                         ).catch(function(error) {

@@ -65,6 +65,7 @@ Route::prefix('admin')->middleware('isadmin')->group(function () {
 
     //ห้อง
     Route::get('room/index', [RoomController::class, 'IndexRoom'])->name('R.index');
+    Route::get('room/qr/{id}',[RoomController::class, 'qrcode'])->name('R.qr');
     Route::post('room/create', [RoomController::class, 'Roomstore'])->name('R.create');
     Route::post('room/tool/create', [RoomController::class, 'RoomStoreEquipment'])->name('R.create.tool');
     Route::post('room/tool/remove', [RoomController::class, 'EquipmentUpdata'])->name('R.remove.tool');

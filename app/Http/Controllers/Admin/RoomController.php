@@ -91,16 +91,12 @@ class RoomController extends Controller
         ], 200);
     }
 
-    public function qrcode()
+    public function qrcode($id)
     {
-        $qrCodes = [];
+        $rooms = Room::where('id',$id)->first();
+        $qrCodes = QrCode::size(200)->generate(route('index.repair', ['id' => $id]));
 
-        $qrCodes['simple']        = QrCode::size(150)->generate('https://minhazulmin.github.io/');
-        $qrCodes['changeColor']   = QrCode::size(150)->color(255, 0, 0)->generate('https://minhazulmin.github.io/');
-        $qrCodes['changeBgColor'] = QrCode::size(150)->backgroundColor(255, 0, 0)->generate('https://minhazulmin.github.io/');
-        $qrCodes['styleDot']      = QrCode::size(150)->style('dot')->generate('https://minhazulmin.github.io/');
-        $qrCodes['styleSquare']   = QrCode::size(150)->style('square')->generate('https://minhazulmin.github.io/');
-        $qrCodes['styleRound']    = QrCode::size(150)->style('round')->generate('https://minhazulmin.github.io/');
+        return view('admin.qrcode',compact('qrCodes','rooms'));
     }
 
     public function DeleteRoom($id)

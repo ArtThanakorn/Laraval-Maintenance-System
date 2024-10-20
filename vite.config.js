@@ -2,6 +2,9 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
+    server: {
+        host: 'test4.tagifood.com',  // Add this to force IPv4 only
+    },
     plugins: [
         laravel({
             input: [
@@ -19,9 +22,6 @@ export default defineConfig({
                 'public/js/sidebar.js',
             ],
             refresh: true,
-            css: {
-                modules: true
-              }
         }),
     ],
 });

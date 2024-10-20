@@ -58,7 +58,7 @@ class RepairController extends Controller
         ]);
 
         $repairs = Repair::create([
-            'status' => $request->checkstatus,
+            'status' => $request->statusRadio,
             'name' => $request->chackname,
             'equipment' => $request->toolcheck,
             'details' => $request->detail,
