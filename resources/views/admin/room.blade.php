@@ -3,7 +3,7 @@
 @section('style')
     <style>
         .container-fluid {
-            margin-top: 20rem !important;
+            margin-top: 14rem !important;
         }
     </style>
 @endsection

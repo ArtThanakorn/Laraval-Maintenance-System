@@ -6,7 +6,7 @@
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         }
         .container-fluid {
-            margin-top: 10rem !important;
+            margin-top: 17rem !important;
           }
     </style>
 @endsection

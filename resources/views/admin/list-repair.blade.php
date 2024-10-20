@@ -25,7 +25,7 @@
             color: #fff;
         }
         .container-fluid {
-            margin-top: 40rem !important;
+            margin-top: 46rem !important;
           }
     </style>
 @endsection

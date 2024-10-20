@@ -166,11 +166,11 @@
     @endif
 @endauth
 </div>
-<section class="home-section">
-    <div class="menu-close">
-        <i class="bx bx-menu"></i>
-    </div>
+<section class="home-section" style="background: red">
     <div class="home-content">
+        <div class="menu-close">
+            <i class="bx bx-menu"></i>
+        </div>
         {{--  <span class="text">หน้าหลัก</span>  --}}
         <div class="container-fluid px-4 my-4 ">
             @yield("content")
