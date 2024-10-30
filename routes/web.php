@@ -33,7 +33,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('login.page')->middleware('caut');
 
-// Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
+Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
 
 Route::get('/page/success', function () {
     return view('admin.confirmRepair');

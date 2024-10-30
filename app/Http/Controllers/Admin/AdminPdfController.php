@@ -20,8 +20,8 @@ class AdminPdfController extends Controller
         ->orderBy('repairs.updated_at', 'desc')->get();
 
         $repairAll = Repair::count();
-        $repairFinished = Repair::where('status_repair','เนินการเสร็จสิ้น')->count();
-        $repairNotFinished = Repair::where('status_repair','รอดำเนินการ')->count();
+        $repairFinished = Repair::where('status_repair',"=",'ดำเนินการเสร็จสิ้น')->count();
+        $repairNotFinished = Repair::where('status_repair','<>','ดำเนินการเสร็จสิ้น')->count();
 // dd($repair);
         $data = [
             'users' => $users,

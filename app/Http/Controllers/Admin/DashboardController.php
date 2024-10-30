@@ -33,7 +33,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $countRepair = Repair::where('status_repair', 'รอดำเนินการ')->count();
+        $countRepair = Repair::where('status_repair', 'เเจ้งซ่อม')->count();
         $countAdmin = User::where('role', 1)->count();
         $countTechnician = User::where('role', 2)->count();
         $department = Department::all()->count();
@@ -60,12 +60,11 @@ class DashboardController extends Controller
         $repairsQuery = DB::table('repairs');
 
         $repairsQuery->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
-            ->leftJoin('image_repairs', 'repairs.id_repair', '=', 'image_repairs.id_repair')
-            // ->select('repairs.*', DB::raw('DATE_FORMAT(repairs.created_at, "%d/%m/%Y") AS created,DATE_FORMAT(repairs.updated_at, "%d/%m/%Y") AS updated'), 'departments.department_id', 'departments.department_name', 'departments.status_display')
             ->select('repairs.*', 'departments.department_id', 'departments.department_name', 'departments.status_display');
             
 
         if ($inupfilter) {
+            // dd($inupfilter);
             $repairsQuery->where(function ($query) use ($inupfilter) {
                 $query->orWhere('status', 'like', "%$inupfilter%")
                     ->orWhere('site', 'like', "%$inupfilter%")
@@ -77,30 +76,29 @@ class DashboardController extends Controller
 
         if ($status === "ทั้งหมด") {
             $liRepair = $repairsQuery->get();
+            
         } else {
             $liRepair = $repairsQuery->where('status_repair', $status)->get();
         }
-        // dd($liRepair->all());
+        // dd($liRepair,$status);
         $worlALL = Repair::count();
 
         $departments = $repairsQuery
-            ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
-            ->groupBy('repairs.type', 'departments.department_name','repairs.updated_at')
-            ->orderBy('repairs.updated_at', 'desc')
-            ->get();
+            ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'));
+            
 
             $departments = Repair::select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
             ->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
             ->groupBy('repairs.type', 'departments.department_name')
             ->get();
 
-
+// dd( $departments);
         $ChartWorkcompleted = $liRepair->filter(function ($item) {
             return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
         })->count();
 
         $ChartWorknotcompleted = $liRepair->filter(function ($item) {
-            return $item->status_repair === 'รอดำเนินการ';
+            return $item->status_repair <> 'ดำเนินการเสร็จสิ้น';
         })->count();
 
         $worlALL = Repair::count();
@@ -111,18 +109,6 @@ class DashboardController extends Controller
             $repair->created_at_thai = Carbon::parse($repair->created_at)->thaidate('D j M y');
             $repair->updated_at_thai = Carbon::parse($repair->updated_at)->thaidate('D j M y');
         }
-        // dd( $liRepair);
-        // $startDate = Carbon::parse($repairsQuery->created_at);
-        // $endDate = Carbon::parse($repairsQuery->updated_at);
-        // $daysDiff = $endDate->diffInDays($startDate);
-        // $daysDiff = $this->differentday($liRepair);
-        // dd($daysDiff);
-        // $liRepairthaiDate = $liRepair->map(function ($item) {
-        //     $thaiDate = Carbon::parse($item->created_at)->thaidate('j M y');
-        //     $updatedItem = (array) $item; //->toArray() Convert the item to an array
-        //     $updatedItem['created_at'] = $thaiDate; // Replace the 'created_at' value
-        //     return $updatedItem; // Return the modified item array
-        // });
         // dd($worlALL);
 
         // หาหน้าที่ถูกเรียก

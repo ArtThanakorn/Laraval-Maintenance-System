@@ -4,34 +4,9 @@
         .card {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         }
-
-        div.dt-container .dt-paging .dt-paging-button {
-            box-sizing: border-box;
-            display: inline-block;
-            min-width: 1.5em;
-            padding: 0.125rem;
-            text-align: center;
-            text-decoration: none !important;
-            cursor: pointer;
-            color: inherit !important;
-            /* border: 1px solid transparent; */
-            /* border-radius: 2px; */
-            background: transparent
-        }
-
-        .dataTables_paginate .paginate_button.hover {
-            background-color: #000;
-            border-color: #000;
-            color: #fff;
-        }
-        .container-fluid {
-            margin-top: 40rem !important;
-          }
     </style>
 @endsection
 @section('content')
-<div class="container-fluid">
-
     <div class="row justify-content-center align-items-center g-2 mb-3 ">
         <div class="card">
 
@@ -53,7 +28,7 @@
                     </div>
                 </div>
                 <div class="p-2">
-                    <a class="btn btn-outline-danger" href="{{route('R.PDF')}}" role="button" target="_blank">
+                    <a class="btn btn-outline-danger" href="{{ route('R.PDF') }}" role="button" target="_blank">
                         <i class="fas fa-file-pdf"></i> ดาวน์โหลดไฟล์ PDF
                     </a>
                 </div>
@@ -80,24 +55,14 @@
                             <input type="text" name="q" placeholder="Search" id="inpufil"
                                 class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
                                 value="{{ $inupfilter }}" onchange="filterRepair()" />
-                                {{-- value="{{ $search_param }}" --}}
+                            {{-- value="{{ $search_param }}" --}}
                             {{-- <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button> --}}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                {{-- @php
-                    // ตั้งค่า locale เป็นภาษาไทย
-                setlocale(LC_TIME, 'th_TH.UTF-8');
-                
-                // ตั้ง timezone ให้เป็นเขตเวลาที่ต้องการ เช่น Asia/Bangkok
-                date_default_timezone_set('Asia/Bangkok');
-                
-                // แสดงวันที่เป็นภาษาไทย
-                echo strftime("%A %d %B %Y", time());
-                @endphp --}}
-                
+
                 <table class="table table-bordered mb-5">
                     <thead>
                         <tr class="table-success">
@@ -124,19 +89,19 @@
                                 <td>{{ $data->details }}</td>
                                 <td>{{ $data->site }}</td>
                                 <td>{{ $data->tag_repair }}</td>
-                                <td @if ($data->status_repair == 'รอดำเนินการ')
-                                    style="color:#e04523"
+                                <td
+                                    @if ($data->status_repair == 'รอดำเนินการ') style="color:#e04523"
                                     @else
-                                    style="color: #5c9409"
-                                @endif>{{ $data->status_repair }}</td>
+                                    style="color: #5c9409" @endif>
+                                    {{ $data->status_repair }}</td>
                                 <td>{{ $data->created_at_thai }}</td>
                                 <td>{{ $data->updated_at_thai }}</td>
-                                <td>{{ $data->daysDiff.' '.'วัน' }}</td>
+                                <td>{{ $data->daysDiff . ' ' . 'วัน' }}</td>
                                 <td>
                                     @if ($data->status_repair != 'ดำเนินการเสร็จสิ้น')
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-bs-whatever="{{ $data->id_repair }}"
-                                    onclick="openmodal1({{ $key }})">{{ 'แก้ไข' }}</button>
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" data-bs-whatever="{{ $data->id_repair }}"
+                                            onclick="openmodal1({{ $key }})">{{ 'แก้ไข' }}</button>
                                     @endif
                                 </td>
                             </tr>
@@ -221,44 +186,43 @@
         </div>
 
     </div>
-</div>
-    @endsection
-    
-    @section('script')
-        <script type="module">
-            let jsData = {!! json_encode($jChart) !!};
-            let allwork ={!! json_encode($worlALL) !!};
-            // console.log(jsData.datasets1.data.work);
-            console.log(allwork);
+@endsection
 
-            // เก็บค่า department_name ใน array ใหม่
-            const labels = [];
-            const Numberofjobs = [];
-            for (const item of jsData.datasets1.data) {
-                labels.push(item.department_name +" "+ Math.floor((item.work/allwork)*100)+'%');
-                Numberofjobs.push( Math.floor((item.work/allwork)*100));
-            }
-            console.log(Numberofjobs);
-            let ctx = document.getElementById('graphCanvas').getContext('2d');
-            let ctx2 = document.getElementById('graphCanvas2').getContext('2d');
-            let myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: Numberofjobs,
-                        backgroundColor: jsData.datasets1.backgroundColor,
-                        hoverOffset: 4,
-                        borderWidth: 1,
-                    }]
-                },
-                options: {
-                    legend: {
-                        display: true,
-                        position: "bottom"
-                    }
+@section('script')
+    <script type="module">
+        let jsData = {!! json_encode($jChart) !!};
+        let allwork = {!! json_encode($worlALL) !!};
+        // console.log(jsData.datasets1.data.work);
+        console.log(allwork);
+
+        // เก็บค่า department_name ใน array ใหม่
+        const labels = [];
+        const Numberofjobs = [];
+        for (const item of jsData.datasets1.data) {
+            labels.push(item.department_name + " " + Math.floor((item.work / allwork) * 100) + '%');
+            Numberofjobs.push(Math.floor((item.work / allwork) * 100));
+        }
+        console.log(Numberofjobs);
+        let ctx = document.getElementById('graphCanvas').getContext('2d');
+        let ctx2 = document.getElementById('graphCanvas2').getContext('2d');
+        let myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: Numberofjobs,
+                    backgroundColor: jsData.datasets1.backgroundColor,
+                    hoverOffset: 4,
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    position: "bottom"
                 }
-            });
+            }
+        });
 
         //ผลรวมงานทั้งหมด
         let jscompleted = {!! json_encode($ChartWorkcompleted) !!};
@@ -282,132 +246,132 @@
             }
         });
     </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const exampleModal = document.getElementById('exampleModal')
-                exampleModal.addEventListener('show.bs.modal', event => {
-                    // Button that triggered the modal
-                    const button = event.relatedTarget
-                    // Extract info from data-bs-* attributes
-                    const recipient = button.getAttribute('data-bs-whatever')
-                    // If necessary, you could initiate an AJAX request here
-                    // and then do the updating in a callback.
-                    //
-                    // Update the modal's content.
-                    console.log(recipient);
-                    // const modalTitle = exampleModal.querySelector('.modal-title')
-                    const modalBodyInput = exampleModal.querySelector('#edit-repair-id')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const exampleModal = document.getElementById('exampleModal')
+            exampleModal.addEventListener('show.bs.modal', event => {
+                // Button that triggered the modal
+                const button = event.relatedTarget
+                // Extract info from data-bs-* attributes
+                const recipient = button.getAttribute('data-bs-whatever')
+                // If necessary, you could initiate an AJAX request here
+                // and then do the updating in a callback.
+                //
+                // Update the modal's content.
+                console.log(recipient);
+                // const modalTitle = exampleModal.querySelector('.modal-title')
+                const modalBodyInput = exampleModal.querySelector('#edit-repair-id')
 
-                    // modalTitle.textContent = `New message to ${recipient}`
-                    modalBodyInput.value = recipient;
-                })
-            });
+                // modalTitle.textContent = `New message to ${recipient}`
+                modalBodyInput.value = recipient;
+            })
+        });
 
-            function entries() {
-                let pPage = document.getElementById('per-page').value;
-                let s = document.getElementById('status-repair').value;
-                let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
-                console.log(pPage);
-                window.location.replace($url + `/admin/show/repair/${pPage}` + "?status=" + queryParam);
+        function entries() {
+            let pPage = document.getElementById('per-page').value;
+            let s = document.getElementById('status-repair').value;
+            let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
+            console.log(pPage);
+            window.location.replace($url + `/admin/show/repair/${pPage}` + "?status=" + queryParam);
+        }
+
+        function statusRepair() {
+            let s = document.getElementById('status-repair').value;
+            console.log(s);
+            let p = document.getElementById('per-page').value;
+            let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
+            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam;
+            window.location.href = url;
+        }
+
+        function filterRepair() {
+            let s = document.getElementById('status-repair').value;
+            let p = document.getElementById('per-page').value;
+            let i = document.getElementById('inpufil').value;
+            let queryParam = encodeURIComponent(s);
+            let inpuParam = encodeURIComponent(i);
+            let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q=" + inpuParam;
+            console.log(url);
+            window.location.href = url;
+        }
+
+        let current_page_items = {!! json_encode($repairs) !!};
+        let branchDepartment = {!! json_encode($branch_department) !!};
+
+        function openmodal1(rows) {
+            let data = current_page_items.data[rows];
+            console.log(data.image_repair);
+            const updateImg = document.getElementById('updateimg');
+            updateImg.innerHTML = '';
+            document.getElementById('name-repair').innerHTML = "ชื่อ " + data.name;
+            document.getElementById('tool-repair').innerHTML = "อุปกรณ์ " + data.equipment;
+            document.getElementById('room-repair').innerHTML = "ห้อง " + data.site;
+            document.getElementById('tag-repair').innerHTML = "รหัสแจ้งซ่อม " + data.tag_repair;
+            //โชรูป
+            for (const image of data.image_repair) {
+                // สร้าง div ใหม่
+                const colDiv = document.createElement('div');
+                colDiv.classList.add('col-3', 'text-center');
+
+                // สร้าง img ใหม่
+                const imageElement = document.createElement('img');
+                imageElement.classList.add('img-thumbnail', 'mb-2');
+                imageElement.src = `/uploads/repair/${image.nameImage}`;
+
+                // เพิ่ม img เข้าไปใน div
+                colDiv.appendChild(imageElement);
+
+                // เพิ่ม div เข้าไปใน updateImg
+                updateImg.appendChild(colDiv);
             }
+            const departmentSelectElement = document.getElementById('department-select');
 
-            function statusRepair() {
-                let s = document.getElementById('status-repair').value;
-                console.log(s);
-                let p = document.getElementById('per-page').value;
-                let queryParam = encodeURIComponent(s); // แปลงค่า s เป็นรูปแบบที่เหมาะสำหรับ query parameter
-                let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam;
-                window.location.href = url;
-            }
+            departmentSelectElement.innerHTML = '';
 
-            function filterRepair() {
-                let s = document.getElementById('status-repair').value;
-                let p = document.getElementById('per-page').value;
-                let i = document.getElementById('inpufil').value;
-                let queryParam = encodeURIComponent(s);
-                let inpuParam = encodeURIComponent(i);
-                let url = $url + `/admin/show/repair/` + p + "?status=" + queryParam + "&q=" + inpuParam;
-                console.log(url);
-                window.location.href = url;
-            }
+            for (const row of branchDepartment) {
+                const optionElement = document.createElement('option');
+                optionElement.value = row.department_id;
+                optionElement.textContent = row.department_name;
 
-            let current_page_items = {!! json_encode($repairs) !!};
-            let branchDepartment = {!! json_encode($branch_department) !!};
-
-            function openmodal1(rows) {
-                let data = current_page_items.data[rows];
-                console.log(data.image_repair);
-                const updateImg = document.getElementById('updateimg');
-                updateImg.innerHTML = '';
-                document.getElementById('name-repair').innerHTML = "ชื่อ " + data.name;
-                document.getElementById('tool-repair').innerHTML = "อุปกรณ์ " + data.equipment;
-                document.getElementById('room-repair').innerHTML = "ห้อง " + data.site;
-                document.getElementById('tag-repair').innerHTML = "รหัสแจ้งซ่อม " + data.tag_repair;
-                //โชรูป
-                for (const image of data.image_repair) {
-                    // สร้าง div ใหม่
-                    const colDiv = document.createElement('div');
-                    colDiv.classList.add('col-3', 'text-center');
-
-                    // สร้าง img ใหม่
-                    const imageElement = document.createElement('img');
-                    imageElement.classList.add('img-thumbnail', 'mb-2');
-                    imageElement.src = `/uploads/repair/${image.nameImage}`;
-
-                    // เพิ่ม img เข้าไปใน div
-                    colDiv.appendChild(imageElement);
-
-                    // เพิ่ม div เข้าไปใน updateImg
-                    updateImg.appendChild(colDiv);
+                // Set 'selected' attribute based on condition
+                if (row.department_id == data.type) {
+                    optionElement.selected = true;
+                    optionElement.disabled = true;
                 }
-                const departmentSelectElement = document.getElementById('department-select');
+                departmentSelectElement.appendChild(optionElement);
+            }
+        }
 
-                departmentSelectElement.innerHTML = '';
+        function formSubmit() {
+            const formWorkRepairSubmit = document.getElementById('edit-work-repair');
+            let formData = new FormData(formWorkRepairSubmit);
+            const Routing = "{{ route('update.repair') }}";
 
-                for (const row of branchDepartment) {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = row.department_id;
-                    optionElement.textContent = row.department_name;
+            formWorkRepairSubmit.onsubmit = function(e) {
+                e.preventDefault();
 
-                    // Set 'selected' attribute based on condition
-                    if (row.department_id == data.type) {
-                        optionElement.selected = true;
-                        optionElement.disabled = true;
+                // console.log('123');
+                /* Display the key/value pairs*/
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+                // return false;
+
+                axios.post(Routing, formData).then((res) => {
+                    // console.log(res);
+                    if (res.status = 200) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: res.data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((result) => {
+                            location.reload();
+                        });
                     }
-                    departmentSelectElement.appendChild(optionElement);
-                }
+                });
             }
-
-            function formSubmit() {
-                const formWorkRepairSubmit = document.getElementById('edit-work-repair');
-                let formData = new FormData(formWorkRepairSubmit);
-                const Routing = "{{ route('update.repair') }}";
-
-                formWorkRepairSubmit.onsubmit = function(e) {
-                    e.preventDefault();
-
-                    // console.log('123');
-                    /* Display the key/value pairs*/
-                    for (var pair of formData.entries()) {
-                        console.log(pair[0] + ', ' + pair[1]);
-                    }
-                    // return false;
-
-                    axios.post(Routing, formData).then((res) => {
-                        // console.log(res);
-                        if (res.status = 200) {
-                            Swal.fire({
-                                position: "top-end",
-                                icon: "success",
-                                title: res.data.message,
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then((result) => {
-                                location.reload();
-                            });
-                        }
-                    });
-                }
-            }
-        </script>
-    @endsection
+        }
+    </script>
+@endsection

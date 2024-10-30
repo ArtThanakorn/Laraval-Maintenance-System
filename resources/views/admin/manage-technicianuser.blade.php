@@ -5,13 +5,9 @@
         .card {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         }
-        .container-fluid {
-            margin-top: 22rem !important;
-          }
     </style>
 @endsection
 @section('content')
-<div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <div class="row justify-content-between align-items-center g-2">
@@ -209,7 +205,6 @@
             </form>
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')

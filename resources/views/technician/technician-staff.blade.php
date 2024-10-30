@@ -1,13 +1,5 @@
 @extends('layout.master')
 
-@section('style')
-    <style>
-        .container-fluid {
-            margin-top: 8rem !important;
-          }
-    </style>
-@endsection
-
 @section('content')
 <div class="container-fluid">
     <div class="card" >

@@ -47,7 +47,8 @@
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">รายการแจ้งซ่อม</a></li>
                         <li><a href="{{ route('show.repair', ['p' => 10, 'status' => 'ทั้งหมด']) }}">ทั้งหมด</a></li>
-                        <li><a href="{{ route('show.repair', ['p' => 10, 'status' => 'รอดำเนินการ']) }}">รอดำเนินการ</a></li>
+                        <li><a href="{{ route('show.repair', ['p' => 10, 'status' => 'รอดำเนินการ']) }}">รอดำเนินการ</a>
+                        </li>
                         <li><a
                                 href="{{ route('show.repair', ['p' => 10, 'status' => 'ดำเนินการเสร็จสิ้น']) }}">ดำเนินการเสร็จสิ้น</a>
                         </li>
@@ -93,8 +94,8 @@
                 <li>
                     <div class="profile-details">
                         <div class="profile-content">
-                            <img src="https://www.venmond.com/demo/vendroid/img/avatar/big.jpg" alt="profileImg">
-
+                            <img src=" {{ asset('imgSidebar\person-1824147_1280.png') }}"
+                            alt="profileImg">
                         </div>
                         <div class="name-job">
                             <div class="profile_name">
@@ -149,7 +150,8 @@
                 <li>
                     <div class="profile-details">
                         <div class="profile-content">
-                            <img src="https://www.venmond.com/demo/vendroid/img/avatar/big.jpg" alt="profileImg">
+                            <img src=" {{ asset('imgSidebar\person-1824147_1280.png') }}"
+                                alt="profileImg">
 
                         </div>
                         <div class="name-job">
@@ -167,13 +169,15 @@
 @endauth
 </div>
 <section class="home-section">
-    <div class="menu-close">
-        <i class="bx bx-menu"></i>
-    </div>
-    <div class="home-content">
+    <div class="home-content-head">
         {{--  <span class="text">หน้าหลัก</span>  --}}
-        <div class="container-fluid px-4 my-4 ">
-            @yield("content")
+        <div class="menu-close">
+            <i class="bx bx-menu"></i>
         </div>
+    </div>
+    <div class="home-content-body">
+
+        @yield('content')
+
     </div>
 </section>

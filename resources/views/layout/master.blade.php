@@ -25,7 +25,8 @@
     <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
     <!-- Include Parsley.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
-
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Data Table CSS -->
     <link rel="stylesheet" href="//cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
 
@@ -96,7 +97,6 @@
     <script src='https://cdn.datatables.net/2.0.3/js/dataTables.js'></script>
 
     <script src="/js/sidebar.js"></script>
-
 
 </body>
 

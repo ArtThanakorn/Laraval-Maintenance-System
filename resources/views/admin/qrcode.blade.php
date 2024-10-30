@@ -4,7 +4,7 @@
     <div class="container text-center">
         <div class="row">
             <div class="col-md-2">
-                <p class="mb-0">Simple</p>
+                
                 <a href="" id="container">{!! $qrCodes !!}</a><br />
                 {{-- <button id="download" class="mt-2 btn btn-info text-light" onclick="downloadSVG()">Download SVG</button> --}}
             </div>

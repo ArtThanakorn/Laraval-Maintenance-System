@@ -34,10 +34,6 @@
         .senWorkContent {
             max-width: 90%;
         }
-
-        .container-fluid {
-            margin-top: 15rem !important;
-        }
     </style>
 @endsection
 
@@ -83,6 +79,7 @@
                                     <option value="รอดำเนินการ"
                                         {{ isset($_GET['status']) && $_GET['status'] == 'รอดำเนินการ' ? 'selected' : '' }}>
                                         {{ __('รอดำเนินการ') }}</option>
+                                        
                                 </select>
                             </div>
                         </div>
@@ -136,11 +133,12 @@
                                                 data-bs-target="#senWork" data-bs-idIndex2="{{ $key }}">
                                                 {{ 'ส่งงาน' }}
                                             </button>
-
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#delegate_work" data-bs-idIndex3="{{ $key }}">
-                                                {{ 'มอบหมายงาน' }}
-                                            </button>
+                                            @if (Auth::user()->level == 1)
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#delegate_work" data-bs-idIndex3="{{ $key }}">
+                                                    {{ 'มอบหมายงาน' }}
+                                                </button>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
@@ -407,16 +405,6 @@
                                 `<option value="ดำเนินการเสร็จสิ้น" selected>ดำเนินการเสร็จสิ้น</option>`);
                         }
                         console.log('123');
-                        //โชรูป
-                        // for (const image of selectedDataWork.image_repair) {
-                        //     // console.log(image.nameImage); (Optional for debugging)
-                        //     const imageElement = document.createElement('img');
-                        //     imageElement.classList.add("img-thumbnail",
-                        //         "mb-2"); // Add classes for styling (optional)
-                        //     imageElement.src =
-                        //         `/uploads/repair/${image.nameImage}`; // Assuming image data is in base64 format
-                        //     updateImg.appendChild(imageElement);
-                        // }
                         const formSendWork = document.querySelector('#form-updatework');
 
                         formSendWork.onsubmit = function(e) {
@@ -466,7 +454,7 @@
                     let i = document.getElementById('inpufil').value;
                     let queryParam = encodeURIComponent(s);
                     let inpuParam = encodeURIComponent(i);
-                    let url = $url + `/technician/dashboard/` + p + "?status=" + queryParam + "&q=" + inpuParam;
+                    let url = $url + `/technician/listwork/` + p + "?status=" + queryParam + "&q=" + inpuParam;
                     console.log(url);
                     window.location.href = url;
                 }

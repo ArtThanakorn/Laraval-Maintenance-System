@@ -9,10 +9,6 @@
         ul.list-group.list-group-striped li:nth-of-type(even) {
             background: #fff;
         }
-
-        .container-fluid {
-            margin-top: 25rem !important;
-        }
     </style>
 @endsection
 
