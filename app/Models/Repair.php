@@ -33,4 +33,9 @@ class Repair extends Model
     {
         return $this->hasOne(Department::class, 'department_id', 'type');
     }
+
+    public function follow()
+    {
+        return $this->hasMany(RepairFollow::class, 'repair_id');
+    }
 }

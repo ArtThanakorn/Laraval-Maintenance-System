@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Repair;
+use App\Models\RepairFollow;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $countRepair = Repair::where('status_repair', 'เเจ้งซ่อม')->count();
+        $countRepair = Repair::where('status_repair', 'แจ้งซ่อม')->count();
         $countAdmin = User::where('role', 1)->count();
         $countTechnician = User::where('role', 2)->count();
         $department = Department::all()->count();
@@ -177,8 +178,9 @@ class DashboardController extends Controller
 
     public function setdepart(Request $request)
     {
+        $repairsStatus = RepairFollow::create(['repair_id'=> $request->id_repair,'status_repair'=>'รอดำเนินการ']);
         $repairs = Repair::where('id_repair', $request->id_repair)
-            ->update(['type' => $request->depart_id, 'status_repair' => 'รอดำเนินการ']);
+            ->update(['type' => $request->depart_id,'status_follow'=>$repairsStatus->id, 'status_repair' => 'รอดำเนินการ']);
 
         // $url = url('/') . "/technician/dashboard/10";
         $url = route('technician.dashboard', ['p' => 10]);

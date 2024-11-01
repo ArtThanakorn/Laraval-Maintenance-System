@@ -18,9 +18,8 @@
         </div>
     </div>
 
-
-
-    <div class="col-sm-12" style="display: none" id="list">
+    {{-- style="display: none" --}}
+    <div class="col-sm-12" id="list">
         <div class="row">
             <section class="step-wizard">
                 <ul class="step-wizard-list">
@@ -47,8 +46,25 @@
                 </ul>
             </section>
         </div>
-
         <div class="container text-center col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ 'สถานะ' }}</th>
+                            <th scope="col">{{ 'วันที่' }}</th>
+                            <th scope="col">{{ 'แผนกที่รับเเจ้ง' }}</th>
+                            <th scope="col">{{ 'ชื่อผู้เเจ้งซ่อม' }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-details">
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        {{-- <div class="container text-center col-sm-12">
             <div class="row d-flex align-items-center">
                 <div class="col-lg">
                     <h6 id="departmentName"></h6>
@@ -61,14 +77,14 @@
                     <p id="timeCreatedAt"></p>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
 
 @section('script')
     <script>
         let repairData = {!! $repairsData !!}
-        console.log(repairData);
+        // console.log(repairData);
 
         function filterRepairs() {
             let status1 = document.getElementById("status1");
@@ -79,7 +95,7 @@
             const resultRepairs = document.getElementById("search");
             const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
 
-            // console.log(filterData);
+            console.log(filterData);
             if (filterData) {
                 const dateObject = new Date(filterData.updated_at);
 
@@ -93,11 +109,7 @@
                     status5.classList.remove("current-item");
                     /* document.getElementById("radio2").checked = true;
                     document.getElementById("radio3").checked = false;*/
-                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + filterData.updated_at;
-                    document.getElementById("departmentName").innerHTML = "เเจ้งซ่อมไปแผนก : " + filterData.department
-                        .department_name;
-                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
+
                 } else if (filterData.status_repair == "รอดำเนินการ") {
                     /*document.getElementById("radio3").checked = true;*/
                     status1.classList.remove("current-item");
@@ -105,12 +117,6 @@
                     status3.classList.remove("current-item");
                     status4.classList.remove("current-item");
                     status5.classList.remove("current-item");
-
-                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + filterData.updated_at;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                        .department_name;
-                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 } else if (filterData.status_repair == "กำลังดำเนินการ") {
                     /*document.getElementById("radio3").checked = true;*/
                     status1.classList.remove("current-item");
@@ -118,12 +124,6 @@
                     status3.classList.add("current-item");
                     status4.classList.remove("current-item");
                     status5.classList.remove("current-item");
-
-                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + filterData.updated_at;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                        .department_name;
-                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 } else if (filterData.status_repair == "รออะไหล่") {
                     /*document.getElementById("radio3").checked = true;*/
                     status1.classList.remove("current-item");
@@ -131,12 +131,6 @@
                     status3.classList.remove("current-item");
                     status4.classList.add("current-item");
                     status5.classList.remove("current-item");
-
-                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + filterData.updated_at;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                        .department_name;
-                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
                     /*document.getElementById("radio3").checked = true;*/
                     status1.classList.remove("current-item");
@@ -144,12 +138,6 @@
                     status3.classList.remove("current-item");
                     status4.classList.remove("current-item");
                     status5.classList.add("current-item");
-
-                    document.getElementById("demo").innerHTML = "สถานะ : " + filterData.status_repair;
-                    document.getElementById("timeCreatedAt").innerHTML = "วันที่ : " + filterData.updated_at;
-                    document.getElementById("departmentName").innerHTML = "แผนกที่รับเเจ้ง : " + filterData.department
-                        .department_name;
-                    document.getElementById("nameRepair").innerHTML = "ชื่อผู้เเจ้งซ่อม : " + filterData.name;
                 }
                 // let repairsfilterData;
             } else {
@@ -159,6 +147,49 @@
                     icon: "warning"
                 });
             }
+            document.getElementById('table-details').innerHTML =
+                `
+            <tr>
+                 ${filterData.follow[0]?(`
+                    <td scope="row">${filterData.follow[0].status_repair}</td>
+                    <td>${filterData.follow[0].created_at}</td>
+                    <td>${filterData.department.department_name}</td>
+                    <td>${filterData.name}</td>
+                    `):''}
+            </tr>
+            <tr>
+                 ${filterData.follow[1]?(`
+                    <td scope="row">${filterData.follow[1].status_repair}</td>
+                    <td>${filterData.follow[1].created_at}</td>
+                    <td>${filterData.department.department_name}</td>
+                    <td>${filterData.name}</td>
+                    `):''}
+            </tr>
+            <tr>
+                 ${filterData.follow[2]?(`
+                    <td scope="row">${filterData.follow[2].status_repair}</td>
+                    <td>${filterData.follow[2].created_at}</td>
+                    <td>${filterData.department.department_name}</td>
+                    <td>${filterData.name}</td>
+                    `):''}
+            </tr>
+            <tr>
+                 ${filterData.follow[3]?(`
+                    <td scope="row">${filterData.follow[3].status_repair}</td>
+                    <td>${filterData.follow[3].created_at}</td>
+                    <td>${filterData.department.department_name}</td>
+                    <td>${filterData.name}</td>
+                `):''}
+            </tr>
+            <tr>
+                ${filterData.follow[4]?(`
+                        <td scope="row">${filterData.follow[4].status_repair}</td>
+                    <td>${filterData.follow[4].created_at}</td>
+                    <td>${filterData.department.department_name}</td>
+                    <td>${filterData.name}</td>
+                    `):''}
+            </tr>       
+            `
         }
     </script>
 @endsection

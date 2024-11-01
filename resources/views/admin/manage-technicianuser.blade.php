@@ -29,6 +29,7 @@
                             <th colspan="col"> {{ 'ลำดับ' }} </th>
                             <th colspan="col">{{ 'ชื่อ' }}</th>
                             <th colspan="col">{{ 'แผนก' }}</th>
+                            <th colspan="col">{{ 'ระดับ' }}</th>
                             <th colspan="col">{{ 'อีเมล' }}</th>
                             <th colspan="col">{{ 'จัดการ' }}</th>
                         </tr>
@@ -39,6 +40,7 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $dataUt->name }}</td>
                                 <td>{{ $dataUt->departments->department_name }}</td>
+                                <td>@if ($dataUt->level==1) {{'หัวหน้า'}}@else{{'พนักงาน'}}@endif</td>
                                 <td>{{ $dataUt->email }}</td>
                                 <td>
                                     <div class="row justify-content-start align-items-center g-2">

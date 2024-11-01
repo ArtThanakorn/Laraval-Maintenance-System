@@ -79,7 +79,7 @@
                                     <option value="รอดำเนินการ"
                                         {{ isset($_GET['status']) && $_GET['status'] == 'รอดำเนินการ' ? 'selected' : '' }}>
                                         {{ __('รอดำเนินการ') }}</option>
-                                        
+
                                 </select>
                             </div>
                         </div>
@@ -128,11 +128,13 @@
                                                 data-bs-idIndex="{{ $key }}">
                                                 {{ 'แก้ไข' }}
                                             </button>
+                                            @if ($data->user_responsible)
+                                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#senWork" data-bs-idIndex2="{{ $key }}">
+                                                    {{ 'ส่งงาน' }}
+                                                </button>
+                                            @endif
 
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#senWork" data-bs-idIndex2="{{ $key }}">
-                                                {{ 'ส่งงาน' }}
-                                            </button>
                                             @if (Auth::user()->level == 1)
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                     data-bs-target="#delegate_work" data-bs-idIndex3="{{ $key }}">

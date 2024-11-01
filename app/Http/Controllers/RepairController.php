@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
+use App\Models\RepairFollow;
 use App\Models\Room;
 use App\Models\RoomDetails;
 use Illuminate\Http\Request;
@@ -20,18 +21,18 @@ class RepairController extends Controller
     public function index($id)
     {
         // $rooms = RoomDetails::where('room_id',$id)->orderBy('updated_at', 'desc')->get();
-        $rooms = Room::with('detail')->where('id',$id)->orderBy('updated_at', 'desc')->first();
+        $rooms = Room::with('detail')->where('id', $id)->orderBy('updated_at', 'desc')->first();
         // dd($rooms);
         $Department = Department::where('status_display', 0)->get();
 
-        return view('admin.repair', compact('Department','rooms'));
+        return view('admin.repair', compact('Department', 'rooms'));
     }
 
     public function store(Request $request)
     {
         // dd($request->all());
         $request->validate([
-            'statusRadio'=> 'required|string',
+            'statusRadio' => 'required|string',
             'chackname' => 'required|string',
             'toolcheck' => 'required',
             'detail' => 'required|string',
@@ -56,8 +57,10 @@ class RepairController extends Controller
             'image.required' => 'กรุณาเลือกรูปภาพ',
             'image.*.mimes' => 'รูปภาพต้องเป็นไฟล์รูปภาพที่มีนามสกุล .jpeg, .png, .jpg, หรือ .gif',
         ]);
+        $totalData = Repair::count();
+        $repairsStatus = RepairFollow::create(['repair_id' => $totalData + 1, 'status_repair' => 'แจ้งซ่อม']);
 
-        $repairs = Repair::create([
+        Repair::create([
             'status' => $request->statusRadio,
             'name' => $request->chackname,
             'equipment' => $request->toolcheck,
@@ -66,6 +69,7 @@ class RepairController extends Controller
             'email' => $request->email,
             'number' => $request->number,
             'status_repair' => 'แจ้งซ่อม',
+            'status_follow' =>  $repairsStatus->id,
             // Gets a prefix unique
             'tag_repair' => substr(uniqid(), -5)
         ]);
@@ -102,8 +106,9 @@ class RepairController extends Controller
 
     public function followUp()
     {
-        $repairsData = Repair::with('department')
-        ->get();
+        $repairsData = Repair::with('department','follow')->get();
+            
+        // dd($repairsData);
         return view('user.follow-up-repair', compact('repairsData'));
     }
 }

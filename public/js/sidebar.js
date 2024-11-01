@@ -8,7 +8,7 @@ for (var i = 0; i < arrow.length; i++) {
 
 let sidebar = document.querySelector(".sidebar");
 let sidebarBtn = document.querySelector(".menu-close");
-console.log(sidebarBtn);
+// console.log(sidebarBtn);
 if (sidebarBtn) { // Check if element exists
   sidebarBtn.addEventListener("click", () => {
     sidebar.classList.toggle("close");

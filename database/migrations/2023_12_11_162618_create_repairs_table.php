@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('repairs', function (Blueprint $table) {
             $table->id('id_repair');
-
+            $table->integer('status_follow')->comment('ติดตามสถานะงานเเจ้งซ่อม');
             $table->string('status',20)->comment('สถานะผู้เเจ้งงานซ่อม')->nullable();
             $table->string('name',100)->comment('ชื่อผู้แจ้งซ่อม')->nullable();
             $table->string('type',50)->comment('ประเภทงานซ่อม')->nullable()->default('0');

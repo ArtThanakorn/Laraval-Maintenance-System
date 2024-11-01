@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Mail\EmailTechnician;
+use App\Models\RepairFollow;
 use Illuminate\Support\Facades\Mail;
 
 class DashboardTechnicianController extends Controller
@@ -86,10 +87,18 @@ class DashboardTechnicianController extends Controller
         $files = $request->file('imfupdate');
 
         $Urepai = Repair::find($id);
-        DB::beginTransaction();
         try {
-            Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
-            // dd($Urepai);
+            DB::beginTransaction();
+            // $conditions  = ['repair_id' => $id, 'status_repair' => $request->updateWork_select];
+            $conditions  = RepairFollow::where('repair_id', $id)->where('status_repair', $request->updateWork_select)->first();
+
+            if (isset($conditions)) {
+                Repair::where('id_repair', $id)->update(['status_repair' => $request->updateWork_select]);
+            } else {
+                $repairsStatus = RepairFollow::create(['repair_id' =>  $id, 'status_repair' => $request->updateWork_select]);
+                Repair::where('id_repair', $id)->update(['status_follow' => $repairsStatus->id, 'status_repair' => $request->updateWork_select]);
+            };
+
             if (isset($files['imfupdate'])) {
                 foreach ($files as $images) {
                     $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // ชื่อรูป
@@ -134,11 +143,23 @@ class DashboardTechnicianController extends Controller
     public function workRecipient(Request $request)
     {
         // dd($request->all());
-        Repair::where('id_repair', $request->repair_id)
-            ->update([
-                'user_responsible' => $request->recipient,
-                'status_repair' => 'กำลังดำเนินการ',
-            ]);
+        $conditions  = RepairFollow::where('repair_id', $request->repair_id)->where('status_repair', 'กำลังดำเนินการ')->first();
+        if (isset($conditions)) {
+            Repair::where('id_repair', $request->repair_id)
+                ->update([
+                    'user_responsible' => $request->recipient,
+                    'status_repair' => 'กำลังดำเนินการ'
+                ]);
+        } else {
+            $repairsStatus = RepairFollow::create(['repair_id' => $request->repair_id, 'status_repair' => 'กำลังดำเนินการ']);
+
+            Repair::where('id_repair', $request->repair_id)
+                ->update([
+                    'user_responsible' => $request->recipient,
+                    'status_repair' => 'กำลังดำเนินการ',
+                    'status_follow' => $repairsStatus->id,
+                ]);
+        }
 
         return response()->json([
             'success' => 1,
