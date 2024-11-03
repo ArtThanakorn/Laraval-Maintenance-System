@@ -18,7 +18,7 @@ class Repair extends Model
     {
         return Carbon::parse($value)->thaidate('j M y');
     }
-// Accessor สำหรับการแปลงรูปแบบวันที่ updated_at เป็นภาษาไทย
+    // Accessor สำหรับการแปลงรูปแบบวันที่ updated_at เป็นภาษาไทย
     public function getUpdatedAtAttribute($value)
     {
         return Carbon::parse($value)->thaidate('j M y');

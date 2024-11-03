@@ -15,7 +15,7 @@
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button type="button" onclick="openModal()" class="btn btn-success" data-bs-toggle="modal"
-                                data-bs-target="#roomAddModal">{{ '+ห้อง' }}</button>
+                                data-bs-target="#roomAddModal">{{ 'เพิ่มห้อง' }}</button>
                         </div>
                     </div>
                 </div>
@@ -46,11 +46,14 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#ModalQr" data-bs-idroom="{{ $row->id }}">
-                                            {{-- {{ 'QR' }} --}}
-                                            <i class="bi bi-qr-code"></i>
-                                        </button>
+                                <a
+                                    name=""
+                                    id="download"
+                                    class="btn btn-primary"
+                                    href="{{ route('R.qr', ['id'=>$row->id]) }}"
+                                    role="button"
+                                    ><i class="bi bi-qr-code"></i></a
+                                >
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -95,7 +98,7 @@
     </div>
 
     <!-- Modal qrcode room -->
-    <div class="modal fade" id="ModalQr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="ModalQr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -117,12 +120,11 @@
 
                 </div>
                 <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-primary"></button> --}}
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'ปิด' }}</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Modal add equipment -->
     <div class="modal fade" id="addEquipmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -201,15 +203,12 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <input type="hidden" id="e-room-name" name="eRoomId">
-                                    {{-- <label for="" class="form-label">Name</label> --}}
                                     <input type="text" class="form-control" name="EroomName" id="nameroom"
                                         aria-describedby="helpId" placeholder="NameRoom" />
                                     <small id="editName" class="form-text text-danger"></small>
                                 </div>
 
                             </div>
-                            {{-- <div class="col">Column</div>
-                        <div class="col">Column</div> --}}
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -238,10 +237,6 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div> --}}
             </div>
         </div>
     </div>
@@ -355,7 +350,6 @@
             const addEquipmentModal = document.getElementById('addEquipmentModal');
             const detailModalRoom = document.getElementById('detailModal');
             const editModalRoom = document.getElementById('editRoomModal');
-            const roomQr = document.getElementById('ModalQr');
             addEquipmentModal.addEventListener('show.bs.modal', event => {
                 document.getElementById('error-add-equipment').innerHTML = "";
                 const formModal = document.getElementById('addEquipmentModal');
@@ -408,18 +402,6 @@
                 // console.log(recipient);
                 modalInput.value = recipient;
                 eromId.value = roomid;
-            });
-            roomQr.addEventListener('show.bs.modal', (event) => {
-                // Button that triggered the modal
-                const button = event.relatedTarget;
-                // Extract info from data-bs-* attributes
-                const recipient = button.getAttribute('data-bs-idroom');
-
-                const myLink = document.getElementById("container");
-                myLink.setAttribute("href", "{{ route('index.repair', '') }}" + '/' + recipient);
-
-                let downloadQR = document.getElementById("download");
-                downloadQR.setAttribute("href", "{{ route('R.qr', '') }}" + '/' + recipient);
             });
         });
 

@@ -9,7 +9,6 @@ use App\Models\RepairFollow;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Phattarachai\Thaidate\Thaidate;
 use Phattarachai\LineNotify\Facade\Line;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\LengthAwarePaginator;

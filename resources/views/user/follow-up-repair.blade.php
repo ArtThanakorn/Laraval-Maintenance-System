@@ -18,8 +18,7 @@
         </div>
     </div>
 
-    {{-- style="display: none" --}}
-    <div class="col-sm-12" id="list">
+    <div class="col-sm-12" style="display: none" id="list">
         <div class="row">
             <section class="step-wizard">
                 <ul class="step-wizard-list">
@@ -64,20 +63,6 @@
             </div>
 
         </div>
-        {{-- <div class="container text-center col-sm-12">
-            <div class="row d-flex align-items-center">
-                <div class="col-lg">
-                    <h6 id="departmentName"></h6>
-                </div>
-                <div class="col-lg">
-                    <h5 class="text-success" id="demo"></h5>
-                    <h6 id="nameRepair"></h6>
-                </div>
-                <div class="col-lg">
-                    <p id="timeCreatedAt"></p>
-                </div>
-            </div>
-        </div> --}}
     </div>
 @endsection
 
