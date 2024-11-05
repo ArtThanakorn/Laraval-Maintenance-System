@@ -64,7 +64,7 @@
                         </div>
                         <div class="p-2">
                             <a class="btn btn-outline-danger" href="{{ route('T.PDF') }}" role="button" target="_blank">
-                                <i class="fas fa-file-pdf"></i> ดาวน์โหลดไฟล์ PDF
+                                <i class="fas fa-file-pdf"></i> {{ 'ดาวน์โหลดไฟล์ PDF' }}
                             </a>
                         </div>
                         <div class="p-2">
@@ -89,8 +89,6 @@
                                     <input type="text" id="inpufil" name="q" placeholder="Search"
                                         class="py-2 px-2 text-md border border-gray-200 rounded-l focus:outline-none"
                                         value="{{ $search_param }}" onchange="filterRepairWork()" />
-                                    {{-- <button type="submit" class="btn btn-default"><i
-                                                class="fas fa-search"></i></button> --}}
                                 </div>
                             </div>
                         </div>
@@ -121,14 +119,13 @@
                                     <td>{{ $data->status_repair }}</td>
                                     <td>{{ $data->name }}</td>
                                     <td>
-
                                         @if ($data->status_repair != 'ดำเนินการเสร็จสิ้น')
-                                            <button type="button" class="btn btn-warning" data-mdb-ripple-init
-                                                data-bs-toggle="modal" data-bs-target="#editModal"
-                                                data-bs-idIndex="{{ $key }}">
-                                                {{ 'แก้ไข' }}
-                                            </button>
                                             @if ($data->user_responsible)
+                                                <button type="button" class="btn btn-warning" data-mdb-ripple-init
+                                                    data-bs-toggle="modal" data-bs-target="#editModal"
+                                                    data-bs-idIndex="{{ $key }}">
+                                                    {{ 'แก้ไข' }}
+                                                </button>
                                                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                                     data-bs-target="#senWork" data-bs-idIndex2="{{ $key }}">
                                                     {{ 'ส่งงาน' }}
@@ -166,19 +163,20 @@
                             <div class="modal-body">
                                 <div class="container">
                                     <div class="mb-3 row">
-                                        <label for="inputName" class="col-4 col-form-label">ผู้แจ้งซ่อม</label>
+                                        <label for="inputName"
+                                            class="col-4 col-form-label">{{ 'ผู้รับงานแจ้งซ่อม' }}</label>
                                         <div class="col-8">
                                             <input type="text" class="form-control" id="editModalName" readonly>
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <label for="inputName" class="col-4 col-form-label">สถานะ</label>
+                                        <label for="inputName" class="col-4 col-form-label">{{ 'สถานะ' }}</label>
                                         <div class="col-8">
                                             <input type="text" class="form-control" id="editModalStatus" readonly>
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <label for="inputName" class="col-4 col-form-label">สถานที่</label>
+                                        <label for="inputName" class="col-4 col-form-label">{{ 'สถานที่' }}</label>
                                         <div class="col-8">
                                             <input type="text" class="form-control" id="editModalSite" readonly>
                                             {{-- <input type="text" class="form-control" name="inputName" id="editModalSite"
@@ -186,13 +184,13 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <label for="inputName" class="col-4 col-form-label">รายละเอียด</label>
+                                        <label for="inputName" class="col-4 col-form-label">{{ 'รายละเอียด' }}</label>
                                         <div class="col-8">
                                             <textarea class="form-control" id="editModalDetails" rows="3" readonly></textarea>
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <label for="inputName" class="col-4 col-form-label">ส่งงานไปยัง</label>
+                                        <label for="inputName" class="col-4 col-form-label">{{ 'ส่งงานไปยัง' }}</label>
                                         <div class="col-8">
                                             <select class="form-select" id="department-select"
                                                 aria-label="Default select example" name="newdepartment">
@@ -251,8 +249,6 @@
                                         <div class="mb-3">
                                             <label for="FormControlInputStatus"
                                                 class="form-label">{{ 'สถานะ' }}</label>
-                                            {{-- <input type="email" class="form-control" id="updateStatus" placeholder=""
-                                            readonly> --}}
                                             <select class="form-select" aria-label="Default select example"
                                                 id="updateWork-level-select" name="updateWork_select">
                                                 {{-- <option selected>Open this select menu</option> --}}
@@ -269,10 +265,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-6 text-center ">
-                                        <div id="updateimg">
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -406,7 +398,6 @@
                             $('#updateWork-level-select').append(
                                 `<option value="ดำเนินการเสร็จสิ้น" selected>ดำเนินการเสร็จสิ้น</option>`);
                         }
-                        console.log('123');
                         const formSendWork = document.querySelector('#form-updatework');
 
                         formSendWork.onsubmit = function(e) {
@@ -572,7 +563,6 @@
 
                 function showPDF() {
                     console.log(pdfData);
-
                 }
             </script>
         @endsection

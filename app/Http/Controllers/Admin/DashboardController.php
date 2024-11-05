@@ -177,9 +177,18 @@ class DashboardController extends Controller
 
     public function setdepart(Request $request)
     {
-        $repairsStatus = RepairFollow::create(['repair_id'=> $request->id_repair,'status_repair'=>'รอดำเนินการ']);
-        $repairs = Repair::where('id_repair', $request->id_repair)
-            ->update(['type' => $request->depart_id,'status_follow'=>$repairsStatus->id, 'status_repair' => 'รอดำเนินการ']);
+        dd($request);
+        $conditions  = RepairFollow::where('repair_id', $request->id_repair)->where('status_repair', 'รอดำเนินการ')->first();
+        if (isset($conditions)) {
+            $repairs = Repair::where('id_repair', $request->id_repair)
+            ->update(['type' => $request->depart_id]);
+        }else{
+            $repairsStatus = RepairFollow::create(['repair_id'=> $request->id_repair,'status_repair'=>'รอดำเนินการ']);
+            $repairs = Repair::where('id_repair', $request->id_repair)
+            ->update(['type' => $request->depart_id, 'status_repair'=>'รอดำเนินการ', 'status_follow'=> $repairsStatus->id]);
+        }
+
+       
 
         // $url = url('/') . "/technician/dashboard/10";
         $url = route('technician.dashboard', ['p' => 10]);
@@ -192,7 +201,7 @@ class DashboardController extends Controller
 
         return response()->json([
             'status' => '200',
-            'message' => 'มอบหมายงานเส็ดสื้น'
+            'message' => 'มอบหมายงานเสร็จสิ้น'
         ], 200);
     }
 

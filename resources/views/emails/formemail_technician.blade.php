@@ -37,7 +37,7 @@
                                             <tr>
                                                 <td
                                                     style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
-                                                    <h1 style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:#3d4852;font-size:18px;font-weight:bold;margin-top:0;text-align:left">สถานะการแจ้งซ่อม</h1>
+                                                    <h1 style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:#3d4852;font-size:18px;font-weight:bold;margin-top:0;text-align:left">สถานะการแจ้งซ่อม {{$repairDetails}}</h1>
                                                     <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
                                                       รายละเอียดของสถานะการแจ้งซ่อมปัจจุบัน
                                                     </p>
@@ -63,10 +63,10 @@
                                                                                             <tr>
                                                                                                 <td
                                                                                                     style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
-                                                                                                    <a href="#"
+                                                                                                    <a href="{{$linkReset}}"
                                                                                                         style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';border-radius:4px;color:#fff;display:inline-block;overflow:hidden;text-decoration:none;background-color:#2d3748;border-bottom:8px solid #2d3748;border-left:18px solid #2d3748;border-right:18px solid #2d3748;border-top:8px solid #2d3748"
                                                                                                         target="_blank"
-                                                                                                      >ดูสถานะแจ้งซ่อม</a>
+                                                                                                      >{{'ดูสถานะแจ้งซ่อม'}}</a>
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
@@ -82,10 +82,14 @@
                                                     <p
                                                         style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
                                                         ถ้าเจ้าหน้าที่ได้รับการแจ้งเตือนฉบับนี้แล้ว กราบขออภัยในความไม่สะดวก
+                                                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSex_1dVb9wcS2PiZsD6httyNxRqav3gy_gKQdwhxQRoS779iA/viewform"
+                                                                                                        style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';border-radius:4px;color:#fff;display:inline-block;overflow:hidden;text-decoration:none;background-color:#2d3748;border-bottom:8px solid #2d3748;border-left:18px solid #2d3748;border-right:18px solid #2d3748;border-top:8px solid #2d3748"
+                                                                                                        target="_blank"
+                                                                                                      >{{'แบบประเมิน'}}</a>
                                                     </p>
                                                     <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
-                                                        Mr.tester man<br>
-                                                        เจ้าหน้าที่
+                                                       ผู้แจ้งซ่อม {{$Informer}} <br>
+                                                        เจ้าหน้าที่ {{$Userresponsible}}
                                                     </p>
                                                 </td>
                                             </tr>

@@ -14,15 +14,15 @@ class EmailTechnician extends Mailable
     use Queueable, SerializesModels;
 
     public $Urepai;
+    public  $responsible;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($Urepai)
+    public function __construct($Urepai, $responsible)
     {
         $this->Urepai = $Urepai;
-        
-        
+        $this->responsible =  $responsible;
     }
 
     /**
@@ -42,7 +42,12 @@ class EmailTechnician extends Mailable
     {
         return new Content(
             view: 'emails.formemail_technician',
-        );
+            with: [
+                'repairDetails' => $this->Urepai->tag_repair,
+                'Informer' => $this->Urepai->name,
+                'Userresponsible'=> $this->responsible->name,
+                'linkReset' => env('APP_URL', '') .'/user/followup/repair',
+            ]);
     }
 
     /**

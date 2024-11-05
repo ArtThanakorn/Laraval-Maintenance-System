@@ -74,7 +74,7 @@ class DashboardTechnicianController extends Controller
         $url = url('/') . "/technician/dashboard/10";
         $message = "{$department->department_name} มีการส่งงานไปยัง {$newdepar->department_name}\n";
         $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
-        $repairs = Repair::where('id_repair', $request->id)->update(['type' => $request->newdepartment]);
+        $repairs = Repair::where('id_repair', $request->id)->update(['type' => $request->newdepartment,'user_responsible'=>null]);
         if ($repairs) {
             Line::send($message . $message2);
         };
@@ -109,6 +109,7 @@ class DashboardTechnicianController extends Controller
                     ]);
                 }
             }
+            // dd($request->updateWork_select);
             if ($request->updateWork_select === "ดำเนินการเสร็จสิ้น") {
                 $this->sendEmail($Urepai);
             }
@@ -131,8 +132,9 @@ class DashboardTechnicianController extends Controller
 
     public function sendEmail($Urepai)
     {
+        $responsible = User::where('id',$Urepai->user_responsible)->first();
         try {
-            Mail::to($Urepai->email)->send(new EmailTechnician($Urepai));
+            Mail::to($Urepai->email)->send(new EmailTechnician($Urepai,$responsible));
             return "success";
         } catch (\Exception $e) {
             // Return error message

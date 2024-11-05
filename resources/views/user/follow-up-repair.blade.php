@@ -24,7 +24,7 @@
                 <ul class="step-wizard-list">
                     <li id="status1" class="step-wizard-item">
                         <span class="progress-count">1</span>
-                        <span class="progress-label">เเจ้งซ่อม</span>
+                        <span class="progress-label">แจ้งซ่อม</span>
                     </li>
                     <li id="status2" class="step-wizard-item">
                         <span class="progress-count ">2</span>
@@ -53,7 +53,7 @@
                             <th scope="col">{{ 'สถานะ' }}</th>
                             <th scope="col">{{ 'วันที่' }}</th>
                             <th scope="col">{{ 'แผนกที่รับเเจ้ง' }}</th>
-                            <th scope="col">{{ 'ชื่อผู้เเจ้งซ่อม' }}</th>
+                            <th scope="col">{{ 'ชื่อผู้แจ้งซ่อม' }}</th>
                         </tr>
                     </thead>
                     <tbody id="table-details">
@@ -86,7 +86,7 @@
 
                 const formattedDate = dateObject;
                 document.getElementById("list").style.display = 'block';
-                if (filterData.status_repair == "เเจ้งซ่อม") {
+                if (filterData.status_repair == "แจ้งซ่อม") {
                     status1.classList.add("current-item");
                     status2.classList.remove("current-item");
                     status3.classList.remove("current-item");
@@ -138,7 +138,7 @@
                  ${filterData.follow[0]?(`
                     <td scope="row">${filterData.follow[0].status_repair}</td>
                     <td>${filterData.follow[0].created_at}</td>
-                    <td>${filterData.department.department_name}</td>
+                    <td>${filterData.department?.department_name}</td>
                     <td>${filterData.name}</td>
                     `):''}
             </tr>
