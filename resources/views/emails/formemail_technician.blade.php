@@ -81,7 +81,7 @@
                                                     </table>
                                                     <p
                                                         style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
-                                                        ถ้าเจ้าหน้าที่ได้รับการแจ้งเตือนฉบับนี้แล้ว กราบขออภัยในความไม่สะดวก
+                                                        {{'สามารถกรองเเบบประเมินความพึงพอใจ ในการใช้ระบบเเจ้งซ่อมออนไลน์ เพื่อให้ในการพัฒนาระบบในโอกาศต่อไป'}}
                                                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSex_1dVb9wcS2PiZsD6httyNxRqav3gy_gKQdwhxQRoS779iA/viewform"
                                                                                                         style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';border-radius:4px;color:#fff;display:inline-block;overflow:hidden;text-decoration:none;background-color:#2d3748;border-bottom:8px solid #2d3748;border-left:18px solid #2d3748;border-right:18px solid #2d3748;border-top:8px solid #2d3748"
                                                                                                         target="_blank"

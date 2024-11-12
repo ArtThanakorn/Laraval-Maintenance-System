@@ -121,11 +121,6 @@
                                     <td>
                                         @if ($data->status_repair != 'ดำเนินการเสร็จสิ้น')
                                             @if ($data->user_responsible)
-                                                <button type="button" class="btn btn-warning" data-mdb-ripple-init
-                                                    data-bs-toggle="modal" data-bs-target="#editModal"
-                                                    data-bs-idIndex="{{ $key }}">
-                                                    {{ 'แก้ไข' }}
-                                                </button>
                                                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                                     data-bs-target="#senWork" data-bs-idIndex2="{{ $key }}">
                                                     {{ 'ส่งงาน' }}
@@ -133,6 +128,11 @@
                                             @endif
 
                                             @if (Auth::user()->level == 1)
+                                            <button type="button" class="btn btn-warning" data-mdb-ripple-init
+                                                    data-bs-toggle="modal" data-bs-target="#editModal"
+                                                    data-bs-idIndex="{{ $key }}">
+                                                    {{ 'แก้ไข' }}
+                                                </button>
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                     data-bs-target="#delegate_work" data-bs-idIndex3="{{ $key }}">
                                                     {{ 'มอบหมายงาน' }}

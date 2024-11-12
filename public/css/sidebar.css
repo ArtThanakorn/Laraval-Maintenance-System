@@ -246,7 +246,7 @@
   font-size: 26px;
   font-weight: 600;
 }
-@media (max-width: 400px) {
+@media screen and (max-width: 576px) {
   .sidebar.close .nav-links li .sub-menu{
     display: none;
   }
@@ -257,8 +257,8 @@
     width: 0;
   }
   .home-section{
-    left: 78px;
-    width: calc(100% - 78px);
+    left: 0 !important;
+    width: 100%;
     z-index: 100;
   }
   .sidebar.close ~ .home-section{
