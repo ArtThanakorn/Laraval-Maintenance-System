@@ -34,6 +34,9 @@
         .senWorkContent {
             max-width: 90%;
         }
+        a {
+            text-decoration: none;
+        }
     </style>
 @endsection
 
@@ -105,6 +108,7 @@
                                 <th scope="col">{{ 'รายละเอียด' }}</th>
                                 <th scope="col">{{ 'สถานที่' }}</th>
                                 <th scope="col">{{ 'สถานะ' }}</th>
+                                <th scope="col">{{ 'รหัสแจ้งซ่อม' }}</th>
                                 <th scope="col">{{ 'ผู้รับงาน' }}</th>
                                 <th scope="col">{{ 'จัดการ' }}</th>
                             </tr>
@@ -116,7 +120,11 @@
                                     <td>{{ $data->status }}</td>
                                     <td>{{ $data->details }}</td>
                                     <td>{{ $data->site }}</td>
+                                   
                                     <td>{{ $data->status_repair }}</td>
+                                    <td><a
+                                        href="{{ route('repair.followUp', ['tag' => $data->tag_repair]) }}">{{ $data->tag_repair }}</a>
+                                </td>
                                     <td>{{ $data->name }}</td>
                                     <td>
                                         @if ($data->status_repair != 'ดำเนินการเสร็จสิ้น')

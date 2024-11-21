@@ -4,6 +4,10 @@
         .card {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         }
+
+        a {
+            text-decoration: none;
+        }
     </style>
 @endsection
 @section('content')
@@ -88,9 +92,11 @@
                                 <td>{{ $data->name }}</td>
                                 <td>{{ $data->details }}</td>
                                 <td>{{ $data->site }}</td>
-                                <td>{{ $data->tag_repair }}</td>
+                                <td><a
+                                        href="{{ route('repair.followUp', ['tag' => $data->tag_repair]) }}">{{ $data->tag_repair }}</a>
+                                </td>
                                 <td
-                                    @if ($data->status_repair == 'รอดำเนินการ') style="color:#e04523"
+                                    @if ($data->status_repair != 'ดำเนินการเสร็จสิ้น') style="color:#e04523"
                                     @else
                                     style="color: #5c9409" @endif>
                                     {{ $data->status_repair }}</td>

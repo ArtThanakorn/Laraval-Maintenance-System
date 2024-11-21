@@ -94,6 +94,7 @@ class RoomController extends Controller
     public function qrcode($id)
     {
         $rooms = Room::where('id',$id)->first();
+        
         $qrCodes = QrCode::size(200)->generate(route('index.repair', ['id' => $id]));
 
         return view('admin.qrcode',compact('qrCodes','rooms'));

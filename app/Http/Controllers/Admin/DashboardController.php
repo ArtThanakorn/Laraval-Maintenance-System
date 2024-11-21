@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\FollowRepairs;
 use App\Models\Department;
 use App\Models\Repair;
 use App\Models\RepairFollow;
@@ -14,8 +15,10 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class DashboardController extends Controller
 {
@@ -61,7 +64,7 @@ class DashboardController extends Controller
 
         $repairsQuery->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
             ->select('repairs.*', 'departments.department_id', 'departments.department_name', 'departments.status_display');
-            
+
 
         if ($inupfilter) {
             // dd($inupfilter);
@@ -76,7 +79,6 @@ class DashboardController extends Controller
 
         if ($status === "ทั้งหมด") {
             $liRepair = $repairsQuery->get();
-            
         } else {
             $liRepair = $repairsQuery->where('status_repair', $status)->get();
         }
@@ -85,14 +87,14 @@ class DashboardController extends Controller
 
         $departments = $repairsQuery
             ->select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'));
-            
 
-            $departments = Repair::select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
+
+        $departments = Repair::select('repairs.type', 'departments.department_name', DB::raw('count(*) as work'))
             ->leftJoin('departments', 'repairs.type', '=', 'departments.department_id')
             ->groupBy('repairs.type', 'departments.department_name')
             ->get();
 
-// dd( $departments);
+        // dd( $departments);
         $ChartWorkcompleted = $liRepair->filter(function ($item) {
             return $item->status_repair === 'ดำเนินการเสร็จสิ้น';
         })->count();
@@ -105,7 +107,7 @@ class DashboardController extends Controller
         foreach ($liRepair as $repair) {
             $startDate = Carbon::parse($repair->created_at);
             $endDate = Carbon::parse($repair->updated_at);
-            $repair->daysDiff = $endDate->diffInDays($startDate);
+            $repair->daysDiff = $startDate->diffInDays($endDate);
             $repair->created_at_thai = Carbon::parse($repair->created_at)->thaidate('D j M y');
             $repair->updated_at_thai = Carbon::parse($repair->updated_at)->thaidate('D j M y');
         }
@@ -177,32 +179,38 @@ class DashboardController extends Controller
 
     public function setdepart(Request $request)
     {
-        dd($request);
-        $conditions  = RepairFollow::where('repair_id', $request->id_repair)->where('status_repair', 'รอดำเนินการ')->first();
-        if (isset($conditions)) {
-            $repairs = Repair::where('id_repair', $request->id_repair)
-            ->update(['type' => $request->depart_id]);
-        }else{
-            $repairsStatus = RepairFollow::create(['repair_id'=> $request->id_repair,'status_repair'=>'รอดำเนินการ']);
-            $repairs = Repair::where('id_repair', $request->id_repair)
-            ->update(['type' => $request->depart_id, 'status_repair'=>'รอดำเนินการ', 'status_follow'=> $repairsStatus->id]);
+        try {
+            DB::beginTransaction();
+            $conditions  = RepairFollow::where('repair_id', $request->id_repair)->where('status_repair', 'รอดำเนินการ')->first();
+            if (isset($conditions)) {
+                $repair = Repair::where('id_repair', $request->id_repair)
+                    ->update(['type' => $request->depart_id]);
+            } else {
+                $repairsStatus = RepairFollow::create(['repair_id' => $request->id_repair, 'status_repair' => 'รอดำเนินการ']);
+                $repair = Repair::where('id_repair', $request->id_repair)
+                    ->update(['type' => $request->depart_id, 'status_repair' => 'รอดำเนินการ', 'status_follow' => $repairsStatus->id]);
+            }
+
+            // $url = url('/') . "/technician/dashboard/10";
+            $url = route('technician.dashboard', ['p' => 10]);
+            $department = Department::find($request->depart_id);
+            $message = " มีการส่งงานไปยัง {$department->department_name}\n";
+            $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
+            if ($repair) {
+                Line::send($message . $message2);
+            };
+            $repaors = Repair::where('id_repair', $request->id_repair)->first();
+            Mail::to($repaors->email)->send(new FollowRepairs($repaors));
+            DB::commit();
+            return response()->json([
+                'status' => '200',
+                'message' => 'มอบหมายงานเสร็จสิ้น'
+            ], 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            // Return error message
+            return response()->json(['message' => 'Failed to send email', 'error' => $e->getMessage()], 500);
         }
-
-       
-
-        // $url = url('/') . "/technician/dashboard/10";
-        $url = route('technician.dashboard', ['p' => 10]);
-        $department = Department::find($request->depart_id);
-        $message = " มีการส่งงานไปยัง {$department->department_name}\n";
-        $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
-        if ($repairs) {
-            Line::send($message . $message2);
-        };
-
-        return response()->json([
-            'status' => '200',
-            'message' => 'มอบหมายงานเสร็จสิ้น'
-        ], 200);
     }
 
     // private function

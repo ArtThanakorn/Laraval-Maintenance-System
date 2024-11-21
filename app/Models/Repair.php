@@ -16,12 +16,12 @@ class Repair extends Model
     // Accessor สำหรับการแปลงรูปแบบวันที่ created_at เป็นภาษาไทย
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->thaidate('j M y');
+        return Carbon::parse($value)->thaidate('j M y H:i:s');
     }
     // Accessor สำหรับการแปลงรูปแบบวันที่ updated_at เป็นภาษาไทย
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->thaidate('j M y');
+        return Carbon::parse($value)->thaidate('j M y H:i:s');
     }
 
     public function imageRepair(): HasMany
@@ -38,4 +38,5 @@ class Repair extends Model
     {
         return $this->hasMany(RepairFollow::class, 'repair_id');
     }
+
 }

@@ -11,7 +11,7 @@
             <div class="row justify-content-center align-items-center mt-3">
                 <input type="text" class="form-control w-75" id="search" placeholder="กรองหมายเลขเเท็กเพื่อค้นหา">
                 <div class="col-auto">
-                    <button class="btn btn-outline-success" onclick="filterRepairs()"><i class='bx bx-search'
+                    <button class="btn btn-outline-success" id="find"><i class='bx bx-search'
                             style="font-size: 25px"></i></button>
                 </div>
             </div>
@@ -21,27 +21,8 @@
     <div class="col-sm-12" style="display: none" id="list">
         <div class="row">
             <section class="step-wizard">
-                <ul class="step-wizard-list">
-                    <li id="status1" class="step-wizard-item">
-                        <span class="progress-count">1</span>
-                        <span class="progress-label">แจ้งซ่อม</span>
-                    </li>
-                    <li id="status2" class="step-wizard-item">
-                        <span class="progress-count ">2</span>
-                        <span class="progress-label">รอดำเนินการ</span>
-                    </li>
-                    <li id="status3" class="step-wizard-item">
-                        <span class="progress-count ">3</span>
-                        <span class="progress-label">กำลังดำเนินการ</span>
-                    </li>
-                    <li id="status4" class="step-wizard-item">
-                        <span class="progress-count ">4</span>
-                        <span class="progress-label">รออะไหล่</span>
-                    </li>
-                    <li id="status5" class="step-wizard-item">
-                        <span class="progress-count">5</span>
-                        <span class="progress-label">เสร็จสิ้น</span>
-                    </li>
+                <ul id="step-repairs" class="step-wizard-list" >
+                   
                 </ul>
             </section>
         </div>
@@ -69,16 +50,35 @@
 @section('script')
     <script>
         let repairData = {!! $repairsData !!}
-        // console.log(repairData);
+        let tegRepair = '{{ $inputTeg }}';
+
+        const buttonRepair = document.getElementById("find");
+
+        buttonRepair.addEventListener("click", function() {
+            console.log('1');
+            
+            filterRepairs();
+        });
+
+        if (tegRepair != null) {
+            console.log('2');
+
+            filterRepairs();
+        }
 
         function filterRepairs() {
-            let status1 = document.getElementById("status1");
-            let status2 = document.getElementById("status2");
-            let status3 = document.getElementById("status3");
-            let status4 = document.getElementById("status4");
-            let status5 = document.getElementById("status5");
+           
             const resultRepairs = document.getElementById("search");
-            const filterData = repairData.find((word) => word.tag_repair === resultRepairs.value);
+            
+            console.log(tegRepair);
+            let filterData = new Object();
+            if (tegRepair != '') {
+                filterData = repairData.find((word) => word.tag_repair === tegRepair);
+            }else{
+                console.log(resultRepairs.value);
+                
+                 filterData = repairData.find((word) => word.tag_repair == resultRepairs.value);
+            }
 
             console.log(filterData);
             if (filterData) {
@@ -87,42 +87,102 @@
                 const formattedDate = dateObject;
                 document.getElementById("list").style.display = 'block';
                 if (filterData.status_repair == "แจ้งซ่อม") {
-                    status1.classList.add("current-item");
-                    status2.classList.remove("current-item");
-                    status3.classList.remove("current-item");
-                    status4.classList.remove("current-item");
-                    status5.classList.remove("current-item");
-                    /* document.getElementById("radio2").checked = true;
-                    document.getElementById("radio3").checked = false;*/
+                    document.getElementById('step-repairs').innerHTML =`
+                     <li class="step-wizard-item current-item">
+                        <span class="progress-count">1</span>
+                        <span class="progress-label">แจ้งซ่อม</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count ">2</span>
+                        <span class="progress-label">รอดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count ">3</span>
+                        <span class="progress-label">กำลังดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count">5</span>
+                        <span class="progress-label">เสร็จสิ้น</span>
+                    </li>
+                    `;
+                    
 
                 } else if (filterData.status_repair == "รอดำเนินการ") {
-                    /*document.getElementById("radio3").checked = true;*/
-                    status1.classList.remove("current-item");
-                    status2.classList.add("current-item");
-                    status3.classList.remove("current-item");
-                    status4.classList.remove("current-item");
-                    status5.classList.remove("current-item");
+                    document.getElementById('step-repairs').innerHTML =`
+                     <li class="step-wizard-item">
+                        <span class="progress-count">1</span>
+                        <span class="progress-label">แจ้งซ่อม</span>
+                    </li>
+                    <li class="step-wizard-item current-item">
+                        <span class="progress-count ">2</span>
+                        <span class="progress-label">รอดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count ">3</span>
+                        <span class="progress-label">กำลังดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count">5</span>
+                        <span class="progress-label">เสร็จสิ้น</span>
+                    </li>
+                    `;
                 } else if (filterData.status_repair == "กำลังดำเนินการ") {
-                    /*document.getElementById("radio3").checked = true;*/
-                    status1.classList.remove("current-item");
-                    status2.classList.remove("current-item");
-                    status3.classList.add("current-item");
-                    status4.classList.remove("current-item");
-                    status5.classList.remove("current-item");
+                    document.getElementById('step-repairs').innerHTML =`
+                     <li class="step-wizard-item">
+                        <span class="progress-count">1</span>
+                        <span class="progress-label">แจ้งซ่อม</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count ">2</span>
+                        <span class="progress-label">รอดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item current-item">
+                        <span class="progress-count ">3</span>
+                        <span class="progress-label">กำลังดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count">5</span>
+                        <span class="progress-label">เสร็จสิ้น</span>
+                    </li>
+                    `;
                 } else if (filterData.status_repair == "รออะไหล่") {
-                    /*document.getElementById("radio3").checked = true;*/
-                    status1.classList.remove("current-item");
-                    status2.classList.remove("current-item");
-                    status3.classList.remove("current-item");
-                    status4.classList.add("current-item");
-                    status5.classList.remove("current-item");
+                    document.getElementById('step-repairs').innerHTML =`
+                     <li class="step-wizard-item">
+                        <span class="progress-count">1</span>
+                        <span class="progress-label">แจ้งซ่อม</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count ">2</span>
+                        <span class="progress-label">รอดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item current-item">
+                        <span class="progress-count ">3</span>
+                        <span class="progress-label">รออะไหล่</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count">5</span>
+                        <span class="progress-label">เสร็จสิ้น</span>
+                    </li>
+                    `;
                 } else if (filterData.status_repair == "ดำเนินการเสร็จสิ้น") {
-                    /*document.getElementById("radio3").checked = true;*/
-                    status1.classList.remove("current-item");
-                    status2.classList.remove("current-item");
-                    status3.classList.remove("current-item");
-                    status4.classList.remove("current-item");
-                    status5.classList.add("current-item");
+                    document.getElementById('step-repairs').innerHTML =`
+                     <li class="step-wizard-item">
+                        <span class="progress-count">1</span>
+                        <span class="progress-label">แจ้งซ่อม</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count ">2</span>
+                        <span class="progress-label">รอดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item ">
+                        <span class="progress-count ">3</span>
+                        <span class="progress-label">กำลังดำเนินการ</span>
+                    </li>
+                    <li class="step-wizard-item">
+                        <span class="progress-count">5</span>
+                        <span class="progress-label">เสร็จสิ้น</span>
+                    </li>
+                    `;
                 }
                 // let repairsfilterData;
             } else {
@@ -135,44 +195,44 @@
             document.getElementById('table-details').innerHTML =
                 `
             <tr>
-                 ${filterData.follow[0]?(`
-                    <td scope="row">${filterData.follow[0].status_repair}</td>
-                    <td>${filterData.follow[0].created_at}</td>
-                    <td>${filterData.department?.department_name}</td>
-                    <td>${filterData.name}</td>
-                    `):''}
+                 ${filterData.follow[0] != null?(`
+                                <td scope="row">${filterData.follow[0].status_repair}</td>
+                                <td>${filterData.follow[0].created_at}</td>
+                                <td>${filterData.department == null?'-':filterData.department.department_name}</td>
+                                <td>${filterData.name}</td>
+                                `):''}
             </tr>
             <tr>
                  ${filterData.follow[1]?(`
-                    <td scope="row">${filterData.follow[1].status_repair}</td>
-                    <td>${filterData.follow[1].created_at}</td>
-                    <td>${filterData.department.department_name}</td>
-                    <td>${filterData.name}</td>
-                    `):''}
+                                <td scope="row">${filterData.follow[1].status_repair}</td>
+                                <td>${filterData.follow[1].created_at}</td>
+                                <td>${filterData.department == null?'-':filterData.department.department_name}</td>
+                                <td>${filterData.name}</td>
+                                `):''}
             </tr>
             <tr>
                  ${filterData.follow[2]?(`
-                    <td scope="row">${filterData.follow[2].status_repair}</td>
-                    <td>${filterData.follow[2].created_at}</td>
-                    <td>${filterData.department.department_name}</td>
-                    <td>${filterData.name}</td>
-                    `):''}
+                                <td scope="row">${filterData.follow[2].status_repair}</td>
+                                <td>${filterData.follow[2].created_at}</td>
+                                <td>${filterData.department == null?'-':filterData.department.department_name}</td>
+                                <td>${filterData.name}</td>
+                                `):''}
             </tr>
             <tr>
                  ${filterData.follow[3]?(`
-                    <td scope="row">${filterData.follow[3].status_repair}</td>
-                    <td>${filterData.follow[3].created_at}</td>
-                    <td>${filterData.department.department_name}</td>
-                    <td>${filterData.name}</td>
-                `):''}
+                                <td scope="row">${filterData.follow[3].status_repair}</td>
+                                <td>${filterData.follow[3].created_at}</td>
+                                <td>${filterData.department == null?'-':filterData.department.department_name}</td>
+                                <td>${filterData.name}</td>
+                            `):''}
             </tr>
             <tr>
                 ${filterData.follow[4]?(`
-                        <td scope="row">${filterData.follow[4].status_repair}</td>
-                    <td>${filterData.follow[4].created_at}</td>
-                    <td>${filterData.department.department_name}</td>
-                    <td>${filterData.name}</td>
-                    `):''}
+                                    <td scope="row">${filterData.follow[4].status_repair}</td>
+                                <td>${filterData.follow[4].created_at}</td>
+                                <td>${filterData.department == null?'-':filterData.department.department_name}</td>
+                                <td>${filterData.name}</td>
+                                `):''}
             </tr>       
             `
         }

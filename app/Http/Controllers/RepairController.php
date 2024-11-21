@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Mail\FollowRepairs;
 use App\Models\Department;
 use App\Models\ImageRepair;
 use App\Models\Repair;
 use App\Models\RepairFollow;
 use App\Models\Room;
 use App\Models\RoomDetails;
+use Exception;
 use Illuminate\Http\Request;
 use Phattarachai\LineNotify\Facade\Line;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
-
-
+use Illuminate\Support\Facades\Mail;
 
 class RepairController extends Controller
 {
@@ -57,41 +57,50 @@ class RepairController extends Controller
             'image.required' => 'กรุณาเลือกรูปภาพ',
             'image.*.mimes' => 'รูปภาพต้องเป็นไฟล์รูปภาพที่มีนามสกุล .jpeg, .png, .jpg, หรือ .gif',
         ]);
-        $totalData = Repair::count();
-        $repairsStatus = RepairFollow::create(['repair_id' => $totalData + 1, 'status_repair' => 'แจ้งซ่อม']);
+        try {
+            DB::beginTransaction();
+            $totalData = Repair::count();
 
-        Repair::create([
-            'status' => $request->statusRadio,
-            'name' => $request->chackname,
-            'equipment' => $request->toolcheck,
-            'details' => $request->detail,
-            'site' => $request->location,
-            'email' => $request->email,
-            'number' => $request->number,
-            'status_repair' => 'แจ้งซ่อม',
-            'status_follow' =>  $repairsStatus->id,
-            // Gets a prefix unique
-            'tag_repair' => substr(uniqid(), -5)
-        ]);
+            $repairsStatus = RepairFollow::create(['repair_id' => $totalData + 1, 'status_repair' => 'แจ้งซ่อม']);
 
-        $saveRepair = DB::table('repairs')
-            ->latest('id_repair')
-            ->first();
+            $repaors =  Repair::create([
+                'status' => $request->statusRadio,
+                'name' => $request->chackname,
+                'equipment' => $request->toolcheck,
+                'details' => $request->detail,
+                'site' => $request->location,
+                'email' => $request->email,
+                'number' => $request->number,
+                'status_repair' => 'แจ้งซ่อม',
+                'status_follow' =>  $repairsStatus->id,
+                // Gets a prefix unique
+                'tag_repair' => substr(uniqid(), -5)
+            ]);
 
-        if ($request->hasFile('image')) {
-            foreach ($request->file('image') as $images) {
-                $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // =ชื่อรูป
-                $images->move(public_path('uploads/repair/'), $imageName); // path ที่ต้องการเก็บรูป
-                ImageRepair::create([
-                    'id_repair' => $saveRepair->id_repair,
-                    'nameImage' => $imageName
-                ]);
+            $saveRepair = DB::table('repairs')
+                ->latest('id_repair')
+                ->first();
+
+            if ($request->hasFile('image')) {
+                foreach ($request->file('image') as $images) {
+                    $imageName = 'image-' . time() . rand(1, 1000) . '.' . $images->extension(); // =ชื่อรูป
+                    $images->move(public_path('uploads/repair/'), $imageName); // path ที่ต้องการเก็บรูป
+                    ImageRepair::create([
+                        'id_repair' => $saveRepair->id_repair,
+                        'nameImage' => $imageName
+                    ]);
+                }
             }
+            DB::commit();
+            Mail::to($repaors->email)->send(new FollowRepairs($repaors));
+            return redirect()->route('user.confirmRepair', ['id' => $saveRepair->id_repair]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            // Return error message
+            return response()->json(['message' => 'Failed to send email', 'error' => $e->getMessage()], 500);
         }
-
-
-        return redirect()->route('user.confirmRepair', ['id' => $saveRepair->id_repair]);
     }
+
     public function confirm_repair($id)
     {
         $dataconfirm = Repair::with('imageRepair')->where('id_repair', $id)->first();
@@ -104,11 +113,13 @@ class RepairController extends Controller
         return view('admin.handle-repair');
     }
 
-    public function followUp()
+    public function followUp(Request $request)
     {
-        $repairsData = Repair::with('department','follow')->get();
-            
+        $repairsData = Repair::with('department', 'follow')->get();
+        $inputTeg =   $request->tag;
+        $post = Repair::find(1);
+// echo $post->created_at;
         // dd($repairsData);
-        return view('user.follow-up-repair', compact('repairsData'));
+        return view('user.follow-up-repair', compact('repairsData', 'inputTeg'));
     }
 }

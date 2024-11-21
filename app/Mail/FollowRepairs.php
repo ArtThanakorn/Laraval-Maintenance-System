@@ -9,16 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EmailTechnician extends Mailable
+class FollowRepairs extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct( public $repaors)
+    public function __construct(public $repaors)
     {
-        
+        //
     }
 
     /**
@@ -37,7 +37,7 @@ class EmailTechnician extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.formemail_technician',
+            view: 'emails.follow_repairs',
             with: [
                 'data' => $this->repaors,
                 'linkReset' => route('repair.followUp',['tag' => $this->repaors->tag_repair]),

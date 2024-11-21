@@ -15,14 +15,14 @@ class RepairFollow extends Model
 
     protected $guarded = [];
 
-    // Accessor สำหรับการแปลงรูปแบบวันที่ created_at เป็นภาษาไทย
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->thaidate('j M y');
-    }
+     // Accessor สำหรับการแปลงรูปแบบวันที่ created_at เป็นภาษาไทย
+     public function getCreatedAtAttribute($value)
+     {
+         return Carbon::parse($value)->thaidate('j M y H:i:s');
+     }
     // Accessor สำหรับการแปลงรูปแบบวันที่ updated_at เป็นภาษาไทย
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->thaidate('j M y');
+        return Carbon::parse($value)->thaidate('j M y H:i:s');
     }
 }

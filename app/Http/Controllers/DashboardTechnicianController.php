@@ -13,7 +13,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Mail\EmailTechnician;
+use App\Mail\FollowRepairs;
 use App\Models\RepairFollow;
+use Exception;
 use Illuminate\Support\Facades\Mail;
 
 class DashboardTechnicianController extends Controller
@@ -74,7 +76,7 @@ class DashboardTechnicianController extends Controller
         $url = url('/') . "/technician/dashboard/10";
         $message = "{$department->department_name} มีการส่งงานไปยัง {$newdepar->department_name}\n";
         $message2 =  "[คลิกที่นี่เพื่อดูข้อมูลเพิ่มเติม]({$url})";
-        $repairs = Repair::where('id_repair', $request->id)->update(['type' => $request->newdepartment,'user_responsible'=>null]);
+        $repairs = Repair::where('id_repair', $request->id)->update(['type' => $request->newdepartment, 'user_responsible' => null]);
         if ($repairs) {
             Line::send($message . $message2);
         };
@@ -87,6 +89,7 @@ class DashboardTechnicianController extends Controller
         $files = $request->file('imfupdate');
 
         $Urepai = Repair::find($id);
+        // dd($repaors);
         try {
             DB::beginTransaction();
             // $conditions  = ['repair_id' => $id, 'status_repair' => $request->updateWork_select];
@@ -110,8 +113,14 @@ class DashboardTechnicianController extends Controller
                 }
             }
             // dd($request->updateWork_select);
+            $repaors = Repair::select('repairs.*', 'users.name as nameT')
+                ->leftJoin('users', 'repairs.user_responsible', '=', 'users.id')->where('id_repair', $Urepai->id_repair)->first();
             if ($request->updateWork_select === "ดำเนินการเสร็จสิ้น") {
-                $this->sendEmail($Urepai);
+                // dd($repaors);
+                Mail::to($repaors->email)->send(new EmailTechnician($repaors));
+            } else {
+                // dd($repaors);
+                Mail::to($repaors->email)->send(new FollowRepairs($repaors));
             }
 
             DB::commit();
@@ -119,7 +128,7 @@ class DashboardTechnicianController extends Controller
                 'success' => 1,
                 'message' => 'การอัพเดทงานเสร็จสมบูรณ์'
             ], 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response([
                 'status' => false,
@@ -130,43 +139,60 @@ class DashboardTechnicianController extends Controller
         }
     }
 
-    public function sendEmail($Urepai)
-    {
-        $responsible = User::where('id',$Urepai->user_responsible)->first();
-        try {
-            Mail::to($Urepai->email)->send(new EmailTechnician($Urepai,$responsible));
-            return "success";
-        } catch (\Exception $e) {
-            // Return error message
-            return response()->json(['message' => 'Failed to send email', 'error' => $e->getMessage()], 500);
-        }
-    }
+    // public function sendEmail($Urepai)
+    // {
+    //     $responsible = User::where('id', $Urepai->user_responsible)->first();
+    //     try {
+    //         Mail::to($Urepai->email)->send(new EmailTechnician($Urepai, $responsible));
+    //         return "success";
+    //     } catch (Exception $e) {
+    //         // Return error message
+    //         return response()->json(['message' => 'Failed to send email', 'error' => $e->getMessage()], 500);
+    //     }
+    // }
 
     public function workRecipient(Request $request)
     {
         // dd($request->all());
-        $conditions  = RepairFollow::where('repair_id', $request->repair_id)->where('status_repair', 'กำลังดำเนินการ')->first();
-        if (isset($conditions)) {
-            Repair::where('id_repair', $request->repair_id)
-                ->update([
-                    'user_responsible' => $request->recipient,
-                    'status_repair' => 'กำลังดำเนินการ'
-                ]);
-        } else {
-            $repairsStatus = RepairFollow::create(['repair_id' => $request->repair_id, 'status_repair' => 'กำลังดำเนินการ']);
+        try {
+            DB::beginTransaction();
+            $conditions  = RepairFollow::where('repair_id', $request->repair_id)->where('status_repair', 'กำลังดำเนินการ')->first();
+            if (isset($conditions)) {
+                Repair::where('id_repair', $request->repair_id)
+                    ->update([
+                        'user_responsible' => $request->recipient,
+                        'status_repair' => 'กำลังดำเนินการ'
+                    ]);
+            } else {
+                $repairsStatus = RepairFollow::create(['repair_id' => $request->repair_id, 'status_repair' => 'กำลังดำเนินการ']);
 
-            Repair::where('id_repair', $request->repair_id)
-                ->update([
-                    'user_responsible' => $request->recipient,
-                    'status_repair' => 'กำลังดำเนินการ',
-                    'status_follow' => $repairsStatus->id,
-                ]);
+                Repair:: where('id_repair', $request->repair_id)
+                    ->update([
+                        'user_responsible' => $request->recipient,
+                        'status_repair' => 'กำลังดำเนินการ',
+                        'status_follow' => $repairsStatus->id,
+                    ]);
+            }
+            
+            $repaors = Repair::select('repairs.*', 'users.name as nameT ')
+                ->leftJoin('users', 'repairs.user_responsible', '=', 'users.id')->where('id_repair', $request->repair_id)->first();
+            // dd($repaors);
+            Mail::to($repaors->email)->send(new FollowRepairs($repaors));
+            DB::commit();
+
+            return response()->json([
+                'success' => 1,
+                'message' => 'การมอบหมายงานเสร็จสมบูรณ์'
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response([
+                'status' => false,
+                'message' => 'server error',
+                'description' => 'Something went wrong.',
+                'errorsMessage' => $e->getMessage()
+            ], 501);
         }
-
-        return response()->json([
-            'success' => 1,
-            'message' => 'การมอบหมายงานเสร็จสมบูรณ์'
-        ]);
     }
 
     public function Indexinformation()
